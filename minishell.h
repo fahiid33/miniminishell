@@ -15,6 +15,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <ctype.h>
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -25,5 +26,6 @@
 # include <string.h>
 # include <stdio.h>
 # include <limits.h>
-
+# include <readline/readline.h>
+# include <readline/history.h>
 #endif

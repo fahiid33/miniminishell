@@ -19,7 +19,7 @@ all : $(NAME)
 
 $(NAME):
 	
-	@gcc -Wall -Wextra -Werror  -g $(SRC) $(LDFLAGS) $(CPPFLAGS) -o $(NAME)
+	@gcc  -g $(SRC) -lreadline -o $(NAME)
 	@echo "👍👍👍"
 
 $(NAME_BONUS) : 
