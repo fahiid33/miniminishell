@@ -5,12 +5,12 @@ CPPFLAGS = -I/home/fahd/.brew/Cellar/readline/8.1.2/include
 NAME = minishell
 NAME_BONUS = 
 
-SRC = minishell.c\
+SRC = minishell.c lexer.c tokenizing.c\
 		
 SRC_BONUS = 
 
 
-OBJ =  minishell.o\
+OBJ =  minishell.o lexer.o tokenizing.o\
 
 OBJ_BONUS = 
 
@@ -19,7 +19,7 @@ all : $(NAME)
 
 $(NAME):
 	
-	@gcc -Wall -Wextra -Werror  -g $(SRC) $(LDFLAGS) $(CPPFLAGS) -o $(NAME)
+	@gcc  -lreadline -g $(SRC) $(LDFLAGS) $(CPPFLAGS) -o $(NAME)
 	@echo "👍👍👍"
 
 $(NAME_BONUS) : 
