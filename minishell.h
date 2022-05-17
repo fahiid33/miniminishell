@@ -15,6 +15,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <ctype.h>
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -28,6 +29,7 @@
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+<<<<<<< HEAD
 
 
 typedef struct s_lexer
@@ -58,4 +60,6 @@ typedef struct s_token
 
 t_lexer	*ft_init_lexer(char *str, char c);
 t_lexer	*send_lexer_to_tokenize(t_lexer *lexer);
+=======
+>>>>>>> af159d0a932ab54ffaa1d74fa74fa0ae1b011ec3
 #endif

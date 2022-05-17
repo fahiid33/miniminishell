@@ -19,7 +19,11 @@ all : $(NAME)
 
 $(NAME):
 	
+<<<<<<< HEAD
 	@gcc  -lreadline -g $(SRC) $(LDFLAGS) $(CPPFLAGS) -o $(NAME)
+=======
+	@gcc  -g $(SRC) -lreadline -o $(NAME)
+>>>>>>> af159d0a932ab54ffaa1d74fa74fa0ae1b011ec3
 	@echo "👍👍👍"
 
 $(NAME_BONUS) : 
