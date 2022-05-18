@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/05/17 22:49:32 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/05/18 01:31:20 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+
 int main(int ac, char *av[], char **env)
 {
    char	*line;
    int	i = 0;
-   line = readline(">$");
+   line = get_next_line(0);
    t_lexer	*test;
    t_token *test1;
    test = malloc(sizeof(t_lexer));
