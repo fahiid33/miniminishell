@@ -12,20 +12,21 @@
 
 #include "minishell.h"
 
-char *ft_strsub(char const *s, unsigned int start, size_t len)
+char *ft_strsub(t_lexer *lexer, size_t len)
 {
 	char *sub;
 	unsigned int i;
 
 	i = 0;
-	if (!s)
+	if (!lexer->str)
 		return (NULL);
 	if (!(sub = (char *)malloc(sizeof(char) * (len + 1))))
 		return (NULL);
 	while (i < len)
 	{
-		sub[i] = s[start + i];
+		sub[i] = lexer->c;
 		i++;
+		advance_lexer(lexer);
 	}
 	sub[i] = '\0';
 	return (sub);
@@ -53,6 +54,7 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 	t_token			*token;
 	char			*val;
 	int				type;
+	int size = 0;
 
 	token = NULL;
 	while (lexer->c)
@@ -62,32 +64,44 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 		else if (lexer->c == '\'')
 		{
 			type = SQUOTE;
-			val = ft_strsub(lexer->str, lexer->i, 1);
+			if	(ft_int_strchr(&(lexer->str[lexer->i]), '\'') > 0)
+				size = ft_int_strchr(&(lexer->str[lexer->i]), '\'');
+			else
+				size = ft_int_strchr(&(lexer->str[lexer->i]), '\0');
+			val = ft_strsub(lexer, size + 1);
 			token = init_token(val, type);
-			advance_lexer(lexer);
+			printf("val ==   %s,  type == %d  \n",token->val,token->type);
 			free(val);
 		}
-		else if (lexer->c == '"')
+		else if (lexer->c == 34)
 		{
 			type = DQUOTE;
-			val = ft_strsub(lexer->str, lexer->i, 1);
-			token = init_token(val, type);
 			advance_lexer(lexer);
+			if	(ft_int_strchr(&(lexer->str[lexer->i]), 34) > 0)
+				size = ft_int_strchr(&(lexer->str[lexer->i]), 34);
+			else
+				size = ft_int_strchr(&(lexer->str[lexer->i]), '\0');
+			val = ft_strsub(lexer, size);
+			advance_lexer(lexer);
+			token = init_token(val, type);
+			printf("val ==   %s,  type == %d  \n",token->val,token->type);
 			free(val);
 		}
 		else if (lexer->c == '\\')
 		{
 			type = BACKSLASH;
-			val = ft_strsub(lexer->str, lexer->i, 1);
+			val = ft_strsub(lexer, 1);
 			token = init_token(val, type);
+			printf("val ==   %s,  type == %d  \n",token->val,token->type);
 			advance_lexer(lexer);
 			free(val);
 		}
 		else if (lexer->c == '|')
 		{
 			type = PIPE;
-			val = ft_strsub(lexer->str, lexer->i, 1);
+			val = ft_strsub(lexer, 1);
 			token = init_token(val, type);
+			printf("val ==   %s,  type == %d  \n",token->val,token->type);
 			advance_lexer(lexer);
 			free(val);
 		}
@@ -96,16 +110,18 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 			if (lexer->i + 1 == '<')
 			{
 				type = LESSANDLESS;
-				val = ft_strsub(lexer->str, lexer->i, 2);
+				val = ft_strsub(lexer, 2);
 				token = init_token(val, type);
+				printf("val ==   %s,  type == %d  \n",token->val,token->type);
 				advance_lexer(lexer);
 				free(val);
 			}
 			else
 			{
 				type = LESS;
-				val = ft_strsub(lexer->str, lexer->i, 1);
+				val = ft_strsub(lexer, 1);
 				token = init_token(val, type);
+				printf("val ==   %s,  type == %d  \n",token->val,token->type);
 				advance_lexer(lexer);
 				free(val);
 			}
@@ -115,42 +131,46 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 			if (lexer->i + 1 == '>')
 			{
 				type = GREATANDGREAT;
-				val = ft_strsub(lexer->str, lexer->i, 2);
+				val = ft_strsub(lexer, 2);
 				token = init_token(val, type);
+				printf("val ==   %s,  type == %d  \n",token->val,token->type);
 				advance_lexer(lexer);
 				free(val);
 			}
 			else
 			{
 				type = GREAT;
-				val = ft_strsub(lexer->str, lexer->i, 1);
+				val = ft_strsub(lexer, 1);
 				token = init_token(val, type);
+				printf("val ==   %s,  type == %d  \n",token->val,token->type);
 				advance_lexer(lexer);
 				free(val);
 			}
 		}
-		else if (lexer->c == '|')
-		{
-			type = PIPE;
-			val = ft_strsub(lexer->str, lexer->i, 1);
-			token = init_token(val, type);
-			advance_lexer(lexer);
-			free(val);
-		}
 		else if (lexer->c == '$')
 		{
 			type = DOLLAR;
-			val = ft_strsub(lexer->str, lexer->i, 1);
+			val = ft_strsub(lexer, 1);
 			token = init_token(val, type);
+			printf("val ==   %s,  type == %d  \n",token->val,token->type);
 			advance_lexer(lexer);
 			free(val);
 		}
 		else
 		{
 			type = WORD;
-			val = ft_strsub(lexer->str, lexer->i, 1);
+			if	(ft_int_strchr(&(lexer->str[lexer->i]), ' ') > 0 && lexer->c != '$')
+				size = ft_int_strchr(&(lexer->str[lexer->i]), ' ');
+			else
+				size = ft_int_strchr(&(lexer->str[lexer->i]), '\0');
+			if (size < 0)
+			{
+				
+				continue;
+			}
+			val = ft_strsub(lexer, size);
 			token = init_token(val, type);
-			advance_lexer(lexer);
+			printf("val ==   %s,  type == %d  \n",token->val,token->type);
 			free(val);
 		}
 	}		

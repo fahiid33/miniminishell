@@ -29,7 +29,6 @@
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "42-GNL/get_next_line.h"
 
 # define BUFFER_SIZE 4096 
 
@@ -74,5 +73,21 @@ t_token *tokenize_BACKSLASH(t_lexer *lexer);
 t_token *tokenize_LESSANDLESS(t_lexer *lexer);
 t_token *init_token(char *val, int type);
 t_lexer	*advance_lexer(t_lexer *lexer);
+int	is_token(char *token);
+
+char *ft_strsub(t_lexer *lexer, size_t len);
+int	    ft_isspace(int c);
+int	    ft_isalpha(int c);
+int	    ft_isdigit(int c);
+int	    ft_isalnum(int c);
+int	    ft_strcmp(char *s1, char *s2);
+char	*ft_strdup(char *s1);
+int	    ft_strlen(char *s);
+char	*ft_strjoin(char *s1, char *s2);
+size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
+void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char *s, int fd);
+char	*ft_strchr(const char *str, int c);
+int	ft_int_strchr(const char *s, int c);
 
 #endif

@@ -5,15 +5,13 @@
 NAME = minishell
 NAME_BONUS = 
 
-SRC = minishell.c lexer.c tokenizing.c 42-GNL/get_next_line.c\
-		42-GNL/get_next_line_utils.c\
+SRC = minishell.c lexer.c tokenizing.c utils.c\
 
 		
 SRC_BONUS = 
 
 
-OBJ =  minishell.o lexer.o tokenizing.o 42-GNL/get_next_line.o  \
-		42-GNL/42-GNL/get_next_line_utils.o\
+OBJ =  minishell.o lexer.o tokenizing.o utils.o\
 
 OBJ_BONUS = 
 

@@ -17,7 +17,7 @@ int main(int ac, char *av[], char **env)
 {
    char	*line;
    int	i = 0;
-   line = get_next_line(0);
+   line = readline("Minishell ");
    t_lexer	*test;
    t_token *test1;
    test = malloc(sizeof(t_lexer));
