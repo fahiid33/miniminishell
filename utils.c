@@ -157,31 +157,31 @@ int	ft_int_strchr(const char *s, int c)
 		return (-1);
 	while (s[i])
 	{
-
 		if (s[i] == (char)c)
 			return (i);
-		else if (is_token(s[i]))
-			return is_token(s[i]);
 		i++;
 	}
 	if ((char)c == '\0')
 		return i;
 	return (-1);
 }
-int	is_token(char token)
+int	token_index(char *str)
 {
-	char			*val;
-	int				type;
-	while (token)
+	int i = 0;
+	int j = 0;
+	char *tokens;
+
+	tokens = "$><|'\"";
+	while(str[i])
 	{
-		if(lexer->c == '$')
+		j = 0;
+		while(tokens[j])
 		{
-			val = ft_strsub(lexer, 1);
-			token = init_token(val, type);
-			advance_lexer(lexer);
-			free(val);
-			return(1);
+			if(str[i] == tokens[j])
+				return(i);
+			j++;
 		}
+		i++;
 	}
-	return (0);
+	return(0);
 }

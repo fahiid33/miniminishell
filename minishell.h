@@ -73,7 +73,6 @@ t_token *tokenize_BACKSLASH(t_lexer *lexer);
 t_token *tokenize_LESSANDLESS(t_lexer *lexer);
 t_token *init_token(char *val, int type);
 t_lexer	*advance_lexer(t_lexer *lexer);
-int	is_token(char *token);
 
 char *ft_strsub(t_lexer *lexer, size_t len);
 int	    ft_isspace(int c);
@@ -89,5 +88,6 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 char	*ft_strchr(const char *str, int c);
 int	ft_int_strchr(const char *s, int c);
+int	token_index(char *str);
 
 #endif
