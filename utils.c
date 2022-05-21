@@ -1,13 +1,6 @@
 
 #include "minishell.h"
 
-int	ft_isspace(int c)
-{
-	return (c == '\t' || c == '\n'
-		|| c == '\v' || c == '\f' || c == '\r'
-		|| c == ' ');
-}
-
 int	ft_isalpha(int c)
 {
 	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
@@ -92,29 +85,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	free(s2);
 	return (str);
 }
-size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize)
-{
-	size_t	src_len;
-	size_t	i;
-
-	src_len = 0;
-	while (src[src_len] != '\0')
-	{
-		src_len++;
-	}
-	if (dstsize == 0)
-	{
-		return (src_len);
-	}
-	i = 0;
-	while (src[i] != '\0' && i < (dstsize - 1))
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (src_len);
-}
+	
 void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);

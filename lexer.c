@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 05:17:20 by fahd              #+#    #+#             */
-/*   Updated: 2022/05/21 04:43:47 by fahd             ###   ########.fr       */
+/*   Updated: 2022/05/21 05:51:23 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 		}
 		else if (lexer->c == '<')
 		{
-			if (lexer->str[lexer->i+1] == '<')
+			if (lexer->str[lexer->i + 1] == '<')
 			{
 				type = LESSANDLESS;
 				val = ft_strsub(lexer, 2);
@@ -155,7 +155,6 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 			else
 				size = ft_int_strchr(&(lexer->str[lexer->i]), '\0');
 			val = ft_strsub(lexer, size);
-			printf("%s\n", val);
 			token = init_token(val, type);
 			tmp = lst_add_back(tmp, token);
 		}
