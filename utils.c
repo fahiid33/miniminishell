@@ -177,7 +177,7 @@ int	token_index(char *str)
 		j = 0;
 		while(tokens[j])
 		{
-			if(str[i] == tokens[j])
+			if(str[i] == tokens[j] || str[i] == ' ')
 				return(i);
 			j++;
 		}

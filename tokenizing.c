@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 17:26:06 by fahd              #+#    #+#             */
-/*   Updated: 2022/05/18 20:32:53 by fahd             ###   ########.fr       */
+/*   Updated: 2022/05/21 04:27:12 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,17 @@ t_token *init_token(char *val, int type)
     token->next = NULL;
     token->type = type;
     return (token);
+}
+
+t_token *lst_add_back(t_token *lst, t_token *new)
+{
+    t_token *tmp;
+
+    if (!lst)
+        return (new);
+    tmp = lst;
+    while (tmp->next)
+        tmp = tmp->next;
+    tmp->next = new;
+    return (lst);
 }

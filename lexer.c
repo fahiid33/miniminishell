@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 05:17:20 by fahd              #+#    #+#             */
-/*   Updated: 2022/05/18 20:59:07 by fahd             ###   ########.fr       */
+/*   Updated: 2022/05/21 04:43:47 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,12 @@ t_lexer *advance_lexer(t_lexer *lexer)
 t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 {
 	t_token			*token;
+	t_token			*tmp;
 	char			*val;
 	int				type;
 	int size = 0;
-
+	
+	tmp = NULL;
 	token = NULL;
 	while (lexer->c)
 	{
@@ -73,8 +75,7 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 			val = ft_strsub(lexer, size);
 			advance_lexer(lexer);
 			token = init_token(val, type);
-			printf("val ==   %s,  type == %d  \n",token->val,token->type);
-			free(val);
+			tmp = lst_add_back(tmp, token);
 		}
 		else if (lexer->c == 34)
 		{
@@ -87,24 +88,21 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 			val = ft_strsub(lexer, size);
 			advance_lexer(lexer);
 			token = init_token(val, type);
-			printf("val ==   %s,  type == %d  \n",token->val,token->type);
-			free(val);
+			tmp = lst_add_back(tmp, token);
 		}
 		else if (lexer->c == '\\')
 		{
 			type = BACKSLASH;
 			val = ft_strsub(lexer, 1);
 			token = init_token(val, type);
-			printf("val ==   %s,  type == %d  \n",token->val,token->type);
-			free(val);
+			tmp = lst_add_back(tmp, token);
 		}
 		else if (lexer->c == '|')
 		{
 			type = PIPE;
 			val = ft_strsub(lexer, 1);
 			token = init_token(val, type);
-			printf("val ==   %s,  type == %d  \n",token->val,token->type);
-			free(val);
+			tmp = lst_add_back(tmp, token);
 		}
 		else if (lexer->c == '<')
 		{
@@ -113,17 +111,15 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 				type = LESSANDLESS;
 				val = ft_strsub(lexer, 2);
 				token = init_token(val, type);
-				printf("val ==   %s,  type == %d  \n",token->val,token->type);
-				free(val);
-			}
+				tmp = lst_add_back(tmp, token);
+				}
 			else
 			{
 				type = LESS;
 				val = ft_strsub(lexer, 1);
 				token = init_token(val, type);
-				printf("val ==   %s,  type == %d  \n",token->val,token->type);
-				free(val);
-			}
+				tmp = lst_add_back(tmp, token);
+				}
 		}
 		else if (lexer->c == '>')
 		{
@@ -132,46 +128,37 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 				type = GREATANDGREAT;
 				val = ft_strsub(lexer, 2);
 				token = init_token(val, type);
-				printf("val ==   %s,  type == %d  \n",token->val,token->type);
-				free(val);
-			}
+				tmp = lst_add_back(tmp, token);
+				}
 			else
 			{
 				type = GREAT;
 				val = ft_strsub(lexer, 1);
 				token = init_token(val, type);
-				printf("val ==   %s,  type == %d  \n",token->val,token->type);
-				free(val);
-			}
+				tmp = lst_add_back(tmp, token);
+				}
 		}
 		else if (lexer->c == '$')
 		{
 			type = DOLLAR;
 			val = ft_strsub(lexer, 1);
 			token = init_token(val, type);
-			printf("val ==   %s,  type == %d  \n",token->val,token->type);
-			free(val);
+			tmp = lst_add_back(tmp, token);
 		}
 		else
 		{
 			type = WORD;
 			if(token_index(&(lexer->str[lexer->i])))
 				size = token_index(&(lexer->str[lexer->i]));
-			
 			else if	(ft_int_strchr(&(lexer->str[lexer->i]), ' ') > 0)
 				size = ft_int_strchr(&(lexer->str[lexer->i]), ' ');
 			else
 				size = ft_int_strchr(&(lexer->str[lexer->i]), '\0');
-			if (size < 0)
-			{
-				
-				continue;
-			}
 			val = ft_strsub(lexer, size);
+			printf("%s\n", val);
 			token = init_token(val, type);
-			printf("val ==   %s,  type == %d  \n",token->val,token->type);
-			free(val);
+			tmp = lst_add_back(tmp, token);
 		}
-	}		
-	return (token);		
+	}
+	return (tmp);		
 }

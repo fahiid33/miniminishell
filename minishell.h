@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/05/18 02:22:34 by fahd             ###   ########.fr       */
+/*   Updated: 2022/05/21 04:28:24 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,16 @@ typedef struct s_token
     } type;
 }               t_token;
 
+typedef struct s_parse
+{
+    char *cmd;
+    char **args;
+    int fdin;
+    int fdout;
+    int fderr;
+    char *path;
+}            t_parse;
+
 t_lexer	*ft_init_lexer(char *str, char c);
 t_token	*send_lexer_to_tokenize(t_lexer *lexer);
 t_token *tokenize_WORD(t_lexer *lexer);
@@ -73,6 +83,7 @@ t_token *tokenize_BACKSLASH(t_lexer *lexer);
 t_token *tokenize_LESSANDLESS(t_lexer *lexer);
 t_token *init_token(char *val, int type);
 t_lexer	*advance_lexer(t_lexer *lexer);
+t_token *lst_add_back(t_token *lst, t_token *new);
 
 char *ft_strsub(t_lexer *lexer, size_t len);
 int	    ft_isspace(int c);

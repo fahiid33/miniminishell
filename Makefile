@@ -20,7 +20,7 @@ all : $(NAME)
 
 $(NAME):
 	
-	@gcc  -lreadline -g $(SRC)  -o $(NAME)
+	@gcc  -g $(SRC) -lreadline  -o $(NAME)
 	@gcc  -g $(SRC) -lreadline -o $(NAME)
 	@echo "👍👍👍"
 
