@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/05/21 04:28:24 by fahd             ###   ########.fr       */
+/*   Updated: 2022/05/22 02:09:30 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,19 @@ typedef struct s_token
     } type;
 }               t_token;
 
+typedef struct s_redir
+{
+    int     fd;
+    char    *file;
+    int     type;
+}               t_redir;
+
 typedef struct s_parse
 {
     char *cmd;
-    char **args;
-    int fdin;
-    int fdout;
-    int fderr;
-    char *path;
+    char **argv;
+    t_token *token;
+    t_redir *redir;
 }            t_parse;
 
 t_lexer	*ft_init_lexer(char *str, char c);
