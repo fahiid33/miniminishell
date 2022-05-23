@@ -24,12 +24,25 @@ t_parse *init_command(void)
     return (command);
 }
 
-t_parse add_command(t_parse *commad)
+t_parse *lst_add_back_command(t_parse *lst, t_parse *new)
+{
+    t_parse *tmp;
+
+    if (!lst)
+        return (new);
+    tmp = lst;
+    while (tmp->next)
+        tmp = tmp->next;
+    tmp->next = new;
+    return (lst);
+}
+
+t_parse *add_command(t_parse *commad)
 {
     t_parse *new;
 
     new = init_command();
-    commad = lst_add_back(commad, new);
+    commad = lst_add_back_command(commad, new);
     return (commad);
 }
 
@@ -39,7 +52,7 @@ t_redir *init_redir(char *val, int type)
 
     if (!(redir = (t_redir *)malloc(sizeof(t_redir))))
         return (NULL);
-    redir->val = strdup(val);
+    redir->file = strdup(val);
     redir->next = NULL;
     redir->type = type;
     return (redir);
@@ -67,35 +80,75 @@ t_redir *add_redir(t_redir *redir, char *val, int type)
     return (redir);
 }
 
-void    parse_commands(t_token *token, t_parse *command)
+void    parse_commands(t_token **token, t_parse *command)
 {
-    if (token->type == WORD)
+    if ((*token)->type == WORD)
     {
         if (!command->cmd)
-            command->cmd = strdup(token->val);
+            command->cmd = jme3arg(token);
         else
-            command->argv = lst_add_back(command->argv, init_token(token->val, WORD));
+            command->argv = (char **)realloc_array(command->argv,jme3arg(token));
     }
-    else if (token->type == GREAT || token->type == LESS
-        || token->type == LESSANDLESS || token->type == GREATANDGREAT)
+    else if ((*token)->type == GREAT || (*token)->type == LESS
+        || (*token)->type == LESSANDLESS || (*token)->type == GREATANDGREAT)
     {
         if (!command->redir)
-            command->redir = init_redir(token->val, token->type);
+            command->redir = init_redir((*token)->val, (*token)->type);
         else
-            command->redir = add_redir(command->redir, token->val, token->type);
+            command->redir = add_redir(command->redir, (*token)->val, (*token)->type);
     }
 }
-void    create_commands(t_token *token, t_parse *command)
+void create_commands(t_token *token, t_parse **command)
 {
+    t_parse *head;
+
+    head = *command;
     while (token)
     {
-        parse_commands(token, command);
-        if (token->type == PIPE)
-            {
-                command = add_command(command);
-                command = command->next;
-            }
-            
-        token = token->next;
+        parse_commands(&token, head);
+        if (token->type == PIPE || token->type == END)
+        {
+            head = add_command(head);
+            head = head->next;
+            token = token->next;
+        }
     }
+}
+
+char *jme3arg(t_token **b)
+{
+	int	len;
+    char *str;
+
+    str = strdup("");
+	len = 0;
+	while ((*b) && (*b)->flag == 1)
+	{
+        str = ft_strjoin(str, (*b)->val);
+		(*b) = (*b)->next;
+	}
+    str = ft_strjoin(str, (*b)->val);
+    (*b) = (*b)->next;
+    return str;
+}
+
+void    *realloc_array(char **arg, char *str)
+{
+    int i;
+    int j;
+    char **new_arg;
+
+    i = 0;
+    j = 0;
+    while (arg && arg[i])
+        i++;
+    new_arg = (char **)malloc(sizeof(char *) * (i + 2));
+    while (arg && j < i)
+    {
+        new_arg[j] = ft_strdup(arg[j]);
+        j++;
+    }
+    new_arg[j] = ft_strdup(str);
+    new_arg[j + 1] = NULL;
+    return (new_arg);
 }

@@ -21,6 +21,7 @@ t_token *init_token(char *val, int type)
     token->val = val;
     token->next = NULL;
     token->type = type;
+    token->flag = 0;
     return (token);
 }
 

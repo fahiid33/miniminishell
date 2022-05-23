@@ -57,33 +57,50 @@ int	ft_strlen(char *s)
 		i++;
 	return (i);
 }
-
 char	*ft_strjoin(char *s1, char *s2)
 {
-	char		*str;
-	int			i;
-	int			j;
+	char	*str;
+	int		i;
+	int		j;
 
-	str = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	i = 0;
+	j = 0;
 	if (!s1)
-		return (s2);
-	if (!s2)
-		return (s1);
-	if (str == NULL)
-		return (NULL);
-	i = -1;
-	while (s1[++i])
-		str[i] = s1[i];
-	j = -1;
-	while (s2[++j])
+		return (0);
+	str = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (str == 0)
+		return (0);
+	while (s1[i])
 	{
-		str[i] = s2[j];
+		str[j] = s1[i];
+		i++;
+		j++;
+	}
+	i = -1;
+	while (s2[++i])
+	{
+		str[j] = s2[i];
+		j++;
+	}
+	str[j] = '\0';
+	return (str);
+}
+
+char	*ft_strcharjoin(char *s1, char c)
+{
+	int			i;
+	i = 0;
+	if (!s1)
+		return (0);
+	if (!c)
+		return (s1);
+	while (s1[i])
+	{
 		i++;
 	}
-	str[i] = '\0';
-	free(s1);
-	free(s2);
-	return (str);
+	s1[i++] = c;
+	s1[i++] = '\0';
+	return (s1);
 }
 	
 void	ft_putchar_fd(char c, int fd)
@@ -155,4 +172,46 @@ int	token_index(char *str)
 		i++;
 	}
 	return(0);
+}
+int is_token(char c)
+{
+	int i = 0;
+	int j = 0;
+	char *tokens;
+
+	tokens = "$><|'\"";
+	while(tokens[j])
+	{
+		if(c == tokens[j] || c == ' ')
+			return(1);
+		j++;
+	}
+	return(0);
+}
+char	*ft_substr(char *s, unsigned int start, size_t len)
+{
+	char	*str;
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	j = 0;
+	if (!s)
+		return (0);
+	if (ft_strlen(s) < start || len == 0)
+		return (ft_strdup(""));
+	str = (char *)malloc(sizeof(char) * len + 1);
+	if (str == NULL)
+		return (NULL);
+	while (s[i])
+	{
+		if (j < len && i >= start)
+		{
+			str[j] = s[i];
+			j++;
+		}
+		i++;
+	}
+	str[j] = '\0';
+	return (str);
 }

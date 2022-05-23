@@ -42,6 +42,7 @@ typedef struct s_lexer
 typedef struct s_token
 {
     char *val;
+    int flag;
     struct s_token *next;
     enum
     {
@@ -62,16 +63,18 @@ typedef struct s_token
 typedef struct s_redir
 {
     int     fd;
-    char    *file;
+    char *file;
     int     type;
+    struct s_redir *next;
+
 }               t_redir;
 
 typedef struct s_parse
 {
     char *cmd;
     char **argv;
-    t_token *token;
     t_redir *redir;
+    struct s_parse *next;
 }            t_parse;
 
 t_lexer	*ft_init_lexer(char *str, char c);
@@ -105,5 +108,11 @@ void	ft_putstr_fd(char *s, int fd);
 char	*ft_strchr(const char *str, int c);
 int	ft_int_strchr(const char *s, int c);
 int	token_index(char *str);
+char *jme3arg(t_token **b);
+int	lst_size(t_token *b);
+void    *realloc_array(char **arg, char *str);
+t_parse *init_command(void);
+void print_l(t_parse *lst);
+void create_commands(t_token *token, t_parse **command);
 
 #endif
