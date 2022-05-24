@@ -82,7 +82,7 @@ t_redir *add_redir(t_redir *redir, char *val, int type)
 
 void    parse_commands(t_token **token, t_parse *command)
 {
-    if ((*token)->type == WORD)
+    if ((*token)->type == WORD ||  (*token)->type == DQUOTE || (*token)->type == SQUOTE || (*token)->type == DOLLAR)
     {
         if (!command->cmd)
             command->cmd = jme3arg(token);
@@ -122,13 +122,26 @@ char *jme3arg(t_token **b)
 
     str = strdup("");
 	len = 0;
+    if((*b)->type == DOLLAR)
+    {
+        (*b) = (*b)->next;
+        (*b)->val = getenv((*b)->val);
+    }
 	while ((*b) && (*b)->flag == 1)
 	{
+        if((*b)->type == DOLLAR)
+        {
+            (*b) = (*b)->next;
+            (*b)->val = getenv((*b)->val);
+        }
         str = ft_strjoin(str, (*b)->val);
 		(*b) = (*b)->next;
 	}
-    str = ft_strjoin(str, (*b)->val);
-    (*b) = (*b)->next;
+    if((*b)  && (*b)->type != END)
+    {
+        str = ft_strjoin(str, (*b)->val);
+        (*b) = (*b)->next;
+    }
     return str;
 }
 
@@ -149,6 +162,7 @@ void    *realloc_array(char **arg, char *str)
         j++;
     }
     new_arg[j] = ft_strdup(str);
+    
     new_arg[j + 1] = NULL;
     return (new_arg);
 }

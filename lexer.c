@@ -140,6 +140,8 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 			type = DOLLAR;
 			val = ft_strsub(lexer, 1);
 			token = init_token(val, type);
+			if(lexer->c != ' ' && lexer->c != '\0')
+				token->flag = 1;
 			tmp = lst_add_back(tmp, token);
 		}
 		else
