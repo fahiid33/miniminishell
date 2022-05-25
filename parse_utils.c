@@ -82,12 +82,20 @@ t_redir *add_redir(t_redir *redir, char *val, int type)
 
 void    parse_commands(t_token **token, t_parse *command)
 {
+    char *value;
     if ((*token)->type == WORD ||  (*token)->type == DQUOTE || (*token)->type == SQUOTE || (*token)->type == DOLLAR)
     {
-        if (!command->cmd)
-            command->cmd = jme3arg(token);
+        if((*token)->type != DQUOTE)
+            value = jme3arg(token);
         else
-            command->argv = (char **)realloc_array(command->argv,jme3arg(token));
+        {
+            value = expand_dollar((*token)->val);
+            *token = (*token)->next;
+        }
+        if (!command->cmd)
+            command->cmd = value;
+        else
+            command->argv = (char **)realloc_array(command->argv,value);
     }
     else if ((*token)->type == GREAT || (*token)->type == LESS
         || (*token)->type == LESSANDLESS || (*token)->type == GREATANDGREAT)

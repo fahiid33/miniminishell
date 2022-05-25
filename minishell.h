@@ -94,6 +94,7 @@ t_lexer	*advance_lexer(t_lexer *lexer);
 t_token *lst_add_back(t_token *lst, t_token *new);
 
 char *ft_strsub(t_lexer *lexer, size_t len);
+char	*ft_substr(char *s, unsigned int start, size_t len);
 int	    ft_isspace(int c);
 int	    ft_isalpha(int c);
 int	    ft_isdigit(int c);
@@ -114,5 +115,6 @@ void    *realloc_array(char **arg, char *str);
 t_parse *init_command(void);
 void print_l(t_parse *lst);
 void create_commands(t_token *token, t_parse **command);
-
+char* expand_dollar(char *dq_content);
+void print_list(t_token *lst);
 #endif

@@ -42,6 +42,8 @@ void print_l(t_parse *lst)
       lst = lst->next;
    }
 }
+char* expand_dollar(char *str);
+
 int main(int ac, char *av[], char **env)
 {
    char	*line;
@@ -61,7 +63,8 @@ int main(int ac, char *av[], char **env)
       add_history(line);
       create_commands(test1, &commands);
       // print_list(test1);
+      printf("----------------------\n");
       print_l(commands);
    }
-   
+
 }
