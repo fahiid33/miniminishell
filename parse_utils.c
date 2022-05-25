@@ -85,7 +85,7 @@ void    parse_commands(t_token **token, t_parse *command)
     char *value;
     if ((*token)->type == WORD ||  (*token)->type == DQUOTE || (*token)->type == SQUOTE || (*token)->type == DOLLAR)
     {
-        if((*token)->type != DQUOTE)
+        if((*token)->type != DQUOTE ||)
             value = jme3arg(token);
         else
         {
