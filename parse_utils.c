@@ -83,6 +83,7 @@ t_redir *add_redir(t_redir *redir, char *val, int type)
 void    parse_commands(t_token **token, t_parse *command)
 {
     char *value;
+    char *value2;
     if ((*token)->type == WORD ||  (*token)->type == DQUOTE || (*token)->type == SQUOTE || (*token)->type == DOLLAR)
     {
         if((*token)->type != DQUOTE)
@@ -91,6 +92,22 @@ void    parse_commands(t_token **token, t_parse *command)
         {
             value = expand_dollar((*token)->val);
             *token = (*token)->next;
+            while((*token)->flag == 1)
+            {
+                if((*token)->type == DOLLAR)
+                {
+                    *token = (*token)->next;
+                    value2 = expand_dollar(ft_strjoin("$", (*token)->val));
+                }
+                else
+                    value2 = expand_dollar((*token)->val);
+                value = ft_strjoin(value, value2);
+                if((*token)->next->flag == 0)
+                {
+                    
+                }
+                *token = (*token)->next;
+            }
         }
         if (!command->cmd)
            command->cmd = value;
