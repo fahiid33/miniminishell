@@ -62,7 +62,7 @@ int main(int ac, char *av[], char **env)
       test1 = send_lexer_to_tokenize(test);//tokenizing every char in the line
       add_history(line);
       create_commands(test1, &commands);
-      // print_list(test1);
+      print_list(test1);
       printf("----------------------\n");
       print_l(commands);
    }

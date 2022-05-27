@@ -85,7 +85,7 @@ void    parse_commands(t_token **token, t_parse *command)
     char *value;
     if ((*token)->type == WORD ||  (*token)->type == DQUOTE || (*token)->type == SQUOTE || (*token)->type == DOLLAR)
     {
-        if((*token)->type != DQUOTE ||)
+        if((*token)->type != DQUOTE)
             value = jme3arg(token);
         else
         {
@@ -93,7 +93,7 @@ void    parse_commands(t_token **token, t_parse *command)
             *token = (*token)->next;
         }
         if (!command->cmd)
-            command->cmd = value;
+           command->cmd = value;
         else
             command->argv = (char **)realloc_array(command->argv,value);
     }
@@ -142,11 +142,21 @@ char *jme3arg(t_token **b)
             (*b) = (*b)->next;
             (*b)->val = getenv((*b)->val);
         }
-        str = ft_strjoin(str, (*b)->val);
+        if((*b)->type == DQUOTE)
+        {   
+            str = ft_strjoin(str, expand_dollar((*b)->val));
+        }
+        else if((*b)->type != END)
+            str = ft_strjoin(str, (*b)->val);
 		(*b) = (*b)->next;
 	}
+    if((*b)  && (*b)->type == DQUOTE)
+    {   
+        str = ft_strjoin(str, expand_dollar((*b)->val));
+        (*b) = (*b)->next;
+    }
     if((*b)  && (*b)->type != END)
-    {
+    {   
         str = ft_strjoin(str, (*b)->val);
         (*b) = (*b)->next;
     }
