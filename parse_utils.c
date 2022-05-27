@@ -86,29 +86,7 @@ void    parse_commands(t_token **token, t_parse *command)
     char *value2;
     if ((*token)->type == WORD ||  (*token)->type == DQUOTE || (*token)->type == SQUOTE || (*token)->type == DOLLAR)
     {
-        if((*token)->type != DQUOTE)
-            value = jme3arg(token);
-        else
-        {
-            value = expand_dollar((*token)->val);
-            *token = (*token)->next;
-            while((*token)->flag == 1)
-            {
-                if((*token)->type == DOLLAR)
-                {
-                    *token = (*token)->next;
-                    value2 = expand_dollar(ft_strjoin("$", (*token)->val));
-                }
-                else
-                    value2 = expand_dollar((*token)->val);
-                value = ft_strjoin(value, value2);
-                if((*token)->next->flag == 0)
-                {
-                    
-                }
-                *token = (*token)->next;
-            }
-        }
+        value = jme3arg(token);
         if (!command->cmd)
            command->cmd = value;
         else
@@ -147,11 +125,6 @@ char *jme3arg(t_token **b)
 
     str = strdup("");
 	len = 0;
-    if((*b)->type == DOLLAR)
-    {
-        (*b) = (*b)->next;
-        (*b)->val = getenv((*b)->val);
-    }
 	while ((*b) && (*b)->flag == 1)
 	{
         if((*b)->type == DOLLAR)
@@ -167,6 +140,11 @@ char *jme3arg(t_token **b)
             str = ft_strjoin(str, (*b)->val);
 		(*b) = (*b)->next;
 	}
+    if((*b)  && (*b)->type == DOLLAR)
+    {
+        (*b) = (*b)->next;
+        (*b)->val = getenv((*b)->val);
+    }
     if((*b)  && (*b)->type == DQUOTE)
     {   
         str = ft_strjoin(str, expand_dollar((*b)->val));
