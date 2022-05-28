@@ -5,7 +5,7 @@ int	ft_isalpha(int c)
 {
 	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }
-
+//w=ahahaha
 int	ft_isdigit(int c)
 {
 	return (c >= '0' && c <= '9');
