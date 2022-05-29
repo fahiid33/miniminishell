@@ -139,8 +139,14 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 		{
 			type = DOLLAR;
 			val = ft_strsub(lexer, 1);
+			if(lexer->c == '$')
+				val = ft_strjoin(val, ft_strsub(lexer, 1));
+			else if(lexer->c == ' ')
+				val = ft_strjoin(val, ft_strsub(lexer, 1));
+			else if(lexer->c == '?')
+				val = ft_strjoin(val, ft_strsub(lexer, 1));
 			token = init_token(val, type);
-			if(lexer->c != ' ' && lexer->c != '\0')
+			if(val[1] != ' ' && lexer->c != ' ' && lexer->c != '\0')
 				token->flag = 1;
 			tmp = lst_add_back(tmp, token);
 		}
@@ -186,8 +192,14 @@ char* expand_dollar(char *dq_content)
 		{
 			type = DOLLAR;
 			val = ft_strsub(lexer, 1);
+			if(lexer->c == '$')
+				val = ft_strjoin(val, ft_strsub(lexer, 1));
+			else if(lexer->c == ' ')
+				val = ft_strjoin(val, " ");
+			else if(lexer->c == '?')
+				val = ft_strjoin(val, ft_strsub(lexer, 1));
 			token = init_token(val, type);
-			if(lexer->c != ' ' && lexer->c != '\0')
+			if(lexer->c != '\0')
 				token->flag = 1;
 			tmp = lst_add_back(tmp, token);
 		}
@@ -207,7 +219,7 @@ char* expand_dollar(char *dq_content)
 		}
    }
     token = init_token("", END);
-    token->flag = 1;
+    token->flag = 0;
 	tmp = lst_add_back(tmp, token);
 	result = jme3arg(&tmp);
    return result;

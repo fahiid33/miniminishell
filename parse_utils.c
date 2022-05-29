@@ -83,7 +83,7 @@ t_redir *add_redir(t_redir *redir, char *val, int type)
 void    parse_commands(t_token **token, t_parse *command)
 {
     char *value;
-    char *value2;
+    int type;
     if ((*token)->type == WORD ||  (*token)->type == DQUOTE || (*token)->type == SQUOTE || (*token)->type == DOLLAR)
     {
         value = jme3arg(token);
@@ -95,10 +95,13 @@ void    parse_commands(t_token **token, t_parse *command)
     else if ((*token)->type == GREAT || (*token)->type == LESS
         || (*token)->type == LESSANDLESS || (*token)->type == GREATANDGREAT)
     {
+        type = (*token)->type;
+        (*token) = (*token)->next;
+        value = jme3arg(token);
         if (!command->redir)
-            command->redir = init_redir((*token)->val, (*token)->type);
+            command->redir = init_redir(value, type);
         else
-            command->redir = add_redir(command->redir, (*token)->val, (*token)->type);
+            command->redir = add_redir(command->redir, value, type);
     }
 }
 void create_commands(t_token *token, t_parse **command)
@@ -129,28 +132,66 @@ char *jme3arg(t_token **b)
 	{
         if((*b)->type == DOLLAR)
         {
-            (*b) = (*b)->next;
-            (*b)->val = getenv((*b)->val);
+            if((*b)->next->type == DQUOTE || (*b)->next->type == SQUOTE)
+                (*b) = (*b)->next;
+            else{
+                if(!(*b)->val[1])
+                {
+                    (*b) = (*b)->next;
+                    if(getenv((*b)->val))
+                        (*b)->val = getenv((*b)->val);
+                    else
+                        (*b)->val = strdup("");
+                }
+                else
+                {
+                    if((*b)->val[1] == ' ')
+                        str = ft_strjoin(str, strdup("$"));
+                    (*b) = (*b)->next;
+                }
+            }
+            
         }
         if((*b)->type == DQUOTE)
         {   
             str = ft_strjoin(str, expand_dollar((*b)->val));
         }
         else if((*b)->type != END)
+        {   
             str = ft_strjoin(str, (*b)->val);
-		(*b) = (*b)->next;
+        }
+        if((*b)->flag == 1)
+            (*b) = (*b)->next;
+        else
+        {
+            (*b) = (*b)->next;
+            return str;
+        }
 	}
     if((*b)  && (*b)->type == DOLLAR)
     {
-        (*b) = (*b)->next;
-        (*b)->val = getenv((*b)->val);
+        if(!(*b)->val[1])
+        {
+            (*b) = (*b)->next;
+            if(getenv((*b)->val))
+                    (*b)->val = getenv((*b)->val);
+                else
+                    (*b)->val = strdup("");
+        }
+        else
+        {
+            if((*b)->val[1] == ' ')
+                str = ft_strjoin(str, strdup("$"));
+            (*b) = (*b)->next;
+            return str;
+        }
     }
     if((*b)  && (*b)->type == DQUOTE)
     {   
         str = ft_strjoin(str, expand_dollar((*b)->val));
         (*b) = (*b)->next;
     }
-    if((*b)  && (*b)->type != END)
+    else if((*b)  && (*b)->type != END)
     {   
         str = ft_strjoin(str, (*b)->val);
         (*b) = (*b)->next;
