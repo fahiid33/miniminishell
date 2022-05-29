@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:11:13 by fahd              #+#    #+#             */
-/*   Updated: 2022/05/22 02:44:33 by fahd             ###   ########.fr       */
+/*   Updated: 2022/05/29 06:59:52 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_parse *init_command(void)
     
     command = (t_parse *)malloc(sizeof(t_parse));
     command->cmd = NULL;
-    command->argv = NULL;
+    command->argv = (char **)realloc_array(NULL,strdup(""));
     command->redir = NULL;
     command->next = NULL;
     return (command);
@@ -115,10 +115,17 @@ void create_commands(t_token *token, t_parse **command)
         if (token->type == PIPE || token->type == END)
         {
             head = add_command(head);
+            //  while(head->redir)
+            // {
+            //     printf("%d - %s ; ", head->redir->type,head->redir->file);
+            //     head->redir = head->redir->next;
+            // }
+            // head->fd_in = get_fd(head->redir);
             head = head->next;
             token = token->next;
         }
     }
+    
 }
 
 char *jme3arg(t_token **b)
@@ -215,8 +222,7 @@ void    *realloc_array(char **arg, char *str)
         new_arg[j] = ft_strdup(arg[j]);
         j++;
     }
-    new_arg[j] = ft_strdup(str);
-    
-    new_arg[j + 1] = NULL;
+    new_arg[j++] = ft_strdup(str);
+    new_arg[j] = NULL;
     return (new_arg);
 }

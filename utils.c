@@ -76,6 +76,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		i++;
 		j++;
 	}
+	// str[j++] = '/';
 	i = -1;
 	while (s2[++i])
 	{
