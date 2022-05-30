@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/05/22 02:09:30 by fahd             ###   ########.fr       */
+/*   Updated: 2022/05/30 05:57:03 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,13 @@ typedef struct s_redir
 
 }               t_redir;
 
+typedef struct s_env
+{
+    char	**env;
+	char	**export;
+
+}  		t_env; 
+
 typedef struct s_parse
 {
     char *cmd;
@@ -118,4 +125,18 @@ void print_l(t_parse *lst);
 void create_commands(t_token *token, t_parse **command);
 char* expand_dollar(char *dq_content);
 void print_list(t_token *lst);
+void	builtins(t_parse *commands, t_env *env);
+char** init_export(char **env);
+int array_size(char **str);
+char	**ft_split(char const *s, char c);
+char	*ft_strjoin1(char *s1, char *s2 ,int c);
+char *pwd(t_parse *head, int k);
+void printf_env(char **lenv);
+void	add_string_to_env(t_env *env, char *to_add);
+int	my_i_getenv(char *str, char **my_env);
+void  free_l(char **env);
+void	add_string_to_export(t_env *env, char *to_add);
+int	my_i_getexp(char *str, char **my_exp);//va
+char	*my_getenv(char *str, char **my_env);
+
 #endif

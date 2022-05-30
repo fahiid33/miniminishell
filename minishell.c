@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/05/29 07:18:51 by fahd             ###   ########.fr       */
+/*   Updated: 2022/05/30 05:23:17 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,38 @@ char	*get_path(char *cmd, char **env)
 	}
 	return (cmd);
 }
+int array_size(char **str)
+{
+	int i = 0;
+	while (str[i])
+		i++;
+	// printf("%d\n", i);
+	return (i);
+}
 
+char  **my_envir(char **env)
+{
+   char   **str;
+   int   i = 0;
+   int	j = 0;
+   int size = array_size(env);
+   str = (char **)malloc(sizeof (char *) * (size + 1));
+	while (env[i])
+	{
+		str[j] = strdup(env[i]);
+		i++; 
+		j++; 
+	}
+	str[j] = NULL;
+	return (str); 
+}
+void  free_l(char **env)
+{
+   int i;
+   for (i = 0; env[i]; i++)
+		free(env[i]);
+	free(env[i]);
+}
 // char* expand_dollar(char *str);
 
 int main(int ac, char *av[], char **env)
@@ -114,6 +145,7 @@ int main(int ac, char *av[], char **env)
    char	*l;
    int	i = 0;
    int   pipefd[2];
+   t_env *my_env;
    t_parse *commands;
 
 
@@ -121,9 +153,16 @@ int main(int ac, char *av[], char **env)
       t_token *test1;
       char *path;
       int pid ;
+   char **my_export;
       // dup2(pipefd[1], 1);
       pipe(pipefd);
-   while((line = readline("Bash$ ")))
+   my_env = malloc(sizeof(t_env));
+   // printf_env(my_export);
+   // printf("sec address === %p\n\n", my_env.env[14]);
+	   
+      my_env->env = my_envir(env);
+      my_env->export = init_export(env);
+   while((line = readline("bash-3.2$ ")))
    {
       commands = init_command();
       test = malloc(sizeof(t_lexer));
@@ -131,33 +170,37 @@ int main(int ac, char *av[], char **env)
       test1 = send_lexer_to_tokenize(test);//tokenizing every char in the line
       add_history(line);
       create_commands(test1, &commands);
+
       // printf("----------------------\n");
       path = get_path(commands->cmd, env);
       
-      pid = fork();
-      if(pid)
-      {
-         close(pipefd[1]);
-         dup2(pipefd[0], 0);
-         waitpid(pid, NULL, 0);
-         
-         
-      }
-      else
-      {
-         close(pipefd[0]);
-         dup2(pipefd[1], 1);
-         execv(path, commands->argv);
-         printf("command not found : %s\n", commands->cmd);
-         exit(127);
-      }
-      commands = commands->next;
-      path = get_path(commands->cmd, env);
-      execv(path, commands->argv);
-      
-      
-      // printf("hdfjeocfjkwkjdkejwkmdkmwekdmfcklewmdk\n\n");
       // print_l(commands);
+       builtins(commands, my_env);
+      //  system("leaks minishell");
+      // exit(0);
+      // pid = fork();
+      // if(pid)
+      // {
+      //    // close(pipefd[1]);
+      //    // dup2(pipefd[0], 0);
+      //    waitpid(pid, NULL, 0);
+         
+         
+      // }
+      // else
+      // {
+      //    // close(pipefd[0]);
+      //    // dup2(pipefd[1], 1);
+      //    execv(path, commands->argv);
+      //    printf("command not found : %s\n", commands->cmd);
+      //    exit(127);
+      // }
+      // commands = commands->next;
+      // path = get_path(commands->cmd, env);
+      // execv(path, commands->argv);
+      
+   
    }
+   
 
 }

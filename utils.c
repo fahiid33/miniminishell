@@ -5,7 +5,7 @@ int	ft_isalpha(int c)
 {
 	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }
-//w=ahahaha
+
 int	ft_isdigit(int c)
 {
 	return (c >= '0' && c <= '9');
@@ -67,25 +67,70 @@ char	*ft_strjoin(char *s1, char *s2)
 	j = 0;
 	if (!s1)
 		return (0);
-	str = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
+	// printf("%s %s\n\n", s1, s2);
+	str = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 2);
 	if (str == 0)
 		return (0);
 	while (s1[i])
 	{
+		
 		str[j] = s1[i];
 		i++;
 		j++;
 	}
+	
 	// str[j++] = '/';
-	i = -1;
-	while (s2[++i])
+	i = 0;
+	
+	while (s2[i])
 	{
 		str[j] = s2[i];
 		j++;
+		i++;
 	}
-	str[j] = '\0';
+	
+	// str[j] = '\0';
+
+	
 	return (str);
 }
+// char	*ft_strjoin1(char *s1, char *s2 ,int c)
+// {
+// 	char	*str;
+// 	int		i;
+// 	int		j;
+
+// 	str = NULL;
+// 	i = 0;
+// 	j = 0;
+// 	str = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
+// 	str = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
+// 	if (str == 0)
+// 		return (0);
+// 	while (s1[i])
+// 	{
+// 		str[j] = s1[i];
+// 		i++;
+// 		j++;
+// 	}
+// 	i = -1;
+// 	while (s2[++i])
+// 	{
+// 		str[j] = s2[i];
+// 		j++;
+// 	}
+// 	if(c == 1)
+// 		free(s1);
+// 	if(c == 2)
+// 		free(s2);
+// 	if(c == 3)
+// 	{
+// 		free(s2);
+// 		free(s1);
+// 	}
+// 	str[j] = '\0';
+// 	return (str);
+// }
 
 char	*ft_strcharjoin(char *s1, char c)
 {
