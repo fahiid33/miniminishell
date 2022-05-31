@@ -89,7 +89,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		i++;
 	}
 	
-	// str[j] = '\0';
+	str[j] = '\0';
 
 	
 	return (str);

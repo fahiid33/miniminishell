@@ -56,29 +56,44 @@ void	add_string_to_export(t_env *env, char *to_add) //var=19 // var1=
 	int	j = 0;
 	int index;
 	int size = array_size(env->export);
-	tmp = ft_substr(to_add, 0, ft_int_strchr(to_add, '=') + 1);
-	index = my_i_getexp(tmp, env->export);
+	tmp = ft_substr(to_add, 0, ft_int_strchr(to_add, '='));
+	index = my_i_getexp(tmp , env->export);
+	
 	if (index)
 	{
-		tmp = env->export[index];
-		to_add = ft_strjoin(tmp, "\"");
-		to_add = ft_strjoin(to_add, my_getenv(tmp, env->env));
-		to_add = ft_strjoin(to_add ,"\"");
+		if(ft_int_strchr(env->export[index], '=') != -1)
+			tmp = ft_substr(env->export[index],0,ft_int_strchr(env->export[index], '=')+1);
+		else
+		{
+			tmp = ft_substr(env->export[index],0,ft_int_strchr(env->export[index], '\0'));
+			tmp = ft_strjoin(tmp,"=");
+		}
+		tmp = ft_strjoin(tmp, "\"");
+		tmp = ft_strjoin(tmp,ft_substr(to_add,ft_int_strchr(to_add, '=')+1, strlen(to_add)));
+		to_add = ft_strjoin(tmp ,"\"");
 		env->export[index] = to_add;
 		free(tmp);
 	}
 	else
 	{
 		str = (char **)malloc(sizeof (char *) * (size + 1));
-		while (env->env[i])
+		while (env->export[i])
 		{
-			str[j] = strdup(env->env[i]);
+			str[j] = strdup(env->export[i]);
 			i++; 
 			j++; 
 		}
+		to_add = ft_strjoin("declare -x ", to_add);
+		if (ft_int_strchr(to_add, '=') != -1)
+		{
+			tmp = ft_substr(to_add,0,ft_int_strchr(to_add, '=')+1);
+			tmp = ft_strjoin(tmp, "\"");
+			tmp = ft_strjoin(tmp,ft_substr(to_add,ft_int_strchr(to_add, '=')+1, strlen(to_add)));
+			to_add = ft_strjoin(tmp ,"\"");
+		}
 		str[j] = strdup(to_add);
 		str[++j] = NULL;
-		env->env = str;
+		env->export = str;
 	}
 	// printf("str ==-%s\n",str[j - 1]);
 	// // printf("to_add ===%s\n", to_add);
@@ -114,33 +129,28 @@ char** init_export(char **env)
 	char *tmp;
 	j = 0;
 	s1 = ft_strdup("");
-	strings = get_string(env);
 	// free_l(strings);
 
 	i = 0;
    
-   while(strings[i])
-   {
-      
-      while(env[j] && strncmp(env[j],strings[i], strlen(strings[i])))
-        j++;
-      s1 = ft_strjoin(s1,"declare -x ");
-      s1 = ft_strjoin(s1,(tmp = ft_substr(strings[i], 0, ft_int_strchr(strings[i], '=') + 1)));
-	//   printf("%s\n\n\n", s1);
-      free(tmp);
-	  if(strcmp(strings[i] , "OLDPWD"))
-      {
-         s1 = ft_strjoin(s1,"\"");
-         s1 = ft_strjoin(s1,strchr(env[j],'=')+ 1);
-         s1 = ft_strjoin(s1,"\"\n");
-      }
-      else
-         s1 = ft_strjoin(s1,"\n");
-      j = 0;
-      i++;
+	while(env[i])
+	{
+		s1 = ft_strjoin(s1,"declare -x ");
+		s1 = ft_strjoin(s1,(tmp = ft_substr(env[i], 0, ft_int_strchr(env[i], '=') + 1)));
+		
+		free(tmp);
+		s1 = ft_strjoin(s1,"\"");
+		s1 = ft_strjoin(s1,strchr(env[j],'=')+ 1);
+		s1 = ft_strjoin(s1,"\"\n");
+		if(strncmp(env[i] , "PWD",3) == 0)
+		{
+			i++;
+			s1 = ft_strjoin(s1,"declare -x OLDPWD\n");
+		}
+		j++;
+		i++;
+	}
 
-
-   }
 //    system("leaks minishell");
 //     exit(0);
    res = ft_split(s1,'\n');
@@ -194,32 +204,29 @@ char** init_export(char **env)
 void cd(t_parse *head, t_env *my_env)
 {
 	char *ha;
-	
-	if (!head->argv[0])
+
+	ha = ft_strjoin("OLDPWD=",strdup(pwd(head, 0)));
+	add_string_to_env(my_env, ha);
+	if (!head->argv[0] || !strcmp(head->argv[0],"~"))
+	{
+		add_string_to_export(my_env, ft_strjoin("OLDPWD=",strdup(pwd(head, 0))));
 		chdir(getenv("HOME"));
+		add_string_to_env(my_env, ft_strjoin("PWD=",strdup(pwd(head, 0))));
+		add_string_to_export(my_env, ft_strjoin("PWD=",pwd(head, 0)));
+	}
 	else if (head->argv[0] && !head->argv[1])
 	{
-		// printf("%d\n\n", strlen(ha));
-		ha = ft_strjoin("OLDPWD=",strdup(pwd(head, 0)));
-		add_string_to_env(my_env, ha);
-		// add_string_to_env(my_env, ha);
-		//  *my_export = crazy_add_string_to_2darray(*my_export, ft_strjoin("OLDPWD=",pwd(head, 0)), 1);
-		// c = 1;
-		// ÷exit(0);
+		add_string_to_export(my_env, ft_strjoin("OLDPWD=",strdup(pwd(head, 0))));
 		if (chdir(head->argv[0]) == -1)
 			printf("cd: no such file or directory: %s \n", head->argv[0]);
 		else
 		{
 			add_string_to_env(my_env, ft_strjoin("PWD=",strdup(pwd(head, 0))));
-			// *my_export = crazy_add_string_to_2darray(*my_export, ft_strjoin("PWD=",pwd(head, 0)), 1);
-			// c = 1;
+			add_string_to_export(my_env, ft_strjoin("PWD=",pwd(head, 0)));
 		}
-		// exit(0);
 	}
 	else
 		printf("cd: too many arguments\n");
-	// exit(0);
-	// exit (0);
 }
 void printf_env(char **lenv)
 {
@@ -242,7 +249,7 @@ char *pwd(t_parse *head, int k)
 
 	size = PATH_MAX;
 	buf = (char *)malloc(sizeof(size_t));
-	if (!head->argv[0])
+	if (!head->argv[0] && !strcmp(head->cmd, "pwd"))
 	{
 		dir = getcwd(buf, size);
 		printf("%s\n", dir);

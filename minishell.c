@@ -120,12 +120,18 @@ char  **my_envir(char **env)
    int   i = 0;
    int	j = 0;
    int size = array_size(env);
-   str = (char **)malloc(sizeof (char *) * (size + 1));
+   if(getenv("OLDPWD") != NULL)
+      str = (char **)malloc(sizeof (char *) * (size));
+   else
+      str = (char **)malloc(sizeof (char *) * (size + 1));
 	while (env[i])
 	{
-		str[j] = strdup(env[i]);
-		i++; 
-		j++; 
+      if(strncmp(env[i],"OLDPWD",6))
+		{
+         str[j] = strdup(env[i]);
+		   j++;
+      }
+		i++;
 	}
 	str[j] = NULL;
 	return (str); 
@@ -161,7 +167,7 @@ int main(int ac, char *av[], char **env)
    // printf("sec address === %p\n\n", my_env.env[14]);
 	   
       my_env->env = my_envir(env);
-      my_env->export = init_export(env);
+      my_env->export = init_export(my_env->env);
    while((line = readline("bash-3.2$ ")))
    {
       commands = init_command();
@@ -201,6 +207,4 @@ int main(int ac, char *av[], char **env)
       
    
    }
-   
-
 }

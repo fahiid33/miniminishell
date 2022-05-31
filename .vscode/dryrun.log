@@ -1,7 +1,0 @@
-make --dry-run --always-make --keep-going --print-directory
-make: Entering directory '/home/bufallo/minizeb'
-gcc  -g minishell.c lexer.c tokenizing.c utils.c parse_utils.c  -lreadline  -o minishell
-gcc  -g minishell.c lexer.c tokenizing.c utils.c parse_utils.c  -lreadline -o minishell
-echo "👍👍👍"
-make: Leaving directory '/home/bufallo/minizeb'
- 
