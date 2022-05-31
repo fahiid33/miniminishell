@@ -261,3 +261,13 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	str[j] = '\0';
 	return (str);
 }
+void	errors(int exitt)
+{
+	if(exitt == 2)
+		ft_putstr_fd("Minishell : quote mamsdoudch!", 2);
+	else if(exitt == 258)
+		ft_putstr_fd("Minishell : syntax error near unexpected token `newline'", 2);
+	else if(exitt == 3)
+		ft_putstr_fd("Minishell : pipe mamsdoudch!", 2);
+	exit(exitt);
+}

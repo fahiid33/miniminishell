@@ -138,5 +138,6 @@ void  free_l(char **env);
 void	add_string_to_export(t_env *env, char *to_add);
 int	my_i_getexp(char *str, char **my_exp);//va
 char	*my_getenv(char *str, char **my_env);
+void	errors(int exitt);
 
 #endif

@@ -95,6 +95,8 @@ void    parse_commands(t_token **token, t_parse *command)
     else if ((*token)->type == GREAT || (*token)->type == LESS
         || (*token)->type == LESSANDLESS || (*token)->type == GREATANDGREAT)
     {
+         if((*token)->next->type == END || (*token)->next->type == PIPE)
+            errors(258);
         type = (*token)->type;
         (*token) = (*token)->next;
         value = jme3arg(token);
@@ -114,6 +116,8 @@ void create_commands(t_token *token, t_parse **command)
         parse_commands(&token, head);
         if (token->type == PIPE || token->type == END)
         {
+            if(token->next && token->type == PIPE && token->next->type == END)
+                errors(3);
             head = add_command(head);
             //  while(head->redir)
             // {

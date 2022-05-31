@@ -71,7 +71,7 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 			if	(ft_int_strchr(&(lexer->str[lexer->i]), '\'') >= 0)
 				size = ft_int_strchr(&(lexer->str[lexer->i]), '\'');
 			else
-				size = ft_int_strchr(&(lexer->str[lexer->i]), '\0');
+				errors(2);
 			val = ft_strsub(lexer, size);
 			advance_lexer(lexer);
 			token = init_token(val, type);
@@ -86,7 +86,7 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 			if	(ft_int_strchr(&(lexer->str[lexer->i]), 34) >= 0)
 				size = ft_int_strchr(&(lexer->str[lexer->i]), 34);
 			else
-				size = ft_int_strchr(&(lexer->str[lexer->i]), '\0');
+				errors(2);
 			val = ft_strsub(lexer, size);
 			advance_lexer(lexer);
 			token = init_token(val, type);

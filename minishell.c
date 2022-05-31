@@ -43,13 +43,14 @@ void print_l(t_parse *lst)
          printf("cmd == %s args: ", lst->cmd);
          while(lst->argv && lst->argv[i])
          {
-            printf("||||%s||||",lst->argv[i]);
+            printf("%s  ",lst->argv[i]);
             i++;
          }
-         printf(" files: ");
+         
          while(lst->redir)
          {
-            printf("%d - %s ; ", lst->redir->type,lst->redir->file);
+            printf(" redir => ");
+            printf("%s ; ", lst->redir->file);
             lst->redir = lst->redir->next;
          }
          if (lst->next->next)
@@ -162,7 +163,7 @@ int main(int ac, char *av[], char **env)
 	   
       my_env->env = my_envir(env);
       my_env->export = init_export(env);
-   while((line = readline("bash-3.2$ ")))
+   while((line = readline("MESSI-1.0$ ")))
    {
       commands = init_command();
       test = malloc(sizeof(t_lexer));
@@ -174,8 +175,8 @@ int main(int ac, char *av[], char **env)
       // printf("----------------------\n");
       path = get_path(commands->cmd, env);
       
-      // print_l(commands);
-       builtins(commands, my_env);
+      print_l(commands);
+      builtins(commands, my_env);
       //  system("leaks minishell");
       // exit(0);
       // pid = fork();
