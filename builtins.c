@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 23:24:17 by fstitou           #+#    #+#             */
-/*   Updated: 2022/05/30 05:57:43 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/05/31 03:55:09 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,13 @@ void	add_string_to_export(t_env *env, char *to_add) //var=19 // var1=
 			tmp = ft_substr(env->export[index],0,ft_int_strchr(env->export[index], '\0'));
 			tmp = ft_strjoin(tmp,"=");
 		}
-		tmp = ft_strjoin(tmp, "\"");
-		tmp = ft_strjoin(tmp,ft_substr(to_add,ft_int_strchr(to_add, '=')+1, strlen(to_add)));
-		to_add = ft_strjoin(tmp ,"\"");
-		env->export[index] = to_add;
+		if (ft_int_strchr(to_add, '=') != -1)
+		{
+			tmp = ft_strjoin(tmp, "\"");
+			tmp = ft_strjoin(tmp,ft_substr(to_add,ft_int_strchr(to_add, '=')+1, strlen(to_add)));
+			to_add = ft_strjoin(tmp ,"\"");
+			env->export[index] = to_add;
+		}
 		free(tmp);
 	}
 	else
