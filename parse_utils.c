@@ -157,7 +157,7 @@ char *jme3arg(t_token **b)
                 else
                 {
                     if((*b)->val[1] == ' ')
-                        str = ft_strjoin(str, strdup("$"));
+                        str = ft_strjoin(str, strdup("$"),2);
                     (*b) = (*b)->next;
                 }
             }
@@ -165,11 +165,11 @@ char *jme3arg(t_token **b)
         }
         if((*b)->type == DQUOTE)
         {   
-            str = ft_strjoin(str, expand_dollar((*b)->val));
+            str = ft_strjoin(str, expand_dollar((*b)->val),2);
         }
         else if((*b)->type != END)
         {   
-            str = ft_strjoin(str, (*b)->val);
+            str = ft_strjoin(str, (*b)->val,0);
         }
         if((*b)->flag == 1)
             (*b) = (*b)->next;
@@ -192,19 +192,19 @@ char *jme3arg(t_token **b)
         else
         {
             if((*b)->val[1] == ' ')
-                str = ft_strjoin(str, strdup("$"));
+                str = ft_strjoin(str, strdup("$"),2);
             (*b) = (*b)->next;
             return str;
         }
     }
     if((*b)  && (*b)->type == DQUOTE)
     {   
-        str = ft_strjoin(str, expand_dollar((*b)->val));
+        str = ft_strjoin(str, expand_dollar((*b)->val),2);
         (*b) = (*b)->next;
     }
     else if((*b)  && (*b)->type != END)
     {   
-        str = ft_strjoin(str, (*b)->val);
+        str = ft_strjoin(str, (*b)->val,0);
         (*b) = (*b)->next;
     }
     return str;

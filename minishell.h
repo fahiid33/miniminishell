@@ -110,7 +110,7 @@ int	    ft_isalnum(int c);
 int	    ft_strcmp(char *s1, char *s2);
 char	*ft_strdup(char *s1);
 int	    ft_strlen(char *s);
-char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strjoin(char *s1, char *s2,int fr);
 size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);

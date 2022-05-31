@@ -54,11 +54,16 @@ void	add_string_to_export(t_env *env, char *to_add) //var=19 // var1=
 	char  *tmp;
 	int   i = 0;
 	int	j = 0;
+	int y;
 	int index;
 	int size = array_size(env->export);
-	tmp = ft_substr(to_add, 0, ft_int_strchr(to_add, '='));
+	y = ft_int_strchr(to_add, '=');
+	if(y == -1)
+		y = ft_int_strchr(to_add, '\0');
+	tmp = ft_substr(to_add, 0, y);
+	printf("%s\n",tmp);
 	index = my_i_getexp(tmp , env->export);
-	
+	printf("%d\n",index);
 	if (index)
 	{
 		if(ft_int_strchr(env->export[index], '=') != -1)
@@ -66,16 +71,15 @@ void	add_string_to_export(t_env *env, char *to_add) //var=19 // var1=
 		else
 		{
 			tmp = ft_substr(env->export[index],0,ft_int_strchr(env->export[index], '\0'));
-			tmp = ft_strjoin(tmp,"=");
+			tmp = ft_strjoin(tmp,"=",0);
 		}
 		if (ft_int_strchr(to_add, '=') != -1)
 		{
-			tmp = ft_strjoin(tmp, "\"");
-			tmp = ft_strjoin(tmp,ft_substr(to_add,ft_int_strchr(to_add, '=')+1, strlen(to_add)));
-			to_add = ft_strjoin(tmp ,"\"");
+			tmp = ft_strjoin(tmp, "\"",0);
+			tmp = ft_strjoin(tmp,ft_substr(to_add,ft_int_strchr(to_add, '=')+1, strlen(to_add)),2);
+			to_add = ft_strjoin(tmp ,"\"",0);
 			env->export[index] = to_add;
 		}
-		free(tmp);
 	}
 	else
 	{
@@ -86,13 +90,13 @@ void	add_string_to_export(t_env *env, char *to_add) //var=19 // var1=
 			i++; 
 			j++; 
 		}
-		to_add = ft_strjoin("declare -x ", to_add);
+		to_add = ft_strjoin("declare -x ", to_add,1);
 		if (ft_int_strchr(to_add, '=') != -1)
 		{
 			tmp = ft_substr(to_add,0,ft_int_strchr(to_add, '=')+1);
-			tmp = ft_strjoin(tmp, "\"");
-			tmp = ft_strjoin(tmp,ft_substr(to_add,ft_int_strchr(to_add, '=')+1, strlen(to_add)));
-			to_add = ft_strjoin(tmp ,"\"");
+			tmp = ft_strjoin(tmp, "\"",0);
+			tmp = ft_strjoin(tmp,ft_substr(to_add,ft_int_strchr(to_add, '=')+1, strlen(to_add)),2);
+			to_add = ft_strjoin(tmp ,"\"",0);
 		}
 		str[j] = strdup(to_add);
 		str[++j] = NULL;
@@ -138,17 +142,16 @@ char** init_export(char **env)
    
 	while(env[i])
 	{
-		s1 = ft_strjoin(s1,"declare -x ");
-		s1 = ft_strjoin(s1,(tmp = ft_substr(env[i], 0, ft_int_strchr(env[i], '=') + 1)));
+		s1 = ft_strjoin(s1,"declare -x ",0);
+		s1 = ft_strjoin(s1,ft_substr(env[i], 0, ft_int_strchr(env[i], '=') + 1),2);
 		
-		free(tmp);
-		s1 = ft_strjoin(s1,"\"");
-		s1 = ft_strjoin(s1,strchr(env[j],'=')+ 1);
-		s1 = ft_strjoin(s1,"\"\n");
+		s1 = ft_strjoin(s1,"\"",0);
+		s1 = ft_strjoin(s1,strchr(env[j],'=')+ 1,0);
+		s1 = ft_strjoin(s1,"\"\n",0);
 		if(strncmp(env[i] , "PWD",3) == 0)
 		{
 			i++;
-			s1 = ft_strjoin(s1,"declare -x OLDPWD\n");
+			s1 = ft_strjoin(s1,"declare -x OLDPWD\n",0);
 		}
 		j++;
 		i++;
@@ -208,24 +211,24 @@ void cd(t_parse *head, t_env *my_env)
 {
 	char *ha;
 
-	ha = ft_strjoin("OLDPWD=",strdup(pwd(head, 0)));
+	ha = ft_strjoin("OLDPWD=",strdup(pwd(head, 0)),1);
 	add_string_to_env(my_env, ha);
 	if (!head->argv[0] || !strcmp(head->argv[0],"~"))
 	{
-		add_string_to_export(my_env, ft_strjoin("OLDPWD=",strdup(pwd(head, 0))));
+		add_string_to_export(my_env, ft_strjoin("OLDPWD=",strdup(pwd(head, 0)),1));
 		chdir(getenv("HOME"));
-		add_string_to_env(my_env, ft_strjoin("PWD=",strdup(pwd(head, 0))));
-		add_string_to_export(my_env, ft_strjoin("PWD=",pwd(head, 0)));
+		add_string_to_env(my_env, ft_strjoin("PWD=",strdup(pwd(head, 0)),1));
+		add_string_to_export(my_env, ft_strjoin("PWD=",pwd(head, 0),-1));
 	}
 	else if (head->argv[0] && !head->argv[1])
 	{
-		add_string_to_export(my_env, ft_strjoin("OLDPWD=",strdup(pwd(head, 0))));
+		add_string_to_export(my_env, ft_strjoin("OLDPWD=",strdup(pwd(head, 0)),1));
 		if (chdir(head->argv[0]) == -1)
 			printf("cd: no such file or directory: %s \n", head->argv[0]);
 		else
 		{
-			add_string_to_env(my_env, ft_strjoin("PWD=",strdup(pwd(head, 0))));
-			add_string_to_export(my_env, ft_strjoin("PWD=",pwd(head, 0)));
+			add_string_to_env(my_env, ft_strjoin("PWD=",strdup(pwd(head, 0)),1));
+			add_string_to_export(my_env, ft_strjoin("PWD=",pwd(head, 0),-1));
 		}
 	}
 	else
@@ -268,18 +271,41 @@ char *pwd(t_parse *head, int k)
 	}
 	return(dir);
 }
+
+int	perr_exp(char *str)
+{
+	int	i;
+	i = 0;
+	while(str && str[i]&& str[i] != '=')
+	{
+		if (!ft_isalnum(str[i]))
+		{
+			printf("bash: export: %s : not a valid identifier \n", ft_substr(str, 0, ft_int_strchr(str, '=')));
+			return (1);
+		}
+		i++;
+	}
+	return(0);
+}
 char **add_export(t_parse *head, t_env *env)
 {
-	if (head->argv[0] && ft_int_strchr(head->argv[0], '=') != -1)
+	int i=0;
+	while(head->argv[i])
 	{
-		add_string_to_env(env, head->argv[0]);
-		add_string_to_export(env,head->argv[0] );
+		// if(perr_exp(strdup(head->argv[i])))
+		// 	break;
+		if (head->argv[i] && ft_int_strchr(head->argv[i], '=') != -1)
+		{
+			add_string_to_env(env, head->argv[i]);
+			add_string_to_export(env,head->argv[i] );
+		}
+		else if (head->argv[i] && ft_int_strchr(head->argv[i], '=') == -1)
+		{
+			add_string_to_export(env, head->argv[i]);
+		}
+		i++;
 	}
-	else if (head->argv[0] && ft_int_strchr(head->argv[0], '=') == -1)
-	{
-		add_string_to_export(env, head->argv[0]);
-	}
-	else
+	if(!head->argv[0])
 		printf_env(env->export);
 	// exit (0);
 	return (env->export);
@@ -415,7 +441,7 @@ int	my_i_getenv(char *str, char **my_env) //var=
 	i = 0;
 	while (my_env[i])
 	{
-		if (strncmp(str, my_env[i], strlen(str)) == 0)
+		if (strncmp(str, my_env[i], strlen(ft_substr(my_env[i], 0 , ft_int_strchr(my_env[i], '=')))) == 0)
 			return (i);
 		i++;
 	}
@@ -430,8 +456,13 @@ int	my_i_getexp(char *str, char **my_exp) //var=
 	i = 0;
 	while (my_exp[i])
 	{
-		if (strncmp(str, &my_exp[i][11], strlen(str)) == 0)
-			return (i);
+		if(ft_int_strchr(ft_strchr(my_exp[i],'x'), '=') - 2 > 0)
+		{
+			if (strcmp(str, ft_substr(my_exp[i], 11, ft_int_strchr(ft_strchr(my_exp[i],'x'), '=') - 2)) == 0)
+				return (i);
+		}
+		else if (strcmp(str, ft_substr(my_exp[i], 11, ft_int_strchr(ft_strchr(my_exp[i],'x'), '\0') - 2)) == 0)
+				return (i);
 		i++;
 	}
 	

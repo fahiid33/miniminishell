@@ -57,7 +57,7 @@ int	ft_strlen(char *s)
 		i++;
 	return (i);
 }
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2,int frr)
 {
 	char	*str;
 	int		i;
@@ -73,7 +73,6 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (0);
 	while (s1[i])
 	{
-		
 		str[j] = s1[i];
 		i++;
 		j++;
@@ -90,7 +89,18 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	
 	str[j] = '\0';
-
+	if(frr != -1)
+	{
+		if(frr==0 && s1)
+			free(s1);
+		else if(frr==1 && s2)
+			free(s2);
+		else if(frr==2 && s1 && s2)
+		{
+			free(s1);
+			free(s2);
+		}
+	}
 	
 	return (str);
 }
