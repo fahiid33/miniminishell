@@ -6,14 +6,14 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 23:24:17 by fstitou           #+#    #+#             */
-/*   Updated: 2022/05/31 03:55:09 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/01 03:44:40 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-void	add_string_to_env(t_env *env, char *to_add)
+void	add_string_to_env(t_env *env, char *to_add) // papa=180
 {
 	char   **str;
 	char  *tmp;
@@ -21,11 +21,14 @@ void	add_string_to_env(t_env *env, char *to_add)
 	int	j = 0;
 	int index;
 	int size = array_size(env->env);
-	tmp = ft_substr(to_add, 0, ft_int_strchr(to_add, '=') + 1);
+	tmp = ft_substr(to_add, 0, ft_int_strchr(to_add, '=') + 1); // papa=
+	// exit(0);
+	// printf("%s\n\n", tmp);
 	index = my_i_getenv(tmp, env->env);
+	// printf("%d\n\n", index);
 	if (index)
 	{
-		
+		// exit(0);
 		tmp = env->env[index];
 		env->env[index] = to_add;
 		free(tmp);
@@ -61,13 +64,11 @@ void	add_string_to_export(t_env *env, char *to_add) //var=19 // var1=
 	if(y == -1)
 		y = ft_int_strchr(to_add, '\0');
 	tmp = ft_substr(to_add, 0, y);
-	printf("%s\n",tmp);
 	index = my_i_getexp(tmp , env->export);
-	printf("%d\n",index);
 	if (index)
 	{
 		if(ft_int_strchr(env->export[index], '=') != -1)
-			tmp = ft_substr(env->export[index],0,ft_int_strchr(env->export[index], '=')+1);
+			tmp = ft_substr(env->export[index],0,ft_int_strchr(env->export[index], '=') + 1);
 		else
 		{
 			tmp = ft_substr(env->export[index],0,ft_int_strchr(env->export[index], '\0'));
@@ -76,7 +77,7 @@ void	add_string_to_export(t_env *env, char *to_add) //var=19 // var1=
 		if (ft_int_strchr(to_add, '=') != -1)
 		{
 			tmp = ft_strjoin(tmp, "\"",0);
-			tmp = ft_strjoin(tmp,ft_substr(to_add,ft_int_strchr(to_add, '=')+1, strlen(to_add)),2);
+			tmp = ft_strjoin(tmp,ft_substr(to_add,ft_int_strchr(to_add, '=') + 1, strlen(to_add)),2);
 			to_add = ft_strjoin(tmp ,"\"",0);
 			env->export[index] = to_add;
 		}
@@ -137,9 +138,8 @@ char** init_export(char **env)
 	j = 0;
 	s1 = ft_strdup("");
 	// free_l(strings);
-
 	i = 0;
-   
+
 	while(env[i])
 	{
 		s1 = ft_strjoin(s1,"declare -x ",0);
@@ -210,7 +210,6 @@ char** init_export(char **env)
 void cd(t_parse *head, t_env *my_env)
 {
 	char *ha;
-
 	ha = ft_strjoin("OLDPWD=",strdup(pwd(head, 0)),1);
 	add_string_to_env(my_env, ha);
 	if (!head->argv[0] || !strcmp(head->argv[0],"~"))
@@ -218,17 +217,23 @@ void cd(t_parse *head, t_env *my_env)
 		add_string_to_export(my_env, ft_strjoin("OLDPWD=",strdup(pwd(head, 0)),1));
 		chdir(getenv("HOME"));
 		add_string_to_env(my_env, ft_strjoin("PWD=",strdup(pwd(head, 0)),1));
+		//printf("-----%s\n", ft_strjoin("PWD=",strdup(pwd(head, 0)), -1));
 		add_string_to_export(my_env, ft_strjoin("PWD=",pwd(head, 0),-1));
 	}
 	else if (head->argv[0] && !head->argv[1])
 	{
+		
 		add_string_to_export(my_env, ft_strjoin("OLDPWD=",strdup(pwd(head, 0)),1));
+		// system("leaks minishell");
+		// exit(0);
 		if (chdir(head->argv[0]) == -1)
 			printf("cd: no such file or directory: %s \n", head->argv[0]);
 		else
 		{
-			add_string_to_env(my_env, ft_strjoin("PWD=",strdup(pwd(head, 0)),1));
-			add_string_to_export(my_env, ft_strjoin("PWD=",pwd(head, 0),-1));
+			
+			add_string_to_env(my_env, ft_strjoin("PWD=",strdup(pwd(head, 0)), 1));
+			add_string_to_export(my_env, ft_strjoin("PWD=",strdup(pwd(head, 0)), -1));
+			
 		}
 	}
 	else
@@ -259,13 +264,12 @@ char *pwd(t_parse *head, int k)
 	{
 		dir = getcwd(buf, size);
 		printf("%s\n", dir);
+		k = 1;
 	}
 	else
 	{
-		if (k)
-		{
+		if (!k && !strcmp(head->cmd, "pwd"))
 			printf("pwd: too many arguments\n");
-		}
 		dir = getcwd(buf, size);
 		// printf("%lu\n", strlen(dir));
 	}
@@ -289,7 +293,9 @@ int	perr_exp(char *str)
 }
 char **add_export(t_parse *head, t_env *env)
 {
-	int i=0;
+	int	i;
+
+	i = 0;
 	while(head->argv[i])
 	{
 		// if(perr_exp(strdup(head->argv[i])))
@@ -434,15 +440,18 @@ char	*my_getenv(char *str, char **my_env)
 	
 	return (NULL);
 }
-int	my_i_getenv(char *str, char **my_env) //var=
+int	my_i_getenv(char *str, char **my_env) //PWD=
 {
 	int	i;
 
 	i = 0;
+	// printf("to_add==%s\n\n", str);
 	while (my_env[i])
 	{
-		if (strncmp(str, my_env[i], strlen(ft_substr(my_env[i], 0 , ft_int_strchr(my_env[i], '=')))) == 0)
-			return (i);
+		if (strncmp(str, my_env[i], ft_int_strchr(my_env[i], '=')) == 0)
+		{
+			return (i);	
+		}
 		i++;
 	}
 	

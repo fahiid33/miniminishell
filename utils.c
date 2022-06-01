@@ -67,7 +67,6 @@ char	*ft_strjoin(char *s1, char *s2,int frr)
 	j = 0;
 	if (!s1)
 		return (0);
-	// printf("%s %s\n\n", s1, s2);
 	str = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 2);
 	if (str == 0)
 		return (0);
@@ -77,31 +76,25 @@ char	*ft_strjoin(char *s1, char *s2,int frr)
 		i++;
 		j++;
 	}
-	
-	// str[j++] = '/';
-	i = 0;
-	
-	while (s2[i])
+	i = -1;
+	while (s2[++i])
 	{
 		str[j] = s2[i];
 		j++;
-		i++;
 	}
-	
 	str[j] = '\0';
 	if(frr != -1)
 	{
-		if(frr==0 && s1)
+		if(frr == 0 && s1)
 			free(s1);
-		else if(frr==1 && s2)
+		else if(frr == 1 && s2)
 			free(s2);
-		else if(frr==2 && s1 && s2)
+		else if(frr == 2 && s1 && s2)
 		{
 			free(s1);
 			free(s2);
 		}
 	}
-	
 	return (str);
 }
 // char	*ft_strjoin1(char *s1, char *s2 ,int c)

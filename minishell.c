@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/05/31 03:44:02 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/01 00:58:11 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int array_size(char **str)
 	return (i);
 }
 
-char  **my_envir(char **env)
+char	**my_envir(char **env)
 {
    char   **str;
    int   i = 0;
@@ -162,8 +162,8 @@ int main(int ac, char *av[], char **env)
       int pid ;
    char **my_export;
       // dup2(pipefd[1], 1);
-      pipe(pipefd);
-   my_env = malloc(sizeof(t_env));
+    pipe(pipefd);
+	my_env = malloc(sizeof(t_env));
    // printf_env(my_export);
    // printf("sec address === %p\n\n", my_env.env[14]);
 	   
@@ -178,11 +178,13 @@ int main(int ac, char *av[], char **env)
       add_history(line);
       create_commands(test1, &commands);
 
+      builtins(commands, my_env);
       // printf("----------------------\n");
-      path = get_path(commands->cmd, env);
+      // path = get_path(commands->cmd, env);
       
       // print_l(commands);
-      builtins(commands, my_env);
+      // system("leaks minishell");
+      // exit(0);
       //  system("leaks minishell");
       // exit(0);
       // pid = fork();
