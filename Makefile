@@ -5,13 +5,13 @@
 NAME = minishell
 NAME_BONUS = 
 
-SRC = minishell.c lexer.c tokenizing.c utils.c parse_utils.c builtins.c split.c\
+SRC = minishell.c lexer.c tokenizing.c utils.c parse_utils.c builtins.c split.c export-env.c\
 
 		
 SRC_BONUS = 
 
 
-OBJ =  minishell.o lexer.o tokenizing.o utils.o parse_utils.o builtins.o split.o\
+OBJ =  minishell.o lexer.o tokenizing.o utils.o parse_utils.o builtins.o split.o export-env.o\
 
 OBJ_BONUS = 
 

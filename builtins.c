@@ -3,165 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 23:24:17 by fstitou           #+#    #+#             */
-/*   Updated: 2022/06/01 03:44:40 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/01 22:32:57 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
-void	add_string_to_env(t_env *env, char *to_add) // papa=180
-{
-	char   **str;
-	char  *tmp;
-	int   i = 0;
-	int	j = 0;
-	int index;
-	int size = array_size(env->env);
-	tmp = ft_substr(to_add, 0, ft_int_strchr(to_add, '=') + 1); // papa=
-	// exit(0);
-	// printf("%s\n\n", tmp);
-	index = my_i_getenv(tmp, env->env);
-	// printf("%d\n\n", index);
-	if (index)
-	{
-		// exit(0);
-		tmp = env->env[index];
-		env->env[index] = to_add;
-		free(tmp);
-	}
-	else
-	{
-		str = (char **)malloc(sizeof (char *) * (size + 1));
-		while (env->env[i])
-		{
-			str[j] = strdup(env->env[i]);
-			i++; 
-			j++; 
-		}
-		str[j] = strdup(to_add);
-		str[++j] = NULL;
-		env->env = str;
-	}
-	// printf("str ==-%s\n",str[j - 1]);
-	// // printf("to_add ===%s\n", to_add);
-	// str[++j] = NULL;
-}
-
-void	add_string_to_export(t_env *env, char *to_add) //var=19 // var1=
-{
-	char   **str;
-	char  *tmp;
-	int   i = 0;
-	int	j = 0;
-	int y;
-	int index;
-	int size = array_size(env->export);
-	y = ft_int_strchr(to_add, '=');
-	if(y == -1)
-		y = ft_int_strchr(to_add, '\0');
-	tmp = ft_substr(to_add, 0, y);
-	index = my_i_getexp(tmp , env->export);
-	if (index)
-	{
-		if(ft_int_strchr(env->export[index], '=') != -1)
-			tmp = ft_substr(env->export[index],0,ft_int_strchr(env->export[index], '=') + 1);
-		else
-		{
-			tmp = ft_substr(env->export[index],0,ft_int_strchr(env->export[index], '\0'));
-			tmp = ft_strjoin(tmp,"=",0);
-		}
-		if (ft_int_strchr(to_add, '=') != -1)
-		{
-			tmp = ft_strjoin(tmp, "\"",0);
-			tmp = ft_strjoin(tmp,ft_substr(to_add,ft_int_strchr(to_add, '=') + 1, strlen(to_add)),2);
-			to_add = ft_strjoin(tmp ,"\"",0);
-			env->export[index] = to_add;
-		}
-	}
-	else
-	{
-		str = (char **)malloc(sizeof (char *) * (size + 1));
-		while (env->export[i])
-		{
-			str[j] = strdup(env->export[i]);
-			i++; 
-			j++; 
-		}
-		to_add = ft_strjoin("declare -x ", to_add,1);
-		if (ft_int_strchr(to_add, '=') != -1)
-		{
-			tmp = ft_substr(to_add,0,ft_int_strchr(to_add, '=')+1);
-			tmp = ft_strjoin(tmp, "\"",0);
-			tmp = ft_strjoin(tmp,ft_substr(to_add,ft_int_strchr(to_add, '=')+1, strlen(to_add)),2);
-			to_add = ft_strjoin(tmp ,"\"",0);
-		}
-		str[j] = strdup(to_add);
-		str[++j] = NULL;
-		env->export = str;
-	}
-	// printf("str ==-%s\n",str[j - 1]);
-	// // printf("to_add ===%s\n", to_add);
-	// str[++j] = NULL;
-}
-
-char **get_string(char **env)
-{
-	char **str;
-	int i;
-	char *tmp;
-	i = 0;
-   while(env[i++])
-	str = malloc(sizeof(char *) * i + 1);
-   i = 0;
-	while(env[i])
-	{
-		str[i] = ft_strdup((tmp = ft_substr(env[i] , 0, '=')));
-		free(tmp);
-		i++;
-	}
-	str[i++] = NULL;
-	return(str);
-}
-
-char** init_export(char **env)
-{
-	char *s1;
-	char **strings;
-	int		i;
-	int		j;
-	char **res;
-	char *tmp;
-	j = 0;
-	s1 = ft_strdup("");
-	// free_l(strings);
-	i = 0;
-
-	while(env[i])
-	{
-		s1 = ft_strjoin(s1,"declare -x ",0);
-		s1 = ft_strjoin(s1,ft_substr(env[i], 0, ft_int_strchr(env[i], '=') + 1),2);
-		
-		s1 = ft_strjoin(s1,"\"",0);
-		s1 = ft_strjoin(s1,strchr(env[j],'=')+ 1,0);
-		s1 = ft_strjoin(s1,"\"\n",0);
-		if(strncmp(env[i] , "PWD",3) == 0)
-		{
-			i++;
-			s1 = ft_strjoin(s1,"declare -x OLDPWD\n",0);
-		}
-		j++;
-		i++;
-	}
-
-//    system("leaks minishell");
-//     exit(0);
-   res = ft_split(s1,'\n');
-   return res;
-}
 
 
 // void print_list(t_token *lst)
@@ -196,8 +45,6 @@ char** init_export(char **env)
 //    }
 // }
 
-
-
 // int array_size(char **str)
 // {
 // 	int i = 0;
@@ -222,7 +69,6 @@ void cd(t_parse *head, t_env *my_env)
 	}
 	else if (head->argv[0] && !head->argv[1])
 	{
-		
 		add_string_to_export(my_env, ft_strjoin("OLDPWD=",strdup(pwd(head, 0)),1));
 		// system("leaks minishell");
 		// exit(0);
@@ -230,15 +76,15 @@ void cd(t_parse *head, t_env *my_env)
 			printf("cd: no such file or directory: %s \n", head->argv[0]);
 		else
 		{
-			
-			add_string_to_env(my_env, ft_strjoin("PWD=",strdup(pwd(head, 0)), 1));
-			add_string_to_export(my_env, ft_strjoin("PWD=",strdup(pwd(head, 0)), -1));
-			
+			ha = strdup(pwd(head, 0));
+			add_string_to_env(my_env, ft_strjoin("PWD=", ha, -1));
+			add_string_to_export(my_env, ft_strjoin("PWD=",ha, 1));
 		}
 	}
 	else
 		printf("cd: too many arguments\n");
 }
+
 void printf_env(char **lenv)
 {
 	int i;
@@ -273,7 +119,7 @@ char *pwd(t_parse *head, int k)
 		dir = getcwd(buf, size);
 		// printf("%lu\n", strlen(dir));
 	}
-	return(dir);
+	return (dir);
 }
 
 int	perr_exp(char *str)
@@ -401,7 +247,6 @@ void	del_2d_array(char *arg, t_env env)
 {
 	int	i;
 	int	j;
-	
 
 	i = 0;
 	j = 0;
@@ -437,7 +282,6 @@ char	*my_getenv(char *str, char **my_env)
 			return (ft_substr(my_env[i], strlen(str), strlen(my_env[i])));
 		i++;
 	}
-	
 	return (NULL);
 }
 int	my_i_getenv(char *str, char **my_env) //PWD=
@@ -454,7 +298,6 @@ int	my_i_getenv(char *str, char **my_env) //PWD=
 		}
 		i++;
 	}
-	
 	return (0);
 }
 
@@ -474,7 +317,6 @@ int	my_i_getexp(char *str, char **my_exp) //var=
 				return (i);
 		i++;
 	}
-	
 	return (0);
 }
 void	unset(t_parse *cmd, t_env env)

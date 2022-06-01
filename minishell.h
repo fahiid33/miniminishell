@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/05/30 05:57:03 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/01 22:59:30 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,5 +139,10 @@ void	add_string_to_export(t_env *env, char *to_add);
 int	my_i_getexp(char *str, char **my_exp);//va
 char	*my_getenv(char *str, char **my_env);
 void	errors(int exitt);
-
+char	**init_export(char	**env);
+void	add_string_to_export(t_env *env, char *to_add);
+void	add_to_export(t_env *env, char *to_add, int size, char *tmp);
+void	update_export(t_env *env, char *to_add, int index);
+void	add_string_to_env(t_env *env, char *to_add);
+void	add_to_env(t_env *env, char *to_add, int size);
 #endif
