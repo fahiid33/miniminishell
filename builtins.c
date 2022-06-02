@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 23:24:17 by fstitou           #+#    #+#             */
-/*   Updated: 2022/06/01 22:32:57 by aainhaja         ###   ########.fr       */
+/*   Updated: 2022/06/02 04:06:31 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,11 @@ void cd(t_parse *head, t_env *my_env)
 		add_string_to_export(my_env, ft_strjoin("OLDPWD=",strdup(pwd(head, 0)),1));
 		chdir(getenv("HOME"));
 		add_string_to_env(my_env, ft_strjoin("PWD=",strdup(pwd(head, 0)),1));
-		//printf("-----%s\n", ft_strjoin("PWD=",strdup(pwd(head, 0)), -1));
 		add_string_to_export(my_env, ft_strjoin("PWD=",pwd(head, 0),-1));
 	}
 	else if (head->argv[0] && !head->argv[1])
 	{
 		add_string_to_export(my_env, ft_strjoin("OLDPWD=",strdup(pwd(head, 0)),1));
-		// system("leaks minishell");
-		// exit(0);
 		if (chdir(head->argv[0]) == -1)
 			printf("cd: no such file or directory: %s \n", head->argv[0]);
 		else
@@ -100,15 +97,11 @@ void printf_env(char **lenv)
 
 char *pwd(t_parse *head, int k)
 {
-	char *buf;
 	char *dir;
-	size_t size;
 
-	size = PATH_MAX;
-	buf = (char *)malloc(sizeof(size_t));
 	if (!head->argv[0] && !strcmp(head->cmd, "pwd"))
 	{
-		dir = getcwd(buf, size);
+		dir = getcwd(NULL, 0);
 		printf("%s\n", dir);
 		k = 1;
 	}
@@ -116,8 +109,7 @@ char *pwd(t_parse *head, int k)
 	{
 		if (!k && !strcmp(head->cmd, "pwd"))
 			printf("pwd: too many arguments\n");
-		dir = getcwd(buf, size);
-		// printf("%lu\n", strlen(dir));
+		dir = getcwd(NULL, 0);
 	}
 	return (dir);
 }
@@ -360,7 +352,7 @@ void builtins(t_parse *commands, t_env *env)
 		else if (strcmp(head->cmd, "pwd") == 0)
 		{
 			pwd(head, 0);
-			// exit (0);
+						// exit (0);
 		}
 		else if (strcmp(head->cmd, "exit") == 0)
 			my_exit(head);

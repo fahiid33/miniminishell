@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/01 00:58:11 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/02 03:56:17 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,12 +179,13 @@ int main(int ac, char *av[], char **env)
       create_commands(test1, &commands);
 
       builtins(commands, my_env);
+      
+      system("leaks minishell");
+      exit(0);
       // printf("----------------------\n");
       // path = get_path(commands->cmd, env);
       
       // print_l(commands);
-      // system("leaks minishell");
-      // exit(0);
       //  system("leaks minishell");
       // exit(0);
       // pid = fork();
