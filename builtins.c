@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 23:24:17 by fstitou           #+#    #+#             */
-/*   Updated: 2022/06/02 04:06:31 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/05 18:09:49 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,12 +328,16 @@ void	unset(t_parse *cmd, t_env env)
 	// exit (0);
 }
 
-void builtins(t_parse *commands, t_env *env)
+void builtins(t_parse *commands, t_env *env, char *line)
 {
 	t_parse *head;
 
 	head = commands;
 	head->argv++;
+	int pid;
+	int fd[2];
+	char *path;
+	char **ok;
 	//  printf("--%s--" ,head->argv[0]);
 	//  printf("sec address === %p\n\n", env.env[14]);
 	if (head)
@@ -360,6 +364,45 @@ void builtins(t_parse *commands, t_env *env)
 			echo(head);
 		else if (strcmp(head->cmd, "unset") == 0)
 		    unset(head, *env);
+		else
+		{
+			while(head->next->next != NULL)
+			{
+				pipe(fd);
+					pid = fork();
+				if(pid)
+      			{
+      			   close(fd[1]);
+      			   dup2(fd[0], 0);
+      			   waitpid(pid, NULL, 0);
+      			}
+      			else
+      			{
+					close(fd[0]);
+					dup2(fd[1], 1);
+      				execute(head->cmd, env->env);
+      			}
+				  head = head->next;
+			}
+			if(head->next != NULL)
+				execute(head->cmd, env->env);
+		}
 	}
 	head->argv--;
+}
+
+void	execute(char *command, char **env)
+{
+	char	**ac;
+	char	*path;
+
+	if (command[0] != '\0')
+		ac = ft_split(command, ' ');
+	else
+	{
+		printf("aaaa");
+		exit(127);
+	}
+	path = get_path(ac[0], env);
+	execve(path, ac, env);
 }

@@ -6,7 +6,7 @@
 /*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/01 22:59:30 by aainhaja         ###   ########.fr       */
+/*   Updated: 2022/06/05 15:51:47 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void print_l(t_parse *lst);
 void create_commands(t_token *token, t_parse **command);
 char* expand_dollar(char *dq_content);
 void print_list(t_token *lst);
-void	builtins(t_parse *commands, t_env *env);
+void	builtins(t_parse *commands, t_env *env, char *line);
 char** init_export(char **env);
 int array_size(char **str);
 char	**ft_split(char const *s, char c);
@@ -145,4 +145,6 @@ void	add_to_export(t_env *env, char *to_add, int size, char *tmp);
 void	update_export(t_env *env, char *to_add, int index);
 void	add_string_to_env(t_env *env, char *to_add);
 void	add_to_env(t_env *env, char *to_add, int size);
+char	*get_path(char *cmd, char **env);
+void	execute(char *command, char **env);
 #endif
