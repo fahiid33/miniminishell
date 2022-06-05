@@ -6,7 +6,7 @@
 /*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 23:24:17 by fstitou           #+#    #+#             */
-/*   Updated: 2022/06/05 18:09:49 by aainhaja         ###   ########.fr       */
+/*   Updated: 2022/06/05 20:15:16 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,12 +332,16 @@ void builtins(t_parse *commands, t_env *env, char *line)
 {
 	t_parse *head;
 
+	int fds[2];
+	fds[0] = dup(0);
+	fds[1] = dup(1);
 	head = commands;
 	head->argv++;
 	int pid;
 	int fd[2];
 	char *path;
 	char **ok;
+	int lol;
 	//  printf("--%s--" ,head->argv[0]);
 	//  printf("sec address === %p\n\n", env.env[14]);
 	if (head)
@@ -382,10 +386,24 @@ void builtins(t_parse *commands, t_env *env, char *line)
 					dup2(fd[1], 1);
       				execute(head->cmd, env->env);
       			}
-				  head = head->next;
+				head = head->next;
 			}
 			if(head->next != NULL)
-				execute(head->cmd, env->env);
+			{
+				pid = fork();
+				if(pid)
+      			{
+					close(fd[1]);
+      				waitpid(pid, NULL, 0);
+					dup2(fds[0], 0);
+					dup2(fds[1], 1);
+      			}
+      			else
+      			{
+					close(fd[0]);
+      				execute(head->cmd, env->env);
+      			}
+			}
 		}
 	}
 	head->argv--;
