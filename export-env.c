@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export-env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:29:30 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/06/02 04:01:42 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/05 15:10:22 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	add_to_env(t_env *env, char *to_add, int size)
 
 	i = 0;
 	j = 0;
-	str = (char **)malloc(sizeof (char *) * (size + 1));
+	str = (char **)malloc(sizeof (char *) * (size + 2));
 	while (env->env[i])
 	{
 		str[j] = strdup(env->env[i]);
@@ -84,7 +84,7 @@ void	add_to_export(t_env *env, char *to_add, int size, char *tmp)
 
 	i = 0;
 	j = 0;
-	str = (char **)malloc(sizeof (char *) * (size + 1));
+	str = (char **)malloc(sizeof (char *) * (size + 2));
 	while (env->export[i])
 	{
 		str[j] = strdup(env->export[i]);

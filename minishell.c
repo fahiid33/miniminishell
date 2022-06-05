@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/02 03:56:17 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/05 15:04:57 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,8 +180,7 @@ int main(int ac, char *av[], char **env)
 
       builtins(commands, my_env);
       
-      system("leaks minishell");
-      exit(0);
+
       // printf("----------------------\n");
       // path = get_path(commands->cmd, env);
       
