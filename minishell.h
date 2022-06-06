@@ -146,5 +146,5 @@ void	update_export(t_env *env, char *to_add, int index);
 void	add_string_to_env(t_env *env, char *to_add);
 void	add_to_env(t_env *env, char *to_add, int size);
 char	*get_path(char *cmd, char **env);
-void	execute(char *command, char **env);
+void	execute(t_parse *command, char **env);
 #endif

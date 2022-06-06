@@ -370,7 +370,8 @@ void builtins(t_parse *commands, t_env *env, char *line)
 		    unset(head, *env);
 		else
 		{
-			while(head->next->next != NULL)
+			head->argv--;	
+			while(head->next->cmd != NULL)
 			{
 				pipe(fd);
 					pid = fork();
@@ -384,12 +385,13 @@ void builtins(t_parse *commands, t_env *env, char *line)
       			{
 					close(fd[0]);
 					dup2(fd[1], 1);
-      				execute(head->cmd, env->env);
+      				execute(head, env->env);
       			}
 				head = head->next;
 			}
 			if(head->next != NULL)
 			{
+				
 				pid = fork();
 				if(pid)
       			{
@@ -401,26 +403,28 @@ void builtins(t_parse *commands, t_env *env, char *line)
       			else
       			{
 					close(fd[0]);
-      				execute(head->cmd, env->env);
+      				execute(head, env->env);
       			}
+				return;
 			}
 		}
 	}
 	head->argv--;
 }
 
-void	execute(char *command, char **env)
+void	execute(t_parse *command, char **env)
 {
 	char	**ac;
 	char	*path;
+	
+	
 
-	if (command[0] != '\0')
-		ac = ft_split(command, ' ');
-	else
+	if (command->cmd == NULL)
 	{
 		printf("aaaa");
 		exit(127);
 	}
-	path = get_path(ac[0], env);
-	execve(path, ac, env);
+
+	path = get_path(command->cmd, env);
+	execve(path, command->argv, env);
 }
