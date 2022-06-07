@@ -202,7 +202,7 @@ void my_exit(t_parse *cmd)
 		exit(0);
 	}
 }
-void echo(t_parse *cmd)
+void echo(t_parse *cmd, int fd)
 {
 	int i;
 
@@ -215,7 +215,7 @@ void echo(t_parse *cmd)
 		{
 			while (cmd->argv[i])
 			{
-				write(1, cmd->argv[i], strlen(cmd->argv[i]));
+				write(fd, cmd->argv[i], strlen(cmd->argv[i]));
 				i++;
 			}
 		}
@@ -224,10 +224,10 @@ void echo(t_parse *cmd)
 			i = 0;
 			while (cmd->argv[i])
 			{
-				write(1, cmd->argv[i], strlen(cmd->argv[i]));
+				write(fd, cmd->argv[i], strlen(cmd->argv[i]));
 				i++;
 			}
-			write(1, "\n", 1);
+			write(fd, "\n", 1);
 		}
 	}
 	else
@@ -327,6 +327,34 @@ void	unset(t_parse *cmd, t_env env)
 	}
 	// exit (0);
 }
+int  builtins_cases(t_parse *head, t_env *env, int fd)
+{
+		head->argv++;
+    	if (strcmp(head->cmd, "cd") == 0)
+			cd(head, env);
+		else if (strcmp(head->cmd, "env") == 0)
+			printf_env(env->env);
+		else if (strcmp(head->cmd, "export") == 0)
+			add_export(head, env);
+		else if (strcmp(head->cmd, "pwd") == 0)
+		{
+			pwd(head, 0);
+						// exit (0);
+		}
+		else if (strcmp(head->cmd, "exit") == 0)
+			my_exit(head);
+		else if (strcmp(head->cmd, "echo") == 0)
+			echo(head, fd);
+		else if (strcmp(head->cmd, "unset") == 0)
+		    unset(head, *env);
+        else
+		{
+			head->argv--;
+            return(1);
+		}
+		head->argv--;
+    return(0);
+}
 
 void builtins(t_parse *commands, t_env *env, char *line)
 {
@@ -336,7 +364,6 @@ void builtins(t_parse *commands, t_env *env, char *line)
 	fds[0] = dup(0);
 	fds[1] = dup(1);
 	head = commands;
-	head->argv++;
 	int pid;
 	int fd[2];
 	char *path;
@@ -346,31 +373,8 @@ void builtins(t_parse *commands, t_env *env, char *line)
 	//  printf("sec address === %p\n\n", env.env[14]);
 	if (head)
 	{
-		// printf("--%s--" ,head->cmd);
-		if (strcmp(head->cmd, "cd") == 0)
-			cd(head, env);
-		else if (strcmp(head->cmd, "env") == 0)
-			printf_env(env->env);
-		else if (strcmp(head->cmd, "export") == 0)
+		if(head->next->next != NULL)
 		{
-			// perror("rgjdgkvkr\n\n\n\n");
-			add_export(head, env);
-			// exit(0);
-		}
-		else if (strcmp(head->cmd, "pwd") == 0)
-		{
-			pwd(head, 0);
-						// exit (0);
-		}
-		else if (strcmp(head->cmd, "exit") == 0)
-			my_exit(head);
-		else if (strcmp(head->cmd, "echo") == 0)
-			echo(head);
-		else if (strcmp(head->cmd, "unset") == 0)
-		    unset(head, *env);
-		else
-		{
-			head->argv--;	
 			while(head->next->cmd != NULL)
 			{
 				pipe(fd);
@@ -385,31 +389,35 @@ void builtins(t_parse *commands, t_env *env, char *line)
       			{
 					close(fd[0]);
 					dup2(fd[1], 1);
-      				execute(head, env->env);
+					if(builtins_cases(head,env, fd[1]))
+					{
+      					execute(head, env->env);
+					}
+					exit(1);
       			}
 				head = head->next;
 			}
-			if(head->next != NULL)
-			{
-				
-				pid = fork();
-				if(pid)
-      			{
-					close(fd[1]);
-      				waitpid(pid, NULL, 0);
+		}
+		if(head->next != NULL)
+		{
+			pid = fork();
+			if(pid)
+      		{
+				close(fd[1]);
 					dup2(fds[0], 0);
 					dup2(fds[1], 1);
-      			}
-      			else
-      			{
-					close(fd[0]);
-      				execute(head, env->env);
-      			}
-				return;
-			}
+      			waitpid(pid, NULL, 0);
+      		}
+      		else
+      		{
+				close(fd[0]);
+				if(builtins_cases(head,env, 1))
+					execute(head, env->env);
+				exit(0);
+      		}
+			  return;
 		}
 	}
-	head->argv--;
 }
 
 void	execute(t_parse *command, char **env)
