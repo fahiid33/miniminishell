@@ -362,7 +362,6 @@ void builtins(t_parse *commands, t_env *env, char *line)
 
 	int fds[2];
 	fds[0] = dup(0);
-	fds[1] = dup(1);
 	head = commands;
 	int pid;
 	int fd[2];
@@ -378,7 +377,7 @@ void builtins(t_parse *commands, t_env *env, char *line)
 			while(head->next->cmd != NULL)
 			{
 				pipe(fd);
-					pid = fork();
+				pid = fork();
 				if(pid)
       			{
       			   close(fd[1]);
@@ -392,10 +391,18 @@ void builtins(t_parse *commands, t_env *env, char *line)
 					while(head->redir != NULL)
 					{
 						close(fd[1]);
-						if(head->redir->type == GREAT)
+						if(head->redir->type == GREAT || head->redir->type == GREATANDGREAT)
 						{
-							fd[1] = open(head->redir->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-							dup2(fd[1], 1);
+							if(head->redir->type == GREAT)
+							{
+								fd[1] = open(head->redir->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+								dup2(fd[1], 1);
+							}
+							else
+							{
+								fd[1] = open(head->redir->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+								dup2(fd[1], 1);
+							}
 						}
 						else
 						{
@@ -421,7 +428,6 @@ void builtins(t_parse *commands, t_env *env, char *line)
       		{
 				close(fd[1]);
 					dup2(fds[0], 0);
-					dup2(fds[1], 1);
       			waitpid(pid, NULL, 0);
       		}
       		else
@@ -430,10 +436,18 @@ void builtins(t_parse *commands, t_env *env, char *line)
 				while(head->redir != NULL)
 				{
 					close(fd[1]);
-					if(head->redir->type == GREAT)
+					if(head->redir->type == GREAT || head->redir->type == GREATANDGREAT)
 					{
-						fd[1] = open(head->redir->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-						dup2(fd[1], 1);
+						if(head->redir->type == GREAT)
+						{
+							fd[1] = open(head->redir->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+							dup2(fd[1], 1);
+						}
+						else
+						{
+							fd[1] = open(head->redir->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+							dup2(fd[1], 1);
+						}
 					}
 					else
 					{
