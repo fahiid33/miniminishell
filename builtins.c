@@ -389,6 +389,22 @@ void builtins(t_parse *commands, t_env *env, char *line)
       			{
 					close(fd[0]);
 					dup2(fd[1], 1);
+					while(head->redir != NULL)
+					{
+						close(fd[1]);
+						if(head->redir->type == GREAT)
+						{
+							fd[1] = open(head->redir->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+							dup2(fd[1], 1);
+						}
+						else
+						{
+							close(fd[0]);
+							fd[0] = open(head->redir->file, O_RDONLY);
+							dup2(fd[0], 0);
+						}
+						head->redir = head->redir->next;
+					}
 					if(builtins_cases(head,env, fd[1]))
 					{
       					execute(head, env->env);
@@ -411,6 +427,22 @@ void builtins(t_parse *commands, t_env *env, char *line)
       		else
       		{
 				close(fd[0]);
+				while(head->redir != NULL)
+				{
+					close(fd[1]);
+					if(head->redir->type == GREAT)
+					{
+						fd[1] = open(head->redir->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+						dup2(fd[1], 1);
+					}
+					else
+					{
+						close(fd[0]);
+						fd[0] = open(head->redir->file, O_RDONLY);
+						dup2(fd[0], 0);
+					}
+					head->redir = head->redir->next;
+				}
 				if(builtins_cases(head,env, 1))
 					execute(head, env->env);
 				exit(0);
