@@ -178,30 +178,5 @@ int main(int ac, char *av[], char **env)
       add_history(line);
       create_commands(test1, &commands);
       builtins(commands, my_env, line);
-      // printf("----------------------\n");
-      // path = get_path(commands->cmd, env);
-      // print_l(commands);
-      //  system("leaks minishell");
-      // exit(0);
-      // pid = fork();
-      // if(pid)
-      // {
-      //    // close(pipefd[1]);
-      //    // dup2(pipefd[0], 0);
-      //    waitpid(pid, NULL, 0);
-         
-         
-      // }
-      // else
-      // {
-      //    // close(pipefd[0]);
-      //    // dup2(pipefd[1], 1);
-      //    execv(path, commands->argv);
-      //    printf("command not found : %s\n", commands->cmd);
-      //    exit(127);
-      // }
-      // commands = commands->next;
-      // path = get_path(commands->cmd, env);
-      // execv(path, commands->argv);
    }
 }

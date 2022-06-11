@@ -147,4 +147,12 @@ void	add_string_to_env(t_env *env, char *to_add);
 void	add_to_env(t_env *env, char *to_add, int size);
 char	*get_path(char *cmd, char **env);
 void	execute(t_parse *command, char **env);
+int  builtins_cases(t_parse *head, t_env *env, int fd);
+void cd(t_parse *head, t_env *my_env);
+char *pwd(t_parse *head, int k);
+int	perr_exp(char *str);
+char **add_export(t_parse *head, t_env *env, int fd);
+void my_exit(t_parse *cmd);
+void echo(t_parse *cmd, int fd);
+void	unset(t_parse *cmd, t_env env);
 #endif
