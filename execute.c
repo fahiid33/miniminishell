@@ -78,6 +78,37 @@ void pipe_child(t_parse *head, t_env *env,int fd[2])
     	execute(head, env->env);
 	exit(1);
 }
+void pipe_child1(t_parse *head, t_env *env,int fd[2])
+{
+	close(fd[0]);
+	while(head->redir != NULL)
+	{
+		close(fd[1]);
+		if(head->redir->type == GREAT || head->redir->type == GREATANDGREAT)
+		{
+			if(head->redir->type == GREAT)
+			{
+				fd[1] = open(head->redir->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+				dup2(fd[1], 1);
+			}
+			else
+			{
+				fd[1] = open(head->redir->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+				dup2(fd[1], 1);
+			}
+		}
+		else
+		{
+			close(fd[0]);
+			fd[0] = open(head->redir->file, O_RDONLY);
+			dup2(fd[0], 0);
+		}
+		head->redir = head->redir->next;
+	}
+	if(builtins_cases(head,env, 1))
+		execute(head, env->env);
+	exit(0);
+}
 void last_execute(t_parse *head, t_env *env, int pid, int fd[2])
 {
 
@@ -85,13 +116,13 @@ void last_execute(t_parse *head, t_env *env, int pid, int fd[2])
 				if(pid)
       			{
 					close(fd[1]);
-      				waitpid(pid, NULL, 0);
 					builtins_cases_sghar(head, env);
       			}
-      			else
-					pipe_child(head,env,fd);
+				else
+					pipe_child1(head, env,fd);
 			
-			  return;
+			close(fd[1]);
+			close(fd[0]);
 }
 
 void builtins(t_parse *commands, t_env *env, char *line)
@@ -115,18 +146,21 @@ void builtins(t_parse *commands, t_env *env, char *line)
       			{
       			   close(fd[1]);
       			   dup2(fd[0], 0);
-      			   waitpid(pid, NULL, 0);
 					builtins_cases_sghar(head, env);
       			}
       			else
 					 pipe_child(head, env,fd);
+				close(fd[1]);
+				close(fd[0]);
 				head = head->next;
 			}
-			waitpid(pid, NULL, 0);
+			close(fd[1]);
+				close(fd[0]);
         }
 		if(head->next != NULL)
             last_execute(head, env, pid, fd);
         dup2(fds[0], 0);
+		while(wait(NULL)!= -1);
 	}
 }
 
