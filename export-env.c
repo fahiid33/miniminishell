@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:29:30 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/06/13 02:16:44 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/13 02:41:26 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	update_export(t_env *env, char *to_add, int index)
 						ft_int_strchr(to_add, '=') + 1, strlen(to_add)), 2);
 			tmp = ft_strjoin(tmp, strchr(to_add, '=') + 1, -1);
 			to_add = ft_strjoin(tmp, "\"", 0);
-			printf("%s\n\n", to_add);
+			// printf("%s\n\n", to_add);
 			env->export[index] = to_add;
 		}
 		else
