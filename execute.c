@@ -46,6 +46,7 @@ int  builtins_cases(t_parse *head, t_env *env, int fd)
 		head->argv--;
     return(0);
 }
+
 void pipe_child(t_parse *head, t_env *env,int fd[2])
 {
 	close(fd[0]);
@@ -81,17 +82,17 @@ void pipe_child(t_parse *head, t_env *env,int fd[2])
 void last_execute(t_parse *head, t_env *env, int pid, int fd[2])
 {
 
-    	pid = fork();	
-				if(pid)
-      			{
-					close(fd[1]);
-      				waitpid(pid, NULL, 0);
-					builtins_cases_sghar(head, env);
-      			}
-      			else
-					pipe_child(head,env,fd);
-			
-			  return;
+    pid = fork();	
+	if(pid)
+	{
+		close(fd[1]);
+		waitpid(pid, NULL, 0);
+		builtins_cases_sghar(head, env);
+	}
+	else
+		pipe_child(head,env,fd);
+
+	return;
 }
 
 void builtins(t_parse *commands, t_env *env, char *line)

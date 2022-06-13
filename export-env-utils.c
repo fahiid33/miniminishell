@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export-env-utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:31:07 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/06/01 22:57:24 by aainhaja         ###   ########.fr       */
+/*   Updated: 2022/06/13 02:06:11 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,22 +95,75 @@ void printf_env(char **lenv)
 	// exit (0);
 }
 
-int	perr_exp(char *str)
+int	ft_strnstr(const char *str, const char *to_find, size_t len)
 {
-	int	i;
+	unsigned int	i;
+	unsigned int	j;
+
+	if (*to_find == '\0')
+		return (0);
 	i = 0;
-	while(str && str[i]&& str[i] != '=')
+	while (str[i] && (size_t) i < len)
 	{
-		if (!ft_isalnum(str[i]))
+		j = 0;
+		if (str[i] == to_find[j])
 		{
-			printf("bash: export: %s : not a valid identifier \n", ft_substr(str, 0, ft_int_strchr(str, '=')));
-			return (1);
-		}
-		if (str[i] == '+' && str[i + 1] == '=')
-		{
-			
+			while (str[i] && str[i + j] == to_find[j] && (size_t)(i + j) < len)
+			{
+				j++;
+				if (to_find[j] == '\0')
+					return (i);
+			}
 		}
 		i++;
 	}
-	return(0);
+	return (0);
+}
+
+void	perr_exp(char *str)  //k+=
+{
+	int	i;
+
+	i = 0;
+	if (ft_strnstr(str, "+=", strlen(str)))
+	{
+		while (str[i] && str[i] != '+')
+		{
+			if (!ft_isalnum(str[i]))
+			{
+				printf("bash: export: %s : not a valid identifier \n", str);
+				exit(1);
+			}
+			i++;
+		}
+	}
+	else
+	{
+		while (str[i] && str[i] != '=')
+		{
+			if (!ft_isalnum(str[i]))
+			{
+				printf("bash: export: %s : not a valid identifier \n", str);
+				exit(1);
+			}
+			i++;
+		}
+	}
+	
+}
+int	check_env_string(char *str)//k+=
+{
+	int	i;
+
+	i = 0;
+
+	perr_exp(str);
+	while (str[i])
+	{
+		// perror("AAAAAAAAAA");
+		if (str[i] == '+' && str[i + 1] == '=')
+			return (i + 1);
+		i++;
+	}
+	return (0);
 }

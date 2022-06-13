@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 23:24:17 by fstitou           #+#    #+#             */
-/*   Updated: 2022/06/05 20:15:16 by aainhaja         ###   ########.fr       */
+/*   Updated: 2022/06/13 02:13:18 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,10 @@ char **add_export(t_parse *head, t_env *env,int fd)
 	i = 0;
 	while(head->argv[i])
 	{
-		// if(perr_exp(strdup(head->argv[i])))
-		// 	break;
 		if (head->argv[i] && ft_int_strchr(head->argv[i], '=') != -1)
 		{
 			add_string_to_env(env, head->argv[i]);
-			add_string_to_export(env,head->argv[i] );
+			add_string_to_export(env,head->argv[i]);
 		}
 		else if (head->argv[i] && ft_int_strchr(head->argv[i], '=') == -1)
 		{

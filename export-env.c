@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export-env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:29:30 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/06/05 15:10:22 by aainhaja         ###   ########.fr       */
+/*   Updated: 2022/06/13 02:16:44 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,32 @@ void	add_to_env(t_env *env, char *to_add, int size)
 	env->env = str;
 }
 
+
 void	add_string_to_env(t_env *env, char *to_add)
 {
 	char	*tmp;
 	int		i;
-	int		j;
 	int		index;
 	int		size;
-
+	int		plus_index;
 	size = array_size(env->env);
 	tmp = ft_substr(to_add, 0, ft_int_strchr(to_add, '=') + 1);
+	plus_index = check_env_string(tmp);
 	index = my_i_getenv(tmp, env->env);
 	if (index)
 	{
-		tmp = env->env[index];
-		env->env[index] = to_add;
-		free(tmp);
+		if (!plus_index)
+		{
+			tmp = env->env[index];
+			env->env[index] = to_add;
+			free(tmp);
+		}
+		else
+		{
+			tmp = env->env[index];
+			env->env[index] = ft_strjoin(tmp, strchr(to_add, '=') + 1, -1);
+			free(tmp);
+		}
 	}
 	else
 		add_to_env(env, to_add, size);
@@ -56,7 +66,10 @@ void	add_string_to_env(t_env *env, char *to_add)
 void	update_export(t_env *env, char *to_add, int index)
 {
 	char	*tmp;
+	int	plus;
 
+	plus = check_env_string(to_add);
+	printf("%d\n\n", plus);
 	if (ft_int_strchr(env->export[index], '=') != -1)
 		tmp = ft_substr(env->export[index], 0,
 				ft_int_strchr(env->export[index], '=') + 1);
@@ -68,11 +81,24 @@ void	update_export(t_env *env, char *to_add, int index)
 	}
 	if (ft_int_strchr(to_add, '=') != -1)
 	{
-		tmp = ft_strjoin(tmp, "\"", 0);
-		tmp = ft_strjoin(tmp, ft_substr(to_add,
-					ft_int_strchr(to_add, '=') + 1, strlen(to_add)), 2);
-		to_add = ft_strjoin(tmp, "\"", 0);
-		env->export[index] = to_add;
+		if (plus)
+		{
+			tmp = ft_strjoin(tmp, "\"", 0);
+			tmp = ft_strjoin(tmp, ft_substr(to_add,
+						ft_int_strchr(to_add, '=') + 1, strlen(to_add)), 2);
+			tmp = ft_strjoin(tmp, strchr(to_add, '=') + 1, -1);
+			to_add = ft_strjoin(tmp, "\"", 0);
+			printf("%s\n\n", to_add);
+			env->export[index] = to_add;
+		}
+		else
+		{
+			tmp = ft_strjoin(tmp, "\"", 0);
+			tmp = ft_strjoin(tmp, ft_substr(to_add,
+						ft_int_strchr(to_add, '=') + 1, strlen(to_add)), 2);
+			to_add = ft_strjoin(tmp, "\"", 0);
+			env->export[index] = to_add;
+		}
 	}
 }
 

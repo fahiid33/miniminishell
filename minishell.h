@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/05 15:51:47 by aainhaja         ###   ########.fr       */
+/*   Updated: 2022/06/13 01:41:38 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ t_lexer	*advance_lexer(t_lexer *lexer);
 t_token *lst_add_back(t_token *lst, t_token *new);
 
 char *ft_strsub(t_lexer *lexer, size_t len);
+int	ft_strnstr(const char *str, const char *to_find, size_t len);
 char	*ft_strcharjoin(char *s1, char c);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 int	    ft_isspace(int c);
@@ -150,9 +151,10 @@ void	execute(t_parse *command, char **env);
 int  builtins_cases(t_parse *head, t_env *env, int fd);
 void cd(t_parse *head, t_env *my_env);
 char *pwd(t_parse *head, int k);
-int	perr_exp(char *str);
+void	perr_exp(char *str);
 char **add_export(t_parse *head, t_env *env, int fd);
 void my_exit(t_parse *cmd);
 void echo(t_parse *cmd, int fd);
 void	unset(t_parse *cmd, t_env env);
+int	check_env_string(char *str);
 #endif
