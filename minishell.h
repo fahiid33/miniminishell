@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/13 01:41:38 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/14 03:06:54 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,54 +34,54 @@
 
 typedef struct s_lexer
 {
-    char *str; //aka line
-    char    c; // every char in line
-    int     i; // index of line
+	char *str; //aka line
+	char    c; // every char in line
+	int     i; // index of line
 }			t_lexer;
 
 typedef struct s_token
 {
-    char *val;
-    int flag;
-    struct s_token *next;
-    enum
-    {
-        WORD,
-        DQUOTE,
-        SQUOTE,
-        BACKSLASH,
-        PIPE,
-        GREATANDGREAT,
-        LESSANDLESS,
-        GREAT,
-        LESS,
-        DOLLAR,
+	char *val;
+	int flag;
+	struct s_token *next;
+	enum
+	{
+		WORD,
+		DQUOTE,
+		SQUOTE,
+		BACKSLASH,
+		PIPE,
+		GREATANDGREAT,
+		LESSANDLESS,
+		GREAT,
+		LESS,
+		DOLLAR,
 		END,
-    } type;
+	} type;
 }               t_token;
 
 typedef struct s_redir
 {
-    int     fd;
-    char *file;
-    int     type;
-    struct s_redir *next;
+	int     fd;
+	char *file;
+	int     type;
+	struct s_redir *next;
 
 }               t_redir;
 
 typedef struct s_env
 {
-    char	**env;
+	char	**env;
 	char	**export;
 
 }  		t_env; 
 
 typedef struct s_parse
 {
-    char *cmd;
-    char **argv;
-    t_redir *redir;
-    struct s_parse *next;
+	char *cmd;
+	char **argv;
+	t_redir *redir;
+	struct s_parse *next;
 }            t_parse;
 
 t_lexer	*ft_init_lexer(char *str, char c);
@@ -126,7 +126,7 @@ void print_l(t_parse *lst);
 void create_commands(t_token *token, t_parse **command);
 char* expand_dollar(char *dq_content);
 void print_list(t_token *lst);
-void	builtins(t_parse *commands, t_env *env, char *line);
+void	builtins(t_parse *commands, t_env *env);
 char** init_export(char **env);
 int array_size(char **str);
 char	**ft_split(char const *s, char c);
@@ -156,5 +156,7 @@ char **add_export(t_parse *head, t_env *env, int fd);
 void my_exit(t_parse *cmd);
 void echo(t_parse *cmd, int fd);
 void	unset(t_parse *cmd, t_env env);
-int	check_env_string(char *str);
+int	    check_env_string(char *str);
+void	wrong_cmd(char *cmd);
+void    c_signal();
 #endif

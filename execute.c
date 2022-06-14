@@ -125,7 +125,7 @@ void last_execute(t_parse *head, t_env *env, int pid, int fd[2])
 		close(fd[0]);
 }
 
-void builtins(t_parse *commands, t_env *env, char *line)
+void builtins(t_parse *commands, t_env *env)
 {
 	t_parse *head;
 	int fds[2];
@@ -155,27 +155,34 @@ void builtins(t_parse *commands, t_env *env, char *line)
 				head = head->next;
 			}
 			close(fd[1]);
-				close(fd[0]);
+			close(fd[0]);
         }
 		if(head->next != NULL)
             last_execute(head, env, pid, fd);
         dup2(fds[0], 0);
-		while(wait(NULL)!= -1);
+		while (wait(NULL)!= -1);
 	}
 }
-
+void	wrong_cmd(char *cmd)
+{
+	if (cmd)
+	{
+		write(2, "minishell: ", 11);
+		write(2, cmd, ft_int_strchr(cmd, 0));
+		write(2, ": command not found\n", 20);
+		exit(127);
+	}
+}
 void	execute(t_parse *command, char **env)
 {
-	char	**ac;
 	char	*path;
-	
-	
-
 	if (command->cmd == NULL)
 	{
-		printf("aaaa");
+		perror("aaaa");
 		exit(127);
 	}
 	path = get_path(command->cmd, env);
+	// perror("SGERrrERGER");
 	execve(path, command->argv, env);
+	wrong_cmd(command->cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 23:24:17 by fstitou           #+#    #+#             */
-/*   Updated: 2022/06/13 02:13:18 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/14 02:01:00 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void cd(t_parse *head, t_env *my_env)
 	char *ha;
 	ha = ft_strjoin("OLDPWD=",strdup(pwd(head, 0)),1);
 	add_string_to_env(my_env, ha);
-	if (!head->argv[0] || !strcmp(head->argv[0],"~"))
+	if (!head->argv[0] || !strcmp(head->argv[0],"~") || head->argv[0][0] == '\0')
 	{
 		add_string_to_export(my_env, ft_strjoin("OLDPWD=",strdup(pwd(head, 0)),1));
 		chdir(getenv("HOME"));
@@ -154,25 +154,25 @@ void my_exit(t_parse *cmd)
 	{
 		if (!strcmp(cmd->argv[0], "0"))
 		{
-			printf("exit\n");
+			perror("exit\n");
 			exit(0);
 		}
 		check_numb(cmd->argv[0]);
 		if (cmd->argv[1])
 		{
-			printf("exit\n");
-			printf("bash: exit: too many arguments\n");
+			perror("exit\n");
+			perror("bash: exit: too many arguments\n");
 		}
 		else
 		{
-			printf("exit\n");
+			perror("exit\n");
 			exit(1);
 		}
 	}
 	else
 	{
-		printf("exit\n");
-		exit(0);
+		perror("exit\n");
+		exit(EXIT_SUCCESS);
 	}
 }
 void echo(t_parse *cmd, int fd)
@@ -180,15 +180,14 @@ void echo(t_parse *cmd, int fd)
 	int i;
 
 	i = 1;
-	// if (!cmd->argv && !cmd->argv[0])
-	// 	write(1, "\n", 1);
-	if (cmd->argv)
+	if (cmd->argv && cmd->argv[0])
 	{
 		if (strcmp(cmd->argv[0], "-n") == 0)
 		{
 			while (cmd->argv[i])
 			{
 				write(fd, cmd->argv[i], strlen(cmd->argv[i]));
+				write(fd, " ", 1);
 				i++;
 			}
 		}
@@ -198,13 +197,14 @@ void echo(t_parse *cmd, int fd)
 			while (cmd->argv[i])
 			{
 				write(fd, cmd->argv[i], strlen(cmd->argv[i]));
+				write(fd, " ", 1);
 				i++;
 			}
 			write(fd, "\n", 1);
 		}
 	}
 	else
-		write(1, "\n", 1);
+		write(fd, "\n", 1);
 	// exit (0);
 }
 

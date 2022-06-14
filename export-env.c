@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:29:30 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/06/13 02:41:26 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/14 01:44:30 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	add_to_env(t_env *env, char *to_add, int size)
 void	add_string_to_env(t_env *env, char *to_add)
 {
 	char	*tmp;
-	int		i;
 	int		index;
 	int		size;
 	int		plus_index;
@@ -69,7 +68,7 @@ void	update_export(t_env *env, char *to_add, int index)
 	int	plus;
 
 	plus = check_env_string(to_add);
-	printf("%d\n\n", plus);
+	// printf("%d\n\n", plus);
 	if (ft_int_strchr(env->export[index], '=') != -1)
 		tmp = ft_substr(env->export[index], 0,
 				ft_int_strchr(env->export[index], '=') + 1);
@@ -86,6 +85,7 @@ void	update_export(t_env *env, char *to_add, int index)
 			tmp = ft_strjoin(tmp, "\"", 0);
 			tmp = ft_strjoin(tmp, ft_substr(to_add,
 						ft_int_strchr(to_add, '=') + 1, strlen(to_add)), 2);
+			printf("%s\n\n", to_add);
 			tmp = ft_strjoin(tmp, strchr(to_add, '=') + 1, -1);
 			to_add = ft_strjoin(tmp, "\"", 0);
 			// printf("%s\n\n", to_add);
@@ -133,7 +133,6 @@ void	add_to_export(t_env *env, char *to_add, int size, char *tmp)
 
 void	add_string_to_export(t_env *env, char *to_add)
 {
-	char	**str;
 	char	*tmp;
 	int		y;
 	int		index;

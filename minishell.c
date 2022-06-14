@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/05 20:01:46 by aainhaja         ###   ########.fr       */
+/*   Updated: 2022/06/14 03:32:53 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,39 +144,40 @@ void  free_l(char **env)
 		free(env[i]);
 	free(env[i]);
 }
-// char* expand_dollar(char *str);
 
 int main(int ac, char *av[], char **env)
 {
    char	*line;
-   char	*l;
-   int	i = 0;
-   int   pipefd[2];
    t_env *my_env;
    t_parse *commands;
-
-
-      t_lexer	*test;
-      t_token *test1;
-      char *path;
-      int pid ;
-   char **my_export;
+   t_lexer	*test;
+   t_token *test1;
+   (void)ac;
+   (void)av;
       // dup2(pipefd[1], 1);
-    pipe(pipefd);
+   //  pipe(pipefd);
 	my_env = malloc(sizeof(t_env));
    // printf_env(my_export);
    // printf("sec address === %p\n\n", my_env.env[14]);
 	   
-      my_env->env = my_envir(env);
-      my_env->export = init_export(my_env->env);
-   while((line = readline("MESSI-1.0$ ")))
+   my_env->env = my_envir(env);
+   my_env->export = init_export(my_env->env);
+
+   while (1)
    {
-      commands = init_command();
-      test = malloc(sizeof(t_lexer));
-      test = ft_init_lexer(line, line[0]);//initilize the lexer
-      test1 = send_lexer_to_tokenize(test);//tokenizing every char in the line
-      add_history(line);
-      create_commands(test1, &commands);
-      builtins(commands, my_env, line);
+         c_signal();
+         line = readline("MESSI-1.0$ ");
+         if (!line)
+         {
+            printf("exit");
+            exit(0);
+         }
+         commands = init_command();
+         test = malloc(sizeof(t_lexer));
+         test = ft_init_lexer(line, line[0]);
+         test1 = send_lexer_to_tokenize(test);//tokenizing every char in the line
+         add_history(line);
+         create_commands(test1, &commands);
+         builtins(commands, my_env);
    }
 }

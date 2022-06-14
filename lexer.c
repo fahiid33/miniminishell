@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 05:17:20 by fahd              #+#    #+#             */
-/*   Updated: 2022/05/21 05:51:23 by fahd             ###   ########.fr       */
+/*   Updated: 2022/06/14 02:46:39 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,11 @@ t_lexer	*ft_init_lexer(char *str, char c)
 
     if (!(lexer = (t_lexer *)malloc(sizeof(t_lexer))))
         return (NULL);
-    lexer->str = str; //aka line
-    lexer->c = c; // first char of line
-    lexer->i = 0;
+	// if (!str || !strcmp(str, "") || c == '\0')
+	// 	return NULL;
+	lexer->str = str; //aka line
+	lexer->c = c; // first char of line
+	lexer->i = 0;
     return (lexer);
 }
 t_lexer *advance_lexer(t_lexer *lexer)

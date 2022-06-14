@@ -224,10 +224,10 @@ int	token_index(char *str)
 }
 int is_token(char c)
 {
-	int i = 0;
-	int j = 0;
+	int j;
 	char *tokens;
 
+	j = 0;
 	tokens = "$><|'\"";
 	while(tokens[j])
 	{
@@ -247,7 +247,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	j = 0;
 	if (!s)
 		return (0);
-	if (ft_strlen(s) < start || len == 0)
+	if ((unsigned int)ft_strlen(s) < start || len == 0)
 		return (ft_strdup(""));
 	str = (char *)malloc(sizeof(char) * len + 1);
 	if (str == NULL)
