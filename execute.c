@@ -110,19 +110,48 @@ void pipe_child1(t_parse *head, t_env *env,int fd[2])
 		execute(head, env->env);
 	exit(0);
 }
-void last_execute(t_parse *head, t_env *env, int pid, int fd[2])
+void here_doc(t_parse *head,int fds[2],int fd[2])
 {
-
-    	pid = fork();	
-		if(pid)
+	dup2(fds[0], 0);
+	char *str;
+	str = get_next_line(0);
+	while (str)
+	{
+		if (strncmp(str, head->redir->file, (int)ft_strlen(head->redir->file)) == 0)
+			break;
+		write(fd[1], str, ft_strlen(str));
+		str = get_next_line(0);
+	}
+		dup2(fd[0], 0);
+	close(fd[0]);
+	close(fd[1]);
+}
+void last_execute(t_parse *head, t_env *env, int fds[2], int fd[2])
+{
+		int pid;
+	if(head->redir != NULL)
+	{
+		if(head->redir->type == LESSANDLESS)
 		{
-			close(fd[1]);
-			builtins_cases_sghar(head, env);
+			pipe(fd);
+			here_doc(head,fds,fd);
+			head->redir = head->redir->next;
+			dup2(fd[0],0);
 		}
-		else
-			pipe_child1(head, env,fd);	
+	}
+    pid = fork();
+	if(pid)
+	{
 		close(fd[1]);
-		close(fd[0]);
+		builtins_cases_sghar(head, env);
+	}
+	else
+	{
+		close(fd[1]);
+		pipe_child1(head, env,fd);
+	}	
+	close(fd[1]);
+	close(fd[0]);
 }
 
 void builtins(t_parse *commands, t_env *env)
@@ -140,6 +169,15 @@ void builtins(t_parse *commands, t_env *env)
         {
             while(head->next->cmd != NULL)
 			{
+				if(head->redir != NULL && head->redir->type == LESSANDLESS)
+				{
+					pipe(fd);
+					here_doc(head,fds,fd); 
+					dup2(fd[0], 0);
+					head->redir = head->redir->next;
+					close(fd[0]);
+					close(fd[1]);
+				}
 				pipe(fd);
 				pid = fork();
 				if(pid)
@@ -158,7 +196,9 @@ void builtins(t_parse *commands, t_env *env)
 			close(fd[0]);
         }
 		if(head->next != NULL)
-            last_execute(head, env, pid, fd);
+		{
+            last_execute(head, env, fds, fd);
+		}
         dup2(fds[0], 0);
 		while (wait(NULL)!= -1);
 	}

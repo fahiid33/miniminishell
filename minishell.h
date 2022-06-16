@@ -13,6 +13,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#include "42-GNL/get_next_line.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <ctype.h>
@@ -30,7 +31,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define BUFFER_SIZE 4096 
+
 
 typedef struct s_lexer
 {
