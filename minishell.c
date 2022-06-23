@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/14 03:32:53 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/20 07:33:44 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	*ft_strndup(char *str, unsigned int n)
 	new[n] = 0;
 	return (new);
 }
+
 void print_list(t_token *lst)
 {
    while (lst)
@@ -32,6 +33,7 @@ void print_list(t_token *lst)
       lst = lst->next;
    }
 }
+
 void print_l(t_parse *lst)
 {
    int i;
@@ -61,6 +63,7 @@ void print_l(t_parse *lst)
       lst = lst->next;
    }
 }
+
 char	*str_join(char *s1, char *s2)
 {
 	char	*copy;
@@ -106,6 +109,7 @@ char	*get_path(char *cmd, char **env)
 	}
 	return (cmd);
 }
+
 int array_size(char **str)
 {
 	int i = 0;
@@ -137,6 +141,7 @@ char	**my_envir(char **env)
 	str[j] = NULL;
 	return (str); 
 }
+
 void  free_l(char **env)
 {
    int i;
@@ -144,40 +149,70 @@ void  free_l(char **env)
 		free(env[i]);
 	free(env[i]);
 }
+void  print_list_env(t_env *tmp)
+{
+//  printf every node in env list
+ if (tmp)
+ {
+   while (tmp)
+    {
+        if (tmp->sep)
+        {
+            ft_putstr_fd(tmp->key, 1);
+            ft_putchar_fd(tmp->sep, 1);
+            if (tmp->val == NULL)
+                ft_putchar_fd('\n', 1);
+            else
+            {
+                ft_putstr_fd(tmp->val, 1);
+                  ft_putchar_fd('\n', 1);
+            }
+        }
+        tmp = tmp->next;
+    }
+ }
+}
 
 int main(int ac, char *av[], char **env)
 {
-   char	*line;
-   t_env *my_env;
+   // char	*line;
    t_parse *commands;
    t_lexer	*test;
    t_token *test1;
    (void)ac;
    (void)av;
-      // dup2(pipefd[1], 1);
-   //  pipe(pipefd);
-	my_env = malloc(sizeof(t_env));
-   // printf_env(my_export);
-   // printf("sec address === %p\n\n", my_env.env[14]);
+   (void)env;
+   //    // dup2(pipefd[1], 1);
+   // //  pipe(pipefd);
+   // // printf_env(my_export);
+   // // printf("sec address === %p\n\n", my_env.env[14]);
 	   
-   my_env->env = my_envir(env);
-   my_env->export = init_export(my_env->env);
-
+   g_vars.my_env = init_env(env);
+   // printf("%s\n\n", g_vars.my_env->key);
+   // print_list_env(g_vars.my_env);
+   // exit(0);
    while (1)
    {
          c_signal();
-         line = readline("MESSI-1.0$ ");
-         if (!line)
+      g_vars.line = readline("MESSI-1.0$ ");
+         if (!g_vars.line)
          {
-            printf("exit");
-            exit(0);
+            printf("exit\n");
+            exit(g_vars.exit_status);
+         }
+         if (g_vars.line[0] == '\0')
+         {
+            free(g_vars.line);
+            continue;
          }
          commands = init_command();
          test = malloc(sizeof(t_lexer));
-         test = ft_init_lexer(line, line[0]);
+         test = ft_init_lexer(g_vars.line, g_vars.line[0]);
          test1 = send_lexer_to_tokenize(test);//tokenizing every char in the line
-         add_history(line);
+         add_history(g_vars.line);
          create_commands(test1, &commands);
-         builtins(commands, my_env);
+         if (!g_vars.g_err)
+            exec_pipeline(commands, &g_vars.my_env);
    }
+
 }

@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/14 03:00:20 by fstitou           #+#    #+#             */
-/*   Updated: 2022/06/14 23:26:09 by fahd             ###   ########.fr       */
+/*   Created: 2022/06/16 02:33:17 by fahd              #+#    #+#             */
+/*   Updated: 2022/06/16 08:11:39 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    ctl_c()
+int pwd(void)
 {
-    ft_putchar_fd('\n', 1);
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
-}
+	char    *cwd;
 
-void    c_signal()
-{
-    signal(SIGQUIT, SIG_IGN);
-    signal(SIGINT, ctl_c);
+    cwd = getcwd(NULL, 0);
+    if (cwd == NULL)
+    {
+        ft_putstr_fd("pwd: cannot get current working directory\n", 2);
+        g_vars.exit_status = 1;
+        return (g_vars.exit_status);
+    }
+	printf("%s\n", cwd);
+    // ft_putstr_fd(cwd, 1);
+    // ft_putstr_fd("\n", 1);
+    // free(cwd);
+    g_vars.exit_status = 0;
+    return (g_vars.exit_status);
 }

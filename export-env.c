@@ -3,179 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   export-env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:29:30 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/06/14 01:44:30 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/18 09:26:32 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	add_to_env(t_env *env, char *to_add, int size)
+void	update_export(t_env **env, char *key, char sep, char *val)
 {
-	int		i;
-	int		j;
-	char	**str;
+	t_env	*tmp;
+	int	k;
 
+	tmp = (*env);
+	k = 0;
+	if (key[ft_strlen(key) - 1] == '+')
+	{
+		k = 1;
+		key[ft_strlen(key) - 1] = '\0';
+	}
+	while (tmp)
+	{
+		if (!strcmp(key, tmp->key))
+		{
+			if (k)
+			{
+				tmp->sep = sep;
+				tmp->val = ft_strjoin(tmp->val, val, 2);
+				return ;
+			}
+			else
+			{
+				tmp->sep = sep;
+				tmp->val = val;
+				return ;
+			}
+		}
+		tmp = tmp->next;
+	}
+}
+int	str_is_alnum(char *str)
+{
+	int	i;
 	i = 0;
-	j = 0;
-	str = (char **)malloc(sizeof (char *) * (size + 2));
-	while (env->env[i])
+	while (str[i])
 	{
-		str[j] = strdup(env->env[i]);
-		i++;
-		j++;
-	}
-	str[j] = strdup(to_add);
-	str[++j] = NULL;
-	env->env = str;
-}
-
-
-void	add_string_to_env(t_env *env, char *to_add)
-{
-	char	*tmp;
-	int		index;
-	int		size;
-	int		plus_index;
-	size = array_size(env->env);
-	tmp = ft_substr(to_add, 0, ft_int_strchr(to_add, '=') + 1);
-	plus_index = check_env_string(tmp);
-	index = my_i_getenv(tmp, env->env);
-	if (index)
-	{
-		if (!plus_index)
-		{
-			tmp = env->env[index];
-			env->env[index] = to_add;
-			free(tmp);
-		}
-		else
-		{
-			tmp = env->env[index];
-			env->env[index] = ft_strjoin(tmp, strchr(to_add, '=') + 1, -1);
-			free(tmp);
-		}
-	}
-	else
-		add_to_env(env, to_add, size);
-}
-
-void	update_export(t_env *env, char *to_add, int index)
-{
-	char	*tmp;
-	int	plus;
-
-	plus = check_env_string(to_add);
-	// printf("%d\n\n", plus);
-	if (ft_int_strchr(env->export[index], '=') != -1)
-		tmp = ft_substr(env->export[index], 0,
-				ft_int_strchr(env->export[index], '=') + 1);
-	else
-	{
-		tmp = ft_substr(env->export[index], 0,
-				ft_int_strchr(env->export[index], '\0'));
-		tmp = ft_strjoin(tmp, "=", 0);
-	}
-	if (ft_int_strchr(to_add, '=') != -1)
-	{
-		if (plus)
-		{
-			tmp = ft_strjoin(tmp, "\"", 0);
-			tmp = ft_strjoin(tmp, ft_substr(to_add,
-						ft_int_strchr(to_add, '=') + 1, strlen(to_add)), 2);
-			printf("%s\n\n", to_add);
-			tmp = ft_strjoin(tmp, strchr(to_add, '=') + 1, -1);
-			to_add = ft_strjoin(tmp, "\"", 0);
-			// printf("%s\n\n", to_add);
-			env->export[index] = to_add;
-		}
-		else
-		{
-			tmp = ft_strjoin(tmp, "\"", 0);
-			tmp = ft_strjoin(tmp, ft_substr(to_add,
-						ft_int_strchr(to_add, '=') + 1, strlen(to_add)), 2);
-			to_add = ft_strjoin(tmp, "\"", 0);
-			env->export[index] = to_add;
-		}
-	}
-}
-
-void	add_to_export(t_env *env, char *to_add, int size, char *tmp)
-{
-	int		j;
-	int		i;
-	char	**str;
-
-	i = 0;
-	j = 0;
-	str = (char **)malloc(sizeof (char *) * (size + 2));
-	while (env->export[i])
-	{
-		str[j] = strdup(env->export[i]);
-		i++;
-		j++;
-	}
-	to_add = ft_strjoin("declare -x ", to_add, 1);
-	if (ft_int_strchr(to_add, '=') != -1)
-	{
-		tmp = ft_substr(to_add, 0, ft_int_strchr(to_add, '=') + 1);
-		tmp = ft_strjoin(tmp, "\"", 0);
-		tmp = ft_strjoin(tmp, ft_substr(to_add,
-					ft_int_strchr(to_add, '=') + 1, strlen(to_add)), 2);
-		to_add = ft_strjoin(tmp, "\"", 0);
-	}
-		str[j] = strdup(to_add);
-		str[++j] = NULL;
-		env->export = str;
-}
-
-void	add_string_to_export(t_env *env, char *to_add)
-{
-	char	*tmp;
-	int		y;
-	int		index;
-	int		size;
-
-	size = array_size(env->export);
-	y = ft_int_strchr(to_add, '=');
-	if (y == -1)
-		y = ft_int_strchr(to_add, '\0');
-	tmp = ft_substr(to_add, 0, y);
-	index = my_i_getexp(tmp, env->export);
-	if (index)
-		update_export(env, to_add, index);
-	else
-		add_to_export(env, to_add, size, tmp);
-}
-
-char	**init_export(char	**env)
-{
-	char	*s1;
-	int		i;
-	int		j;
-	char	**res;
-
-	j = 0;
-	s1 = ft_strdup("");
-	i = 0;
-	while (env[i])
-	{
-		s1 = ft_strjoin(s1, "declare -x ", 0);
-		s1 = ft_strjoin(s1, ft_substr(env[i], 0,
-					ft_int_strchr(env[i], '=') + 1), 2);
-		s1 = ft_strjoin(s1, "\"", 0);
-		s1 = ft_strjoin(s1, strchr(env[j], '=') + 1, 0);
-		s1 = ft_strjoin(s1, "\"\n", 0);
-		if (strncmp(env[i], "PWD", 3) == 0)
-		{
-			i++;
-			s1 = ft_strjoin(s1, "declare -x OLDPWD\n", 0);
-		}
-		j++;
+		if (!ft_isalnum(str[i]))
+			return (0);
 		i++;
 	}
-	res = ft_split(s1, '\n');
-	return (res);
+	return (1);
+}
+
+int	check_exp_arg(char *to_check)
+{
+	if (to_check[strlen(to_check) - 1] == '+' && str_is_alnum(ft_substr(to_check, 0, strlen(to_check) - 1)))
+		to_check = ft_substr(to_check, 0, strlen(to_check) - 1);
+	if (str_is_alnum(to_check) == 0 || (to_check[0] >= '0' && to_check[0] <= '9'))
+	{
+		ft_putstr_fd(to_check, 2);
+		ft_putstr_fd(": not a valid identifier\n", 2);
+		g_vars.exit_status = 1;
+		return (0);
+	}
+	return 1;
 }

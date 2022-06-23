@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 05:17:20 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/14 02:46:39 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/14 20:14:32 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ t_lexer	*ft_init_lexer(char *str, char c)
 {
     t_lexer			*lexer;
 
-    if (!(lexer = (t_lexer *)malloc(sizeof(t_lexer))))
+    lexer = (t_lexer *)malloc(sizeof(t_lexer));
+	if (!lexer)
         return (NULL);
 	// if (!str || !strcmp(str, "") || c == '\0')
 	// 	return NULL;

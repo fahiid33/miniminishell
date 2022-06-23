@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:11:13 by fahd              #+#    #+#             */
-/*   Updated: 2022/05/29 22:46:52 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/18 02:32:54 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,28 +117,25 @@ void create_commands(t_token *token, t_parse **command)
         if (token->type == PIPE || token->type == END)
         {
             if(token->next && token->type == PIPE && token->next->type == END)
+            {
                 errors(3);
+                return ;
+            }
             head = add_command(head);
-            //  while(head->redir)
-            // {
-            //     printf("%d - %s ; ", head->redir->type,head->redir->file);
-            //     head->redir = head->redir->next;
-            // }
-            // head->fd_in = get_fd(head->redir);
             head = head->next;
             token = token->next;
         }
     }
-    
+    g_vars.g_err = 0;
 }
 
 char *jme3arg(t_token **b)
 {
-	int	len;
+	// int	len;
     char *str;
 
     str = strdup("");
-	len = 0;
+	// len = 0;
 	while ((*b) && (*b)->flag == 1)
 	{
         if((*b)->type == DOLLAR)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/14 03:06:54 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/20 07:25:48 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,20 +69,34 @@ typedef struct s_redir
 
 }               t_redir;
 
-typedef struct s_env
-{
-	char	**env;
-	char	**export;
-
-}  		t_env; 
-
 typedef struct s_parse
 {
+	int	 fdin;
+	int	 fdout;
 	char *cmd;
 	char **argv;
 	t_redir *redir;
 	struct s_parse *next;
 }            t_parse;
+
+typedef struct s_env
+{
+	char	*key;
+	char	*val;
+	char	sep;
+	struct s_env *next;
+}  		t_env; 
+
+typedef struct s_minishell
+{
+	char	*line;
+	t_env	*my_env;
+	int	exit_status;
+	int	g_err;
+	pid_t	pid;
+}	t_minishell;
+
+t_minishell g_vars;
 
 t_lexer	*ft_init_lexer(char *str, char c);
 t_token	*send_lexer_to_tokenize(t_lexer *lexer);
@@ -106,6 +120,7 @@ char	*ft_strcharjoin(char *s1, char c);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 int	    ft_isspace(int c);
 int	    ft_isalpha(int c);
+int str_digit(char *str);
 int	    ft_isdigit(int c);
 int	    ft_isalnum(int c);
 int	    ft_strcmp(char *s1, char *s2);
@@ -121,41 +136,37 @@ int	token_index(char *str);
 char *jme3arg(t_token **b);
 int	lst_size(t_token *b);
 void    *realloc_array(char **arg, char *str);
+void  print_list_env(t_env *tmp);
 t_parse *init_command(void);
 void print_l(t_parse *lst);
 void create_commands(t_token *token, t_parse **command);
 char* expand_dollar(char *dq_content);
 void print_list(t_token *lst);
-void	builtins(t_parse *commands, t_env *env);
-char** init_export(char **env);
-int array_size(char **str);
+int		exec_builtins(t_parse *commands, t_env **my_env, int fd);
+void 	exec_pipeline(t_parse *commands, t_env **env);
+int 	array_size(char **str);
 char	**ft_split(char const *s, char c);
 char	*ft_strjoin1(char *s1, char *s2 ,int c);
-char *pwd(t_parse *head, int k);
-void printf_env(char **lenv);
-void	add_string_to_env(t_env *env, char *to_add);
-int	my_i_getenv(char *str, char **my_env);
-void  free_l(char **env);
-void	add_string_to_export(t_env *env, char *to_add);
-int	my_i_getexp(char *str, char **my_exp);//va
-char	*my_getenv(char *str, char **my_env);
+int		pwd(void);
+void  	free_l(char **env);
+int		env(void);
 void	errors(int exitt);
-char	**init_export(char	**env);
-void	add_string_to_export(t_env *env, char *to_add);
-void	add_to_export(t_env *env, char *to_add, int size, char *tmp);
-void	update_export(t_env *env, char *to_add, int index);
-void	add_string_to_env(t_env *env, char *to_add);
-void	add_to_env(t_env *env, char *to_add, int size);
+t_env	*init_env(char **env);
+char	*my_getenv(t_env  **env, char *key);
+void	update_export(t_env **env, char *key, char sep, char *val);
 char	*get_path(char *cmd, char **env);
-void	execute(t_parse *command, char **env);
-int  builtins_cases(t_parse *head, t_env *env, int fd);
-void cd(t_parse *head, t_env *my_env);
-char *pwd(t_parse *head, int k);
+void	execute(t_parse *command, t_env **env);
+t_env	*lst_new(char *key, char sep, char *val);
+int		check_exp_arg(char *to_check);
+int		builtins_cases(t_parse *cmd);
+int		cd(t_parse *head, t_env *my_env);
+void	lst_add_backenv(t_env **lst, t_env *new);
 void	perr_exp(char *str);
-char **add_export(t_parse *head, t_env *env, int fd);
-void my_exit(t_parse *cmd);
-void echo(t_parse *cmd, int fd);
-void	unset(t_parse *cmd, t_env env);
+int		export(t_parse *head);
+void	check_numb(char *str);
+int 	my_exit(t_parse *cmd);
+int		echo(t_parse *cmd, int fd);
+int		unset(t_parse *cmd);
 int	    check_env_string(char *str);
 void	wrong_cmd(char *cmd);
 void    c_signal();

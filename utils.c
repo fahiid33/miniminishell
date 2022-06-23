@@ -267,10 +267,24 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 void	errors(int exitt)
 {
 	if(exitt == 2)
-		ft_putstr_fd("Minishell : quote mamsdoudch!", 2);
+	{
+		ft_putstr_fd("Minishell : quote m7lola!", 2);
+		ft_putchar_fd('\n', 2);
+		g_vars.g_err = 1;
+		g_vars.exit_status = 1;
+	}
 	else if(exitt == 258)
+	{
 		ft_putstr_fd("Minishell : syntax error near unexpected token `newline'", 2);
+		ft_putchar_fd('\n', 2);
+		g_vars.g_err = 1;
+		g_vars.exit_status = 258;
+	}
 	else if(exitt == 3)
-		ft_putstr_fd("Minishell : pipe mamsdoudch!", 2);
-	exit(exitt);
+	{
+		ft_putstr_fd("Minishell : pipe m7lola!", 2);
+		ft_putchar_fd('\n', 2);
+		g_vars.g_err = 1;
+		g_vars.exit_status = 1;
+	}
 }

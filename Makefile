@@ -1,17 +1,19 @@
 
-# LDFLAGS = -L/home/fahd/.brew/Cellar/readline/8.1.2/lib
-# CPPFLAGS = -I/home/fahd/.brew/Cellar/readline/8.1.2/include
+LDFLAGS = -L/home/fahd/.brew/Cellar/readline/8.1.2/lib
+CPPFLAGS = -I/home/fahd/.brew/Cellar/readline/8.1.2/include
 
 NAME = minishell
 NAME_BONUS = 
 
-SRC = minishell.c lexer.c signals.c tokenizing.c utils.c execute.c parse_utils.c builtins.c split.c export-env.c export-env-utils.c\
+SRC = minishell.c lexer.c signals.c tokenizing.c utils.c execute.c parse_utils.c builtins.c split.c\
+		export-env.c export-env-utils.c cd.c echo.c env.c execute_utils.c exit.c export.c pwd.c unset.c\
 
 		
 SRC_BONUS = 
 
 
-OBJ =  minishell.o lexer.o signals.o tokenizing.o utils.o execute.o parse_utils.o builtins.o split.o export-env.o export-env-utils.o\
+OBJ = minishell.o lexer.o signals.o tokenizing.o utils.o execute.o parse_utils.o builtins.o split.o\
+		export-env.o export-env-utils.o cd.o echo.o env.o execute_utils.o exit.o export.o pwd.o unset.o\
 
 OBJ_BONUS = 
 
@@ -20,8 +22,7 @@ all : $(NAME)
 
 $(NAME):
 	
-	@gcc  $(SRC) -lreadline  -o $(NAME)
-	@gcc  -g $(SRC) -lreadline -o $(NAME)
+	@gcc  -Wall -Wextra -Werror $(SRC) $(LDFLAGS) $(CPPFLAGS) -lreadline  -o $(NAME)
 	@echo "👍👍👍"
 
 $(NAME_BONUS) : 
