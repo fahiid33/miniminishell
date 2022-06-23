@@ -196,7 +196,6 @@ void exec_pipeline(t_parse *commands, t_env **env)
         {
             while(head->next->cmd != NULL)
 			{
-
 				pipe(fd);
 				g_vars.pid = fork();
 				if(g_vars.pid)

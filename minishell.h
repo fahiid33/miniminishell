@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/20 07:25:48 by fahd             ###   ########.fr       */
+/*   Updated: 2022/06/23 21:32:47 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define BUFFER_SIZE 4096 
+
 
 typedef struct s_lexer
 {
