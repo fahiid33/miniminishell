@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/24 01:20:02 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/24 04:49:52 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len);
 int	    ft_isspace(int c);
 int	    ft_isalpha(int c);
 int str_digit(char *str);
+int	str_is_alnum(char *str);
 int	    ft_isdigit(int c);
 int	    ft_isalnum(int c);
 int	    ft_strcmp(char *s1, char *s2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:32:07 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/18 06:09:54 by fahd             ###   ########.fr       */
+/*   Updated: 2022/06/24 04:49:20 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int str_digit(char *str)
 
 int check_arg(char *arg)
 {
-    if (str_digit(arg) == 0 || (arg[0] >= '0' && arg[0] <= '9'))
+    if (str_is_alnum(arg) == 0 || (arg[0] >= '0' && arg[0] <= '9'))
     {
         ft_putstr_fd("unset: ", 2);
         ft_putstr_fd(arg, 2);

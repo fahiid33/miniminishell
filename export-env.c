@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:29:30 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/06/24 00:09:57 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/24 04:34:32 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	update_export(t_env **env, char *key, char sep, char *val)
 	if (key[ft_strlen(key) - 1] == '+')
 	{
 		k = 1;
-		key[ft_strlen(key) - 1] = '\0';
+		key[ft_strlen(key) - 1] = 0;
 	}
 	while (tmp)
 	{
@@ -65,7 +65,8 @@ int	check_exp_arg(char *to_check)
 	{
 		ft_putstr_fd(to_check, 2);
 		ft_putstr_fd(": not a valid identifier\n", 2);
+		g_vars.exit_status = 1;
 		return (0);
 	}
-	return 1;
+	return (1);
 }

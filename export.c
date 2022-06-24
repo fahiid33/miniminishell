@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:26:33 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/24 00:41:02 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/24 04:22:11 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	run_export(t_env *my_env, char **argc)
 		tmp = ft_split(argc[i], '=');
 		if (check_exp_arg(tmp[0]))
 		{
-			// ft_putstr_fd("WAAAAAAAAAA\n\n", 2);
 			if (check_key(&g_vars.my_env, tmp[0]))
 				update_export(&g_vars.my_env, tmp[0], ft_strchar(argc[i] , '='), tmp[1]);
 			else
