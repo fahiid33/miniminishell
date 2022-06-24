@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:11:13 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/18 02:32:54 by fahd             ###   ########.fr       */
+/*   Updated: 2022/06/24 11:51:19 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void    parse_commands(t_token **token, t_parse *command)
     int type;
     if ((*token)->type == WORD ||  (*token)->type == DQUOTE || (*token)->type == SQUOTE || (*token)->type == DOLLAR)
     {
-        value = jme3arg(token);
+        value = jme3arg(token, 0);
         if (!command->cmd)
            command->cmd = value;
         else
@@ -96,10 +96,13 @@ void    parse_commands(t_token **token, t_parse *command)
         || (*token)->type == LESSANDLESS || (*token)->type == GREATANDGREAT)
     {
          if((*token)->next->type == END || (*token)->next->type == PIPE)
+         {
+            // printf("WAAAAAAAAAAAAAAAAA\n\n");
             errors(258);
+         }
         type = (*token)->type;
         (*token) = (*token)->next;
-        value = jme3arg(token);
+        value = jme3arg(token, 0);
         if (!command->redir)
             command->redir = init_redir(value, type);
         else
@@ -126,10 +129,9 @@ void create_commands(t_token *token, t_parse **command)
             token = token->next;
         }
     }
-    g_vars.g_err = 0;
 }
 
-char *jme3arg(t_token **b)
+char *jme3arg(t_token **b, int exec)
 {
 	// int	len;
     char *str;
@@ -142,12 +144,13 @@ char *jme3arg(t_token **b)
         {
             if((*b)->next->type == DQUOTE || (*b)->next->type == SQUOTE)
                 (*b) = (*b)->next;
-            else{
+            else
+            {
                 if(!(*b)->val[1])
                 {
                     (*b) = (*b)->next;
-                    if(getenv((*b)->val))
-                        (*b)->val = getenv((*b)->val);
+                    if(my_getenv(&g_vars.my_env, (*b)->val))
+                        (*b)->val = my_getenv(&g_vars.my_env, (*b)->val);
                     else
                         (*b)->val = strdup("");
                 }
@@ -155,6 +158,10 @@ char *jme3arg(t_token **b)
                 {
                     if((*b)->val[1] == ' ')
                         str = ft_strjoin(str, strdup("$"),2);
+                    else if(!exec)
+                        str = ft_strjoin(str, strdup("$?"), 2);
+                    else
+                        str = ft_strjoin(str, "69", 2);
                     (*b) = (*b)->next;
                 }
             }
@@ -162,7 +169,7 @@ char *jme3arg(t_token **b)
         }
         if((*b)->type == DQUOTE)
         {   
-            str = ft_strjoin(str, expand_dollar((*b)->val),2);
+            str = ft_strjoin(str, expand_dollar((*b)->val, 0),2);
         }
         else if((*b)->type != END)
         {   
@@ -181,8 +188,8 @@ char *jme3arg(t_token **b)
         if(!(*b)->val[1])
         {
             (*b) = (*b)->next;
-            if(getenv((*b)->val))
-                    (*b)->val = getenv((*b)->val);
+            if(my_getenv(&g_vars.my_env, (*b)->val))
+                    (*b)->val = my_getenv(&g_vars.my_env, (*b)->val);
                 else
                     (*b)->val = strdup("");
         }
@@ -190,13 +197,17 @@ char *jme3arg(t_token **b)
         {
             if((*b)->val[1] == ' ')
                 str = ft_strjoin(str, strdup("$"),2);
+            else if(!exec)
+                str = ft_strjoin(str, strdup("$?"), 2);
+            else
+                str = ft_strjoin(str, "69", 2);
             (*b) = (*b)->next;
             return str;
         }
     }
     if((*b)  && (*b)->type == DQUOTE)
     {   
-        str = ft_strjoin(str, expand_dollar((*b)->val),2);
+        str = ft_strjoin(str, expand_dollar((*b)->val, 0),2);
         (*b) = (*b)->next;
     }
     else if((*b)  && (*b)->type != END)

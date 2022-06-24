@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/24 04:49:52 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/24 11:33:10 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ char *ft_strsub(t_lexer *lexer, size_t len);
 int	ft_strnstr(const char *str, const char *to_find, size_t len);
 char	*ft_strcharjoin(char *s1, char c);
 char	*ft_substr(char *s, unsigned int start, size_t len);
+void	ft_putnbr_fd(int n, int fd);
 int	    ft_isspace(int c);
 int	    ft_isalpha(int c);
 int str_digit(char *str);
@@ -134,14 +135,14 @@ void	ft_putstr_fd(char *s, int fd);
 char	*ft_strchr(const char *str, int c);
 int	ft_int_strchr(const char *s, int c);
 int	token_index(char *str);
-char *jme3arg(t_token **b);
+char *jme3arg(t_token **b, int exec);
 int	lst_size(t_token *b);
 void    *realloc_array(char **arg, char *str);
 void  print_list_env(t_env *tmp);
 t_parse *init_command(void);
 void print_l(t_parse *lst);
 void create_commands(t_token *token, t_parse **command);
-char* expand_dollar(char *dq_content);
+char* expand_dollar(char *dq_content, int exec);
 void print_list(t_token *lst);
 int		exec_builtins(t_parse *commands, t_env **my_env);
 void 	exec_pipeline(t_parse *commands, t_env **env);

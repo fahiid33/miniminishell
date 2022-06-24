@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/24 01:32:30 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/24 11:51:39 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ int main(int ac, char *av[], char **env)
    // exit(0);
    while (1)
    {
+      g_vars.g_err = 0;
          c_signal();
       g_vars.line = readline("MESSI-1.0$ ");
          if (!g_vars.line)

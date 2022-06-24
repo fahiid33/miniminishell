@@ -59,12 +59,15 @@ void pipe_child1(t_parse *head, t_env **env, int fd[2])
 
 void 	last_execute(t_parse *head, t_env **env, int fd[2])
 {
+	int	status;
 	if (!builtins_cases(head))
 	{
     	g_vars.pid = fork();	
 		if(g_vars.pid)
 		{
-			waitpid(g_vars.exit_status, NULL, 0);
+			waitpid(g_vars.exit_status, &status, 0);
+			if (WIFEXITED(status))
+				g_vars.exit_status = WEXITSTATUS(status);
 			// close(fd[1]);
 			// // dup2(fd[0], 0);
 	
@@ -77,8 +80,6 @@ void 	last_execute(t_parse *head, t_env **env, int fd[2])
 	{
 		open_redir(head, fd);
 		exec_builtins(head, env);
-		// close(fd[1]);
-		// close(fd[0]);
 	}
 		// close(fd[1]);
 		// close(fd[0]);

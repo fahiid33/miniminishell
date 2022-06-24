@@ -5,6 +5,23 @@ int	ft_isalpha(int c)
 {
 	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }
+void	ft_putnbr_fd(int n, int fd)
+{
+	if (n == -2147483648)
+		write(fd, "-2147483648", 11);
+	else if (n >= 0 && n <= 9)
+		ft_putchar_fd(n + '0', fd);
+	else if (n < 0)
+	{
+		write (fd, "-", 1);
+		ft_putnbr_fd(n *= -1, fd);
+	}
+	else
+	{
+		ft_putnbr_fd(n / 10, fd);
+		ft_putnbr_fd(n % 10, fd);
+	}
+}
 
 int	ft_isdigit(int c)
 {
@@ -131,7 +148,7 @@ char	*ft_strcharjoin(char *s1, char c)
 		i++;
 	}
 	s1[i++] = c;
-	s1[i++] = '\0';
+	s1[i] = '\0';
 	return (s1);
 }
 	
@@ -254,7 +271,7 @@ void	errors(int exitt)
 		ft_putstr_fd("Minishell : quote m7lola!", 2);
 		ft_putchar_fd('\n', 2);
 		g_vars.g_err = 1;
-		g_vars.exit_status = 1;
+		g_vars.exit_status = 2;
 	}
 	else if(exitt == 258)
 	{
@@ -268,6 +285,6 @@ void	errors(int exitt)
 		ft_putstr_fd("Minishell : pipe m7lola!", 2);
 		ft_putchar_fd('\n', 2);
 		g_vars.g_err = 1;
-		g_vars.exit_status = 1;
+		g_vars.exit_status = 2;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:30:26 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/24 01:19:32 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/24 11:23:26 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ void	echo_e(t_parse *cmd)
 	i = 0;
 	while (cmd->argv[i])
 	{
-		ft_putstr_fd(cmd->argv[i], 1);
+		if (!strcmp(cmd->argv[i], "$?"))
+			ft_putnbr_fd(g_vars.exit_status, 1);
+		else
+			ft_putstr_fd(cmd->argv[i], 1);
 		i++;
 		if (cmd->argv[i])
 			write(1, " ", 1);

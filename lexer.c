@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 05:17:20 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/14 20:14:32 by fahd             ###   ########.fr       */
+/*   Updated: 2022/06/24 11:28:46 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 	return (tmp);		
 }
 
-char* expand_dollar(char *dq_content)
+char* expand_dollar(char *dq_content, int exec)
 {
    t_token			*token;
 	t_token			*tmp;
@@ -224,6 +224,9 @@ char* expand_dollar(char *dq_content)
     token = init_token("", END);
     token->flag = 0;
 	tmp = lst_add_back(tmp, token);
-	result = jme3arg(&tmp);
-   return result;
+	if(exec)
+		result = jme3arg(&tmp, 1);
+	else
+		result = jme3arg(&tmp, 0);
+   	return result;
 }
