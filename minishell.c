@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/20 07:33:44 by fahd             ###   ########.fr       */
+/*   Updated: 2022/06/24 01:32:30 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,20 @@ void  print_list_env(t_env *tmp)
  }
 }
 
+int   ft_is_space(char *line)
+{
+   int i;
+
+   i = 0;
+   while (line[i])
+   {
+      if (line[i] != ' ')
+         return 0;
+      i++;
+   }
+   return 1;
+}
+
 int main(int ac, char *av[], char **env)
 {
    // char	*line;
@@ -181,7 +195,7 @@ int main(int ac, char *av[], char **env)
    t_token *test1;
    (void)ac;
    (void)av;
-   (void)env;
+   // (void)env;
    //    // dup2(pipefd[1], 1);
    // //  pipe(pipefd);
    // // printf_env(my_export);
@@ -200,7 +214,7 @@ int main(int ac, char *av[], char **env)
             printf("exit\n");
             exit(g_vars.exit_status);
          }
-         if (g_vars.line[0] == '\0')
+         if (g_vars.line[0] == '\0' ||  ft_is_space(g_vars.line))
          {
             free(g_vars.line);
             continue;

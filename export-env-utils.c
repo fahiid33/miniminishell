@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export-env-utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:31:07 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/06/17 02:48:21 by fahd             ###   ########.fr       */
+/*   Updated: 2022/06/24 00:37:51 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	lst_add_backenv(t_env **lst, t_env *new)
 	t_env	*tmp;
 	tmp = *lst;
 
-	new->next = NULL;
 	if (!new)
 		return ;
 	new->next = NULL;

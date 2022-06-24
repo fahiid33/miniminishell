@@ -3,44 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:30:26 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/17 13:28:26 by fahd             ###   ########.fr       */
+/*   Updated: 2022/06/24 01:19:32 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	echo_n(t_parse *cmd, int fd)
+void	echo_n(t_parse *cmd)
 {
 	int	i;
 
 	i = 0;
 	while (cmd->argv[i])
 	{
-		ft_putstr_fd(cmd->argv[i], fd);
+		ft_putstr_fd(cmd->argv[i], 1);
 		i++;
 		if (cmd->argv[i])
-			write(fd, " ", 1);
+			write(1, " ", 1);
 	}
 }
-void	echo_e(t_parse *cmd, int fd)
+void	echo_e(t_parse *cmd)
 {
 	int	i;
 
 	i = 0;
 	while (cmd->argv[i])
 	{
-		ft_putstr_fd(cmd->argv[i], fd);
+		ft_putstr_fd(cmd->argv[i], 1);
 		i++;
 		if (cmd->argv[i])
-			write(fd, " ", 1);
+			write(1, " ", 1);
 	}
-	write(fd, "\n", 1);
+	write(1, "\n", 1);
 }
 
-int	echo(t_parse *cmd, int fd)
+int	echo(t_parse *cmd)
 {
 	if (!cmd->argv[0])
 	{
@@ -51,9 +51,9 @@ int	echo(t_parse *cmd, int fd)
 	else
 	{		
 		if (strcmp(cmd->argv[0], "-n") == 0)
-			echo_n(cmd, fd);
+			echo_n(cmd);
 		else
-			echo_e(cmd, fd);
+			echo_e(cmd);
 	}
 	g_vars.exit_status = 0;
 	return (g_vars.exit_status);

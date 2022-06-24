@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export-env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:29:30 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/06/18 09:26:32 by fahd             ###   ########.fr       */
+/*   Updated: 2022/06/24 00:09:57 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	check_exp_arg(char *to_check)
 	{
 		ft_putstr_fd(to_check, 2);
 		ft_putstr_fd(": not a valid identifier\n", 2);
-		g_vars.exit_status = 1;
 		return (0);
 	}
 	return 1;

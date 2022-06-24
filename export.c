@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:26:33 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/18 09:27:39 by fahd             ###   ########.fr       */
+/*   Updated: 2022/06/24 00:41:02 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,20 @@ void	run_export(t_env *my_env, char **argc)
 
 	i = 0;
 	tmp = NULL;
+	(void)my_env;
 	while (argc[i])
 	{
 		tmp = ft_split(argc[i], '=');
 		if (check_exp_arg(tmp[0]))
 		{
-			if (check_key(&my_env, tmp[0]))
-				update_export(&my_env, tmp[0], ft_strchar(argc[i] , '='), tmp[1]);
+			// ft_putstr_fd("WAAAAAAAAAA\n\n", 2);
+			if (check_key(&g_vars.my_env, tmp[0]))
+				update_export(&g_vars.my_env, tmp[0], ft_strchar(argc[i] , '='), tmp[1]);
 			else
+			{
 				lst_add_backenv(&g_vars.my_env, lst_new(tmp[0],
 					 ft_strchar(argc[i] , '='), tmp[1]));
+			}
 		}
 		i++;
 	}
@@ -83,14 +87,11 @@ void	run_export(t_env *my_env, char **argc)
 
 int	export(t_parse *head)
 {
-	t_env	*my_env;
-
-	my_env = g_vars.my_env;
 	if (!head->argv[0])
 	{
-		print_export(my_env);
+		print_export(g_vars.my_env);
 	}
 	else
-		run_export(my_env, head->argv);
+		run_export(g_vars.my_env, head->argv);
 	return (g_vars.exit_status);
 }

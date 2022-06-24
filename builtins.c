@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 23:24:17 by fstitou           #+#    #+#             */
-/*   Updated: 2022/06/16 06:47:01 by fahd             ###   ########.fr       */
+/*   Updated: 2022/06/24 01:19:49 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,9 @@ int	builtins_cases(t_parse *cmd)
 	return (0);
 }
 
-int  exec_builtins(t_parse *head, t_env **my_env, int fd)
+int  exec_builtins(t_parse *head, t_env **my_env)
 {
+	
 		head->argv++;
     	if (strcmp(head->cmd, "cd") == 0)
 			return(cd(head, (*my_env)));
@@ -78,7 +79,7 @@ int  exec_builtins(t_parse *head, t_env **my_env, int fd)
 		else if (strcmp(head->cmd, "exit") == 0)
 			return(my_exit(head));
 		else if (strcmp(head->cmd, "echo") == 0)
-			return(echo(head, fd));
+			return(echo(head));
 		else if (strcmp(head->cmd, "unset") == 0)
 		    return(unset(head));
 		head->argv--;

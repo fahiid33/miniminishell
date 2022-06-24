@@ -28,6 +28,6 @@ declare -x VSCODE_GIT_ASKPASS_MAIN="/Applications/Visual Studio Code.app/Content
 declare -x GIT_ASKPASS="/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass.sh"
 declare -x TERM="xterm-256color"
 declare -x _="/Users/fstitou/Desktop/minshell/./minishell"
-[?2004hMESSI-1.0$ ^C[?2004l
-MESSI-1.0$ [?2004h[?2004l
+declare -x lala="12"
+[?2004hMESSI-1.0$ [?2004l
 exit

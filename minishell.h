@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/23 21:32:47 by fahd             ###   ########.fr       */
+/*   Updated: 2022/06/24 01:20:02 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,10 @@ typedef struct s_env
 typedef struct s_minishell
 {
 	char	*line;
-	t_env	*my_env;
 	int	exit_status;
-	int	g_err;
+	int		g_err;
 	pid_t	pid;
+	t_env	*my_env;
 }	t_minishell;
 
 t_minishell g_vars;
@@ -142,7 +142,7 @@ void print_l(t_parse *lst);
 void create_commands(t_token *token, t_parse **command);
 char* expand_dollar(char *dq_content);
 void print_list(t_token *lst);
-int		exec_builtins(t_parse *commands, t_env **my_env, int fd);
+int		exec_builtins(t_parse *commands, t_env **my_env);
 void 	exec_pipeline(t_parse *commands, t_env **env);
 int 	array_size(char **str);
 char	**ft_split(char const *s, char c);
@@ -165,9 +165,10 @@ void	perr_exp(char *str);
 int		export(t_parse *head);
 void	check_numb(char *str);
 int 	my_exit(t_parse *cmd);
-int		echo(t_parse *cmd, int fd);
+int		echo(t_parse *cmd);
 int		unset(t_parse *cmd);
 int	    check_env_string(char *str);
 void	wrong_cmd(char *cmd);
 void    c_signal();
+void    open_redir(t_parse *head, int fd[2]);
 #endif

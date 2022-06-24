@@ -5,57 +5,30 @@ void pipe_child(t_parse *head, t_env **env,int fd[2])
 {
 	close(fd[0]);
 	dup2(fd[1], 1);
-	while(head->redir != NULL)
-	{
-		if(head->redir->type == GREAT || head->redir->type == GREATANDGREAT)
-		{
-			if(head->redir->type == GREAT)
-			{
-				close(fd[1]);
-				head->redir->fd = open(head->redir->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-				dup2(head->redir->fd, 1);
-			}
-			else
-			{
-				close(fd[1]);
-				head->redir->fd = open(head->redir->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-				dup2(head->redir->fd, 1);
-			}
-		}
-		else
-		{
-			close(fd[0]);
-			head->redir->fd = open(head->redir->file, O_RDONLY);
-			dup2(head->redir->fd, 0);
-		}
-		head->redir = head->redir->next;
-	}
+	open_redir(head, fd);
 	if(builtins_cases(head))
 	{
-		g_vars.exit_status = exec_builtins(head, env, fd[1]);
+		g_vars.exit_status = exec_builtins(head, env);
 		exit(g_vars.exit_status);
 	}
 	else
 		execute(head, env);
 }
-
-void pipe_child1(t_parse *head, t_env **env, int fd[2])
+void	open_redir(t_parse *head, int fd[2])
 {
-	close(fd[0]);
-	dup2(fd[1], 1);
 	while(head->redir != NULL)
 	{
 		if(head->redir->type == GREAT || head->redir->type == GREATANDGREAT)
 		{
 			if(head->redir->type == GREAT)
 			{
-				close(fd[1]);
+				// close(fd[1]);
 				head->redir->fd = open(head->redir->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 				dup2(head->redir->fd, 1);
 			}
 			else
 			{
-				close(fd[1]);
+				// close(fd[1]);
 				head->redir->fd = open(head->redir->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 				dup2(head->redir->fd, 1);
 			}
@@ -68,9 +41,16 @@ void pipe_child1(t_parse *head, t_env **env, int fd[2])
 		}
 		head->redir = head->redir->next;
 	}
+}
+
+void pipe_child1(t_parse *head, t_env **env, int fd[2])
+{
+	// close(fd[0]);
+	// dup2(fd[1], 1);
+	open_redir(head, fd);
 	if(builtins_cases(head))
 	{
-		g_vars.exit_status = exec_builtins(head, env, fd[1]);
+		g_vars.exit_status = exec_builtins(head, env);
 		exit(g_vars.exit_status);
 	}
 	else
@@ -79,16 +59,27 @@ void pipe_child1(t_parse *head, t_env **env, int fd[2])
 
 void 	last_execute(t_parse *head, t_env **env, int fd[2])
 {
+	if (!builtins_cases(head))
+	{
     	g_vars.pid = fork();	
 		if(g_vars.pid)
 		{
+			waitpid(g_vars.exit_status, NULL, 0);
 			// close(fd[1]);
-			// dup2(fd[0], 0);
-			// if (builtins_cases(head))
-			// 	exec_builtins(head, env, fd[1]);
+			// // dup2(fd[0], 0);
+	
 		}
 		else
 			pipe_child1(head, env,fd);	
+
+	}
+	else
+	{
+		open_redir(head, fd);
+		exec_builtins(head, env);
+		// close(fd[1]);
+		// close(fd[0]);
+	}
 		// close(fd[1]);
 		// close(fd[0]);
 }
@@ -214,7 +205,7 @@ void exec_pipeline(t_parse *commands, t_env **env)
         }
 		if(head->next != NULL)
             last_execute(head, env, fd);
-		dup2(fds, 0);
+		// dup2(fds, 0);
 		while (waitpid(-1, &status, 0) > 0)
 		{
 			if (WIFEXITED(status))

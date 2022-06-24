@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:33:50 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/16 07:06:04 by fahd             ###   ########.fr       */
+/*   Updated: 2022/06/24 01:52:31 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	run_exit(t_parse *cmd)
 {
 	check_numb(cmd->argv[0]);
 	g_vars.exit_status = atoi(cmd->argv[0]);
-	exit (g_vars.exit_status);
+	exit(g_vars.exit_status);
 }
 
 int	my_exit(t_parse *cmd)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 04:53:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/20 06:14:01 by fahd             ###   ########.fr       */
+/*   Updated: 2022/06/24 01:56:36 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,7 @@ char	*join_3_str(char *s1, char *s2, char *s3)
 		str[i + j + k] = '\0';
 	}
 	else if (s3 == NULL)
-	{
 		str[i + j] = '\0';
-	}
 	return (str);
 }
 
