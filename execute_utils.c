@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 04:53:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/24 01:56:36 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/24 09:44:00 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	count_env(t_env **env)
 	}
 	return (i);
 }
+
 char	*join_3_str(char *s1, char *s2, char *s3)
 {
 	char *str;
@@ -48,7 +49,8 @@ char	*join_3_str(char *s1, char *s2, char *s3)
 	i = 0;
 	j = 0;
 	k = 0;
-	if (!(str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3) + 1))))
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3) + 1));
+	if (!str)
 		return (NULL);
 	while (s1[i])
 	{
