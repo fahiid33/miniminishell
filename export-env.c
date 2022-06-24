@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export-env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:29:30 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/06/24 04:34:32 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/24 09:12:44 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	update_export(t_env **env, char *key, char sep, char *val)
 			if (k)
 			{
 				tmp->sep = sep;
-				tmp->val = ft_strjoin(tmp->val, val, 2);
+				tmp->val = ft_strjoin(tmp->val, val, -1);
 				return ;
 			}
 			else

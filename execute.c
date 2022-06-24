@@ -205,7 +205,7 @@ void exec_pipeline(t_parse *commands, t_env **env)
         }
 		if(head->next != NULL)
             last_execute(head, env, fd);
-		// dup2(fds, 0);
+		dup2(fds, 0);
 		while (waitpid(-1, &status, 0) > 0)
 		{
 			if (WIFEXITED(status))

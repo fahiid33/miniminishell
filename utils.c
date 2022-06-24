@@ -57,34 +57,9 @@ int	ft_strlen(char *s)
 		i++;
 	return (i);
 }
-char	*ft_strjoin(char *s1, char *s2,int frr)
-{
-	char	*str;
-	int		i;
-	int		j;
 
-	i = 0;
-	j = 0;
-	if (!s1)
-		return (strdup(s2));
-	if (!s2)
-		return (strdup(s1));
-	str = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 2);
-	if (str == 0)
-		return (0);
-	while (s1[i])
-	{
-		str[j] = s1[i];
-		i++;
-		j++;
-	}
-	i = -1;
-	while (s2[++i])
-	{
-		str[j] = s2[i];
-		j++;
-	}
-	str[j] = '\0';
+void	free_unused(int frr, char *s1, char *s2)
+{
 	if(frr != -1)
 	{
 		if(frr == 0 && s1)
@@ -97,45 +72,51 @@ char	*ft_strjoin(char *s1, char *s2,int frr)
 			free(s2);
 		}
 	}
+}
+
+void	join_string2(char *str, char *s2, int j)
+{
+	int	i;
+
+	i = -1;
+	while (s2[++i])
+	{
+		str[j] = s2[i];
+		j++;
+	}
+	str[j] = '\0';
+
+}
+
+char	*ft_strjoin(char *s1, char *s2,int frr)
+{
+	char	*str;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	if ((!s1 && !s2))
+		return (strdup(""));
+	if (!s1)
+		return (strdup(s2));
+	if (!s2)
+		return (strdup(s1));
+	if ((!s1 && s2[0] == 0 )|| (s1[0] == 0 && !s2))
+		return (strdup(""));
+	str = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 2);
+	if (str == 0)
+		return (0);
+	while (s1[i])
+	{
+		str[j] = s1[i];
+		i++;
+		j++;
+	}
+	join_string2(str, s2, j);
+	free_unused(frr, s1, s2);
 	return (str);
 }
-// char	*ft_strjoin1(char *s1, char *s2 ,int c)
-// {
-// 	char	*str;
-// 	int		i;
-// 	int		j;
-
-// 	str = NULL;
-// 	i = 0;
-// 	j = 0;
-// 	str = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
-// 	str = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
-// 	if (str == 0)
-// 		return (0);
-// 	while (s1[i])
-// 	{
-// 		str[j] = s1[i];
-// 		i++;
-// 		j++;
-// 	}
-// 	i = -1;
-// 	while (s2[++i])
-// 	{
-// 		str[j] = s2[i];
-// 		j++;
-// 	}
-// 	if(c == 1)
-// 		free(s1);
-// 	if(c == 2)
-// 		free(s2);
-// 	if(c == 3)
-// 	{
-// 		free(s2);
-// 		free(s1);
-// 	}
-// 	str[j] = '\0';
-// 	return (str);
-// }
 
 char	*ft_strcharjoin(char *s1, char c)
 {
