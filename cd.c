@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:32:47 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/25 10:16:37 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/25 11:12:22 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	cd_minus(char *pwd)
 	{
 		ft_putstr_fd(o_pwd, 1);
 		ft_putchar_fd('\n', 1);
-		change_pwd(pwd);
+		update_export(&g_vars.my_env, "PWD", '=', o_pwd);
+		update_export(&g_vars.my_env, "OLDPWD", '=', pwd);
 		chdir(o_pwd);
 		g_vars.exit_status = 0;
 	}
