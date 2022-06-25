@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:30:26 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/25 08:39:09 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/25 10:29:55 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@ void	echo_n(t_parse *cmd)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	while (cmd->argv[i])
 	{
-		ft_putstr_fd(cmd->argv[i], STDOUT_FILENO);
+		if (!strcmp(cmd->argv[i], "$?"))
+			ft_putnbr_fd(g_vars.exit_status, STDOUT_FILENO);
+		else
+			ft_putstr_fd(cmd->argv[i], STDOUT_FILENO);
 		i++;
 		if (cmd->argv[i])
 			write(1, " ", 1);
