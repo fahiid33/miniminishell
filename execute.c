@@ -40,9 +40,19 @@ void	open_redir(t_parse *head, int fd[2])
 		}
 		else
 		{
-			// close(fd[0]);
-			head->redir->fd = open(head->redir->file, O_RDONLY);
-			dup2(head->redir->fd, 0);
+			if (access(head->redir->file, F_OK) == -1)
+			{
+				ft_putstr_fd("minishell: no such file or directory: ", 2);
+				ft_putstr_fd(head->redir->file, 2);
+				ft_putchar_fd('\n', 2);
+				g_vars.exit_status = 1;
+				return ;
+			}
+			else
+			{
+				head->redir->fd = open(head->redir->file, O_RDONLY);
+				dup2(head->redir->fd, 0);
+			}
 		}
 		head->redir = head->redir->next;
 	}
