@@ -27,8 +27,8 @@ void	open_redir(t_parse *head, int fd[2])
 				// close(fd[1]);
 				head->redir->fd = open(head->redir->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 				dup2(head->redir->fd, STDOUT_FILENO);
-				ft_putnbr_fd(head->redir->fd, 2);
-				ft_putstr_fd("\n\n", 2);
+				// ft_putnbr_fd(head->redir->fd, 2);
+				// ft_putstr_fd("\n\n", 2);
 			}
 			else
 			{
@@ -68,7 +68,7 @@ void 	last_execute(t_parse *head, t_env **env, int fd[2])
     	g_vars.pid = fork();	
 		if(g_vars.pid)
 		{
-			waitpid(g_vars.exit_status, &status, 0);
+			waitpid(g_vars.pid, &status, 0);
 			if (WIFEXITED(status))
 				g_vars.exit_status = WEXITSTATUS(status);
 		}
