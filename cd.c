@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:32:47 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/24 09:23:48 by fahd             ###   ########.fr       */
+/*   Updated: 2022/06/25 10:16:37 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,30 @@ int home_cd(t_env *env)
 	}
 	return (g_vars.exit_status);
 }
+void	cd_minus(char *pwd)
+{
+	char	*o_pwd;
+
+	o_pwd = my_getenv(&g_vars.my_env, "OLDPWD");
+	if (o_pwd)
+	{
+		ft_putstr_fd(o_pwd, 1);
+		ft_putchar_fd('\n', 1);
+		change_pwd(pwd);
+		chdir(o_pwd);
+		g_vars.exit_status = 0;
+	}
+}
 
 int	cd(t_parse *head, t_env *env)
 {
 	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
-	if (!head->argv[0] || strcmp(head->argv[0], "~") == 0 || head->argv[0][0] == '\0')
+	if (!head->argv[0] || !strcmp(head->argv[0], "~") || head->argv[0][0] == '\0')
 		return (home_cd(env));
+	else if (!strcmp(head->argv[0], "-"))
+		cd_minus(pwd);
 	else if (!chdir(head->argv[0]))
 	{
 		change_pwd(pwd);	
@@ -64,8 +80,7 @@ int	cd(t_parse *head, t_env *env)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd(head->argv[0], 2);
-		ft_putstr_fd(" ", 2);
-		ft_putstr_fd("No such file or directory", 2);
+		ft_putstr_fd(" No such file or directory", 2);
 		ft_putchar_fd('\n', 2);
 		g_vars.exit_status = 1;
 	}

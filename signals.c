@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 03:00:20 by fstitou           #+#    #+#             */
-/*   Updated: 2022/06/24 09:27:07 by fahd             ###   ########.fr       */
+/*   Updated: 2022/06/25 06:32:42 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void    ctl_c()
 {
     ft_putchar_fd('\n', 1);
     rl_on_new_line();
-    rl_replace_line("", 0);
+    // rl_replace_line("", 0);
     rl_redisplay();
 }
 
