@@ -12,7 +12,9 @@ void pipe_child(t_parse *head, t_env **env,int fd[2])
 		exit(g_vars.exit_status);
 	}
 	else
+	{
 		execute(head, env);
+	}
 }
 
 void	open_redir(t_parse *head, int fd[2])
@@ -67,22 +69,17 @@ void pipe_child1(t_parse *head, t_env **env, int fd[2])
 		exit(g_vars.exit_status);
 	}
 	else
+	{
 		execute(head, env);
+	}
 }
 
 void 	last_execute(t_parse *head, t_env **env, int fd[2])
 {
-	int	status;
 	if (!builtins_cases(head))
 	{
     	g_vars.pid = fork();	
-		if(g_vars.pid)
-		{
-			waitpid(g_vars.pid, &status, 0);
-			if (WIFEXITED(status))
-				g_vars.exit_status = WEXITSTATUS(status);
-		}
-		else
+		if(g_vars.pid == 0)
 			pipe_child1(head, env,fd);	
 
 	}
@@ -124,6 +121,7 @@ void exec_pipeline(t_parse *commands, t_env **env)
 			close(fd[1]);
 			close(fd[0]);
         }
+		// g_vars.exit_status = 0;
 		if(head->next != NULL)
             last_execute(head, env, fd);
 		dup2(fds, 0);
