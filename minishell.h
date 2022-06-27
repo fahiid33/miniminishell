@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/24 11:33:10 by fahd             ###   ########.fr       */
+/*   Updated: 2022/06/26 18:06:09 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ typedef struct s_token
 
 typedef struct s_redir
 {
-	int     fd;
+	int	fdout;
+	int     fdin;
 	char *file;
 	int     type;
 	struct s_redir *next;

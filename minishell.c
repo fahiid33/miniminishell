@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/25 10:09:38 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/06/27 19:44:43 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,27 +207,28 @@ int main(int ac, char *av[], char **env)
    // exit(0);
    while (1)
    {
+      
       g_vars.g_err = 0;
-         c_signal();
+      c_signal();
       g_vars.line = readline("MESSI-1.0$ ");
-         if (!g_vars.line)
-         {
-            printf("exit\n");
-            exit(g_vars.exit_status);
-         }
-         if (g_vars.line[0] == '\0' ||  ft_is_space(g_vars.line))
-         {
-            free(g_vars.line);
-            continue;
-         }
-         commands = init_command();
-         test = malloc(sizeof(t_lexer));
-         test = ft_init_lexer(g_vars.line, g_vars.line[0]);
-         test1 = send_lexer_to_tokenize(test);//tokenizing every char in the line
-         add_history(g_vars.line);
-         create_commands(test1, &commands);
-         if (!g_vars.g_err)
-            exec_pipeline(commands, &g_vars.my_env);
+      if (!g_vars.line)
+      {
+         printf("exit\n");
+         exit(g_vars.exit_status);
+      }
+      if (g_vars.line[0] == '\0' ||  ft_is_space(g_vars.line))
+      {
+         free(g_vars.line);
+         continue;
+      }
+      commands = init_command();
+      test = malloc(sizeof(t_lexer));
+      test = ft_init_lexer(g_vars.line, g_vars.line[0]);
+      test1 = send_lexer_to_tokenize(test);//tokenizing every char in the line
+      add_history(g_vars.line);
+      create_commands(test1, &commands);
+      if (!g_vars.g_err)
+         exec_pipeline(commands, &g_vars.my_env);
    }
 
 }
