@@ -70,9 +70,9 @@ void	open_redir(t_parse *head, int fd[2])
 		tmp = tmp->next;
 	}
 	dup2(fout, 1);
-	close(fout);
-	ft_putnbr_fd(fout,2);
-	ft_putchar_fd('\n',2);
+	// close(fout);
+	// ft_putnbr_fd(fout,2);
+	// ft_putchar_fd('\n',2);
 }
 
 void pipe_child1(t_parse *head, t_env **env, int fd[2])
@@ -103,20 +103,7 @@ void 	last_execute(t_parse *head, t_env **env, int fd[2])
 	else
 	{
 		open_redir(head, fd);
-		if((g_vars.pid = fork()) == 0)
-		{
-			signal(SIGINT, SIG_DFL);
-			g_vars.exit_status = exec_builtins(head, env);
-			close(STDOUT_FILENO);
-			exit(g_vars.exit_status);
-		}
-		else
-		{
-			waitpid(g_vars.pid, &status, 0);
-			close(STDOUT_FILENO);
-			if (WIFEXITED(status))
-				g_vars.exit_status = WEXITSTATUS(status);
-		}
+		g_vars.exit_status = exec_builtins(head, env);
 	}
 }
 
