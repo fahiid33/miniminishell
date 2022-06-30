@@ -1,6 +1,6 @@
 
-LDFLAGS = -L$(HOME)/.brew/Cellar/readline/8.1.2/lib
-CPPFLAGS = -I$(HOME).brew/Cellar/readline/8.1.2/include
+CPPFLAGS = -I/Users/fstitou/.brew/opt/readline/inlclude
+LDFLAGS = -L/Users/fstitou/.brew/opt/readline/lib
 
 NAME = minishell
 NAME_BONUS = 

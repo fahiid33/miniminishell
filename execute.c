@@ -6,10 +6,10 @@ void pipe_child(t_parse *head, t_env **env,int fd[2])
 	close(fd[0]);
 	dup2(fd[1], 1);
 	open_redir(head, fd);
-	if(builtins_cases(head))
+	if (builtins_cases(head))
 	{
 		g_vars.exit_status = exec_builtins(head, env);
-		exit(g_vars.exit_status);
+		exit (g_vars.exit_status);
 	}
 	else
 	{
@@ -34,7 +34,10 @@ void	open_redir(t_parse *head, int fd[2])
 	(void)fd;
 	t_redir *tmp;
 	int fout;
+	int	fin;
 
+	fin = 0;
+	fout = 1;
 	tmp = head->redir;
 	while(tmp != NULL)
 	{
@@ -47,7 +50,6 @@ void	open_redir(t_parse *head, int fd[2])
 			}
 			else
 			{
-				// close(fd[1]);
 				tmp->fdout = open(tmp->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 				fout = tmp->fdout;
 			}
@@ -65,13 +67,15 @@ void	open_redir(t_parse *head, int fd[2])
 			else
 			{
 				tmp->fdin = open(tmp->file, O_RDONLY);
-				dup2(tmp->fdin, 0);
-				close(tmp->fdin);
+				fin = tmp->fdin;
 			}
 		}
 		tmp = tmp->next;
 	}
-	dup2(fout, 1);
+	if (fin != 0)
+		dup2(fin, 1);
+	if (fout != 1)
+		dup2(fout, 1);
 	// close(fout);
 	// ft_putnbr_fd(fout,2);
 	// ft_putchar_fd('\n',2);
@@ -79,6 +83,7 @@ void	open_redir(t_parse *head, int fd[2])
 
 void pipe_child1(t_parse *head, t_env **env, int fd[2])
 {
+	(void)fd;
 	open_redir(head, fd);
 	execute(head, env);
 }
@@ -90,13 +95,13 @@ void 	last_execute(t_parse *head, t_env **env, int fd[2])
 	{
     	g_vars.pid = fork();
 			
-		if(g_vars.pid)
-		{
-			waitpid(g_vars.pid, &status, 0);
-			if (WIFEXITED(status))
-				g_vars.exit_status = WEXITSTATUS(status);
-		}
-		else
+		// if(g_vars.pid)
+		// {
+		// 	waitpid(g_vars.pid, &status, 0);
+		// 	if (WIFEXITED(status))
+		// 		g_vars.exit_status = WEXITSTATUS(status);
+		// }
+		if (!g_vars.pid)
 		{
 			signal(SIGINT, SIG_DFL);
 			pipe_child1(head, env,fd);	
@@ -111,7 +116,6 @@ void 	last_execute(t_parse *head, t_env **env, int fd[2])
 
 void exec_pipeline(t_parse *commands, t_env **env)
 {
-	// ft_putstr_fd(commands->cmd, 2);
 	t_parse *head;
 	int	status;
 	int fds;
@@ -124,7 +128,10 @@ void exec_pipeline(t_parse *commands, t_env **env)
         {
             while(head->next->cmd != NULL)
 			{
-				
+				// ft_putstr_fd(commands->cmd, 2);
+				// ft_putstr_fd("\n", 2);
+				// ft_putstr_fd(commands->next->cmd, 2);
+				// ft_putstr_fd("\n", 2);
 				pipe(fd);
 				g_vars.pid = fork();
 				
@@ -136,7 +143,7 @@ void exec_pipeline(t_parse *commands, t_env **env)
       			else
 				{
 					signal(SIGINT, SIG_DFL);
-					 pipe_child(head, env, fd);
+					pipe_child(head, env, fd);
 				}
 				close(fd[1]);
 				close(fd[0]);
@@ -145,7 +152,6 @@ void exec_pipeline(t_parse *commands, t_env **env)
 			close(fd[1]);
 			close(fd[0]);
         }
-		// g_vars.exit_status = 0;
 		if(head->next != NULL)
             last_execute(head, env, fd);
 		dup2(fds, 0);
