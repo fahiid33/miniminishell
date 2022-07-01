@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/27 19:44:43 by fahd             ###   ########.fr       */
+/*   Updated: 2022/07/01 04:02:23 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,22 +195,12 @@ int main(int ac, char *av[], char **env)
    t_token *test1;
    (void)ac;
    (void)av;
-   // (void)env;
-   //    // dup2(pipefd[1], 1);
-   // //  pipe(pipefd);
-   // // printf_env(my_export);
-   // // printf("sec address === %p\n\n", my_env.env[14]);
-	   
    g_vars.my_env = init_env(env);
-   // printf("%s\n\n", g_vars.my_env->key);
-   // print_list_env(g_vars.my_env);
-   // exit(0);
-   c_signal();
    while (1)
    {
+      c_signal();
       g_vars.g_err = 0;
       g_vars.line = readline("MESSI-1.0$ ");
-		// write(2, "zbi ds\n", 7);
       if (!g_vars.line)
       {
          printf("exit\n");
@@ -224,7 +214,7 @@ int main(int ac, char *av[], char **env)
       commands = init_command();
       test = malloc(sizeof(t_lexer));
       test = ft_init_lexer(g_vars.line, g_vars.line[0]);
-      test1 = send_lexer_to_tokenize(test);//tokenizing every char in the line
+      test1 = send_lexer_to_tokenize(test);
       add_history(g_vars.line);
       create_commands(test1, &commands);
       if (!g_vars.g_err)

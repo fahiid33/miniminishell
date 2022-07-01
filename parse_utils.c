@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:11:13 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/24 11:51:19 by fahd             ###   ########.fr       */
+/*   Updated: 2022/07/01 03:34:56 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ void    parse_commands(t_token **token, t_parse *command)
     else if ((*token)->type == GREAT || (*token)->type == LESS
         || (*token)->type == LESSANDLESS || (*token)->type == GREATANDGREAT)
     {
-         if((*token)->next->type == END || (*token)->next->type == PIPE)
+         if((*token)->next->type == END || (*token)->next->type == PIPE || (*token)->next->type ==  GREAT 
+            || (*token)->next->type == LESS || (*token)->next->type == LESSANDLESS || (*token)->next->type == GREATANDGREAT)
          {
             // printf("WAAAAAAAAAAAAAAAAA\n\n");
             errors(258);

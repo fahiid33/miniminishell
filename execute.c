@@ -16,19 +16,7 @@ void pipe_child(t_parse *head, t_env **env,int fd[2])
 		execute(head, env);
 	}
 }
-void closeredir(t_redir *head)
-{
-	t_redir *tmp;
-	tmp = head;
-	while(tmp)
-	{
-		if(tmp->type == GREAT || tmp->type == GREATANDGREAT)
-		{
-			close(tmp->fdout);
-		}
-		tmp = tmp->next;
-	}
-}
+
 void	open_redir(t_parse *head, int fd[2])
 {
 	(void)fd;
@@ -73,12 +61,9 @@ void	open_redir(t_parse *head, int fd[2])
 		tmp = tmp->next;
 	}
 	if (fin != 0)
-		dup2(fin, 1);
+		dup2(fin, 0);
 	if (fout != 1)
 		dup2(fout, 1);
-	// close(fout);
-	// ft_putnbr_fd(fout,2);
-	// ft_putchar_fd('\n',2);
 }
 
 void pipe_child1(t_parse *head, t_env **env, int fd[2])
@@ -93,13 +78,6 @@ void 	last_execute(t_parse *head, t_env **env, int fd[2])
 	if (!builtins_cases(head))
 	{
     	g_vars.pid = fork();
-			
-		// if(g_vars.pid)
-		// {
-		// 	waitpid(g_vars.pid, &status, 0);
-		// 	if (WIFEXITED(status))
-		// 		g_vars.exit_status = WEXITSTATUS(status);
-		// }
 		if (!g_vars.pid)
 		{
 			signal(SIGINT, SIG_DFL);
@@ -132,10 +110,6 @@ void exec_pipeline(t_parse *commands, t_env **env)
         {
             while(head->next->cmd != NULL)
 			{
-				// ft_putstr_fd(commands->cmd, 2);
-				// ft_putstr_fd("\n", 2);
-				// ft_putstr_fd(commands->next->cmd, 2);
-				// ft_putstr_fd("\n", 2);
 				pipe(fd);
 				g_vars.pid = fork();
 				if(g_vars.pid)
@@ -158,12 +132,12 @@ void exec_pipeline(t_parse *commands, t_env **env)
 		if(head->next != NULL)
             last_execute(head, env, fd);
 		dup2(fds, 0);
-		// dup2(fds1, 1);
-		// write(1, "zbi ds\n", 7);
 		while (waitpid(-1, &status , 0) > 0)
 		{
 			if (WIFEXITED(status))
 				g_vars.exit_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				g_vars.exit_status = WTERMSIG(status) + 128;
 		}
 	}
 }
