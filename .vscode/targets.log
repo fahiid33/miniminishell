@@ -5,9 +5,8 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
- 
 
-# Make data base, printed on Fri Jul  1 02:49:24 2022
+# Make data base, printed on Fri Jul  1 03:41:03 2022
 
 # Variables
 
@@ -62,7 +61,7 @@ PATH = /home/bufallo/.vscode-server/bin/30d9c6cd9483b2cc586687151bcbcd635f373630
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-b6c2646b-dcc0-4ab1-b25a-89197c5dbd76.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-7eeac1c9-bd7d-4519-81e3-21cff759a102.sock
 # makefile (from 'Makefile', line 3)
 LDFLAGS = -L/Users/fstitou/.brew/opt/readline/lib
 # default
@@ -160,7 +159,7 @@ WSL_DISTRO_NAME = Ubuntu-20.04
 # environment
 MOTD_SHOWN = update-motd
 # variable set hash-table stats:
-# Load=74/1024=7%, Rehash=0, Collisions=5/111=5%
+# Load=74/1024=7%, Rehash=0, Collisions=5/104=5%
 
 # Pattern-specific Variable Values
 
@@ -168,9 +167,9 @@ MOTD_SHOWN = update-motd
 
 # Directories
 
-# . (device 2, inode 3659174697619876): 31 files, no impossibilities.
+# . (device 2, inode 3659174697619876): 42 files, no impossibilities.
 
-# 31 files, no impossibilities in 1 directories.
+# 42 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -183,47 +182,21 @@ all: minishell
 #  Implicit rule search has been done.
 #  File does not exist.
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/7=0%
-
-# Not a target:
-.SUFFIXES:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Successfully updated.
 
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
+ 
 #  Last modified 2022-07-01 02:47:52.5337915
 #  File has been updated.
 #  Successfully updated.
 
 minishell:
 #  Implicit rule search has not been done.
-#  Implicit/static pattern stem: ''
-#  File does not exist.
+#  Last modified 2022-07-01 03:38:48.316003
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# automatic
-# @ := minishell
-# automatic
-# % := 
-# automatic
-# * := 
-# automatic
-# + := 
-# automatic
-# | := 
-# automatic
-# < := 
-# automatic
-# ^ := 
-# automatic
-# ? := 
-# variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=3/15=20%
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 24):
 	
 	@gcc  -Wall -Wextra -Werror $(SRC) $(LDFLAGS) $(CPPFLAGS) -lreadline  -o $(NAME)
@@ -262,19 +235,19 @@ clean:
 	@echo "🚮🚮🚮"
 
 # files hash-table stats:
-# Load=9/1024=1%, Rehash=0, Collisions=0/26=0%
+# Load=9/1024=1%, Rehash=0, Collisions=0/25=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 41 / storage = 357 B / avg = 8 B
-# current buf: size = 8162 B / used = 357 B / count = 41 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 51 / storage = 397 B / avg = 7 B
+# current buf: size = 8162 B / used = 397 B / count = 51 / avg = 7 B
 
-# strcache performance: lookups = 57 / hit rate = 28%
+# strcache performance: lookups = 67 / hit rate = 23%
 # hash-table stats:
-# Load=41/8192=1%, Rehash=0, Collisions=1/57=2%
-# Finished Make data base on Fri Jul  1 02:49:24 2022
+# Load=51/8192=1%, Rehash=0, Collisions=1/67=1%
+# Finished Make data base on Fri Jul  1 03:41:03 2022
 
  
