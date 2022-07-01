@@ -205,12 +205,12 @@ int main(int ac, char *av[], char **env)
    // printf("%s\n\n", g_vars.my_env->key);
    // print_list_env(g_vars.my_env);
    // exit(0);
+   c_signal();
    while (1)
    {
-      
       g_vars.g_err = 0;
-      c_signal();
       g_vars.line = readline("MESSI-1.0$ ");
+		// write(2, "zbi ds\n", 7);
       if (!g_vars.line)
       {
          printf("exit\n");

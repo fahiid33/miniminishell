@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/bufallo/mio'
+gcc  -Wall -Wextra -Werror minishell.c lexer.c signals.c tokenizing.c utils.c execute.c parse_utils.c builtins.c split.c export-env.c export-env-utils.c cd.c echo.c env.c execute_utils.c exit.c export.c pwd.c unset.c  -L/Users/fstitou/.brew/opt/readline/lib -I/Users/fstitou/.brew/opt/readline/inlclude -lreadline  -o minishell
+echo "👍👍👍"
+make: Leaving directory '/home/bufallo/mio'
+ 
