@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 03:00:20 by fstitou           #+#    #+#             */
-/*   Updated: 2022/07/01 04:06:32 by fahd             ###   ########.fr       */
+/*   Updated: 2022/07/01 05:15:15 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,16 @@
 void    ctl_c()
 {
     if (g_vars.pid != 0 && !kill(g_vars.pid, SIGINT))
+    {
         ft_putstr_fd("\n", 1);
+    }
     else
     {
         ft_putchar_fd('\n', 1);
         rl_on_new_line();
         rl_replace_line("", 0);
         rl_redisplay();
+        g_vars.exit_status = 130;
     }
 }
 void    ctl_bslash()
