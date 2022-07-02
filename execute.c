@@ -12,9 +12,7 @@ void pipe_child(t_parse *head, t_env **env,int fd[2])
 		exit (g_vars.exit_status);
 	}
 	else
-	{
 		execute(head, env);
-	}
 }
 
 void	open_redir(t_parse *head, int fd[2])

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:30:26 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/25 10:29:55 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/07/02 22:58:46 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,40 @@ void	echo_n(t_parse *cmd)
 	i = 1;
 	while (cmd->argv[i])
 	{
-		if (!strcmp(cmd->argv[i], "$?"))
+		if (!strncmp(cmd->argv[i], "$?", 2))
+		{
 			ft_putnbr_fd(g_vars.exit_status, STDOUT_FILENO);
+			// if ((cmd->argv[i]) + 1)
+			// ft_putstr_fd((cmd->argv[i]), STDOUT_FILENO);
+		}
 		else
 			ft_putstr_fd(cmd->argv[i], STDOUT_FILENO);
 		i++;
 		if (cmd->argv[i])
 			write(1, " ", 1);
+	}
+}
+
+void	printf_exit(char *exit)
+{
+	int	i;
+
+	i = 0;
+	while (exit[i])
+	{
+		if (exit[i] == '$')
+		{
+			if (exit[i + 1] == '?')
+			{
+				ft_putnbr_fd(g_vars.exit_status, STDOUT_FILENO);
+				i++;
+			}
+			else
+				write(1, &exit[i], 1);
+		}
+		else
+			write(1, &exit[i], 1);
+		i++;
 	}
 }
 void	echo_e(t_parse *cmd)
@@ -35,8 +62,8 @@ void	echo_e(t_parse *cmd)
 	i = 0;
 	while (cmd->argv[i])
 	{
-		if (!strcmp(cmd->argv[i], "$?"))
-			ft_putnbr_fd(g_vars.exit_status, STDOUT_FILENO);
+		if (!strncmp(cmd->argv[i], "$?", 2))
+			printf_exit(cmd->argv[i]);
 		else
 			ft_putstr_fd(cmd->argv[i], STDOUT_FILENO);
 		i++;

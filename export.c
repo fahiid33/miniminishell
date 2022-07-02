@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:26:33 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/24 04:22:11 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/07/02 22:16:55 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,7 @@ void	run_export(t_env *my_env, char **argc)
 int	export(t_parse *head)
 {
 	if (!head->argv[0])
-	{
 		print_export(g_vars.my_env);
-	}
 	else
 		run_export(g_vars.my_env, head->argv);
 	return (g_vars.exit_status);

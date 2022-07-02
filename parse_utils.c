@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:11:13 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/01 03:34:56 by fahd             ###   ########.fr       */
+/*   Updated: 2022/07/02 22:54:49 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ void    parse_commands(t_token **token, t_parse *command)
         || (*token)->type == LESSANDLESS || (*token)->type == GREATANDGREAT)
     {
          if((*token)->next->type == END || (*token)->next->type == PIPE || (*token)->next->type ==  GREAT 
-            || (*token)->next->type == LESS || (*token)->next->type == LESSANDLESS || (*token)->next->type == GREATANDGREAT)
+            || (*token)->next->type == LESS || (*token)->next->type == LESSANDLESS 
+            || (*token)->next->type == GREATANDGREAT)
          {
-            // printf("WAAAAAAAAAAAAAAAAA\n\n");
             errors(258);
          }
         type = (*token)->type;
@@ -134,11 +134,9 @@ void create_commands(t_token *token, t_parse **command)
 
 char *jme3arg(t_token **b, int exec)
 {
-	// int	len;
     char *str;
 
     str = strdup("");
-	// len = 0;
 	while ((*b) && (*b)->flag == 1)
 	{
         if((*b)->type == DOLLAR)
