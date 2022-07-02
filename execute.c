@@ -18,6 +18,7 @@ void pipe_child(t_parse *head, t_env **env,int fd[2])
 void	open_redir(t_parse *head, int fd[2])
 {
 	(void)fd;
+	char *p;
 	t_redir *tmp;
 	int fout;
 	int	fin;
@@ -40,21 +41,34 @@ void	open_redir(t_parse *head, int fd[2])
 				fout = tmp->fdout;
 			}
 		}
-		else
+		else if (tmp->type == LESS || tmp->type == LESSANDLESS)
 		{
-			if (access(tmp->file, F_OK) == -1)
-			{
-				ft_putstr_fd("minishell: no such file or directory: ", 2);
-				ft_putstr_fd(tmp->file, 2);
-				ft_putchar_fd('\n', 2);
-				g_vars.exit_status = 1;
-				return ;
+			if (tmp->type == LESS)
+			{	if (access(tmp->file, F_OK) == -1)
+				{
+					ft_putstr_fd("minishell: no such file or directory: ", 2);
+					ft_putstr_fd(tmp->file, 2);
+					ft_putchar_fd('\n', 2);
+					g_vars.exit_status = 1;
+					return ;
+				}
+				else
+				{
+					tmp->fdin = open(tmp->file, O_RDONLY);
+					fin = tmp->fdin;
+				}
 			}
 			else
 			{
-				tmp->fdin = open(tmp->file, O_RDONLY);
+				tmp->fdin = open("/tmp/heh", O_CREAT | O_RDWR | O_APPEND, 0644);
 				fin = tmp->fdin;
-			}
+				while (strcmp((p = readline(">")) , tmp->file))
+				{
+					write(tmp->fdin, p, ft_strlen(p));
+					write(tmp->fdin, "\n", 1);
+				}
+				// ft_putnbr_fd(tmp->fdin, 2);
+			}	
 		}
 		tmp = tmp->next;
 	}

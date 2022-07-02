@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/01 05:15:41 by fahd             ###   ########.fr       */
+/*   Updated: 2022/07/02 23:36:58 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,12 @@ int main(int ac, char *av[], char **env)
       add_history(g_vars.line);
       create_commands(test1, &commands);
       if (!g_vars.g_err)
+      {
+         // open_heredocs(commands);
          exec_pipeline(commands, &g_vars.my_env);
+         // unlink_heredocs(commands);
+      }
+   
    }
 
 }
