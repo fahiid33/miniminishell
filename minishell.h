@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/26 18:06:09 by fahd             ###   ########.fr       */
+/*   Updated: 2022/07/16 00:37:31 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_minishell
 	int	exit_status;
 	int		g_err;
 	pid_t	pid;
+	int	exited;
 	t_env	*my_env;
 }	t_minishell;
 
@@ -154,7 +155,7 @@ int		pwd(void);
 void  	free_l(char **env);
 int		env(void);
 void	errors(int exitt);
-t_env	*init_env(char **env);
+void	init_env(char **env);
 char	*my_getenv(t_env  **env, char *key);
 void	update_export(t_env **env, char *key, char sep, char *val);
 char	*get_path(char *cmd, char **env);
@@ -173,5 +174,6 @@ int		unset(t_parse *cmd);
 int	    check_env_string(char *str);
 void	wrong_cmd(char *cmd);
 void    c_signal();
-void    open_redir(t_parse *head, int fd[2]);
+void    open_redir(t_parse *head);
+int   is_piped(void);
 #endif

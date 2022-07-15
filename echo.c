@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:30:26 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/02 23:38:33 by fahd             ###   ########.fr       */
+/*   Updated: 2022/07/04 15:31:38 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	printf_exit(char *exit)
 	int	i;
 
 	i = 0;
+	
 	while (exit[i])
 	{
 		if (exit[i] == '$')
@@ -41,10 +42,7 @@ void	echo_n(t_parse *cmd)
 	i = 1;
 	while (cmd->argv[i])
 	{
-		if (!strncmp(cmd->argv[i], "$?", 2))
-			printf_exit(cmd->argv[i]);
-		else
-			ft_putstr_fd(cmd->argv[i], STDOUT_FILENO);
+		printf_exit(cmd->argv[i]);
 		i++;
 		if (cmd->argv[i])
 			write(1, " ", 1);
@@ -58,10 +56,7 @@ void	echo_e(t_parse *cmd)
 	i = 0;
 	while (cmd->argv[i])
 	{
-		if (!strncmp(cmd->argv[i], "$?", 2))
-			printf_exit(cmd->argv[i]);
-		else
-			ft_putstr_fd(cmd->argv[i], STDOUT_FILENO);
+		printf_exit(cmd->argv[i]);
 		i++;
 		if (cmd->argv[i])
 			write(STDOUT_FILENO, " ", 1);

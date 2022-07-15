@@ -98,7 +98,7 @@ void	join_string2(char *str, char *s2, int j)
 	i = -1;
 	while (s2[++i])
 	{
-		str[j] = s2[i];
+	str[j] = s2[i];
 		j++;
 	}
 	str[j] = '\0';

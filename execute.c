@@ -5,7 +5,7 @@ void pipe_child(t_parse *head, t_env **env,int fd[2])
 {
 	close(fd[0]);
 	dup2(fd[1], 1);
-	open_redir(head, fd);
+	open_redir(head);
 	if (builtins_cases(head))
 	{
 		g_vars.exit_status = exec_builtins(head, env);
@@ -15,10 +15,8 @@ void pipe_child(t_parse *head, t_env **env,int fd[2])
 		execute(head, env);
 }
 
-void	open_redir(t_parse *head, int fd[2])
+void	open_redir(t_parse *head)
 {
-	(void)fd;
-	char *p;
 	t_redir *tmp;
 	int fout;
 	int	fin;
@@ -58,17 +56,16 @@ void	open_redir(t_parse *head, int fd[2])
 					fin = tmp->fdin;
 				}
 			}
-			else
-			{
-				tmp->fdin = open("/tmp/heh", O_CREAT | O_RDWR | O_APPEND, 0644);
-				fin = tmp->fdin;
-				while (strcmp((p = readline(">")) , tmp->file))
-				{
-					write(tmp->fdin, p, ft_strlen(p));
-					write(tmp->fdin, "\n", 1);
-				}
-				// ft_putnbr_fd(tmp->fdin, 2);
-			}	
+			// else
+			// {
+			// 	tmp->fdin = open("/tmp/heh", O_CREAT | O_RDWR | O_APPEND, 0644);
+			// 	fin = tmp->fdin;
+			// 	while (strcmp((p = readline(">")) , tmp->file))
+			// 	{
+			// 		write(tmp->fdin, p, ft_strlen(p));
+			// 		write(tmp->fdin, "\n", 1);
+			// 	}
+			// }	
 		}
 		tmp = tmp->next;
 	}
@@ -78,14 +75,13 @@ void	open_redir(t_parse *head, int fd[2])
 		dup2(fout, 1);
 }
 
-void pipe_child1(t_parse *head, t_env **env, int fd[2])
+void pipe_child1(t_parse *head, t_env **env)
 {
-	(void)fd;
-	open_redir(head, fd);
+	open_redir(head);
 	execute(head, env);
 }
 
-void 	last_execute(t_parse *head, t_env **env, int fd[2])
+void 	last_execute(t_parse *head, t_env **env)
 {
 	if (!builtins_cases(head))
 	{
@@ -93,27 +89,23 @@ void 	last_execute(t_parse *head, t_env **env, int fd[2])
 		if (!g_vars.pid)
 		{
 			signal(SIGINT, SIG_DFL);
-			pipe_child1(head, env,fd);	
+			pipe_child1(head, env);
 		}
 	}
 	else
 	{
-		if((g_vars.pid = fork()) == 0)
-		{
-			open_redir(head, fd);
-			g_vars.exit_status = exec_builtins(head, env);
-			exit(g_vars.exit_status);
-		}
+		open_redir(head);
+		g_vars.exit_status = exec_builtins(head, env);
 	}
 }
-
 void exec_pipeline(t_parse *commands, t_env **env)
 {
 	t_parse *head;
 	int	status;
-	int fds;
+	int fds[2];
 	head = commands;
-	fds = dup(0);
+	fds[0] = dup(0);
+	fds[1] = dup(1);
 	int fd[2];
 
 	if (head && head->cmd)
@@ -141,9 +133,17 @@ void exec_pipeline(t_parse *commands, t_env **env)
 			close(fd[1]);
 			close(fd[0]);
         }
+		while (waitpid(-1, &status , 0) > 0)
+		{
+			if (WIFEXITED(status))
+				g_vars.exit_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				g_vars.exit_status = WTERMSIG(status) + 128;
+		}
 		if(head->next != NULL)
-            last_execute(head, env, fd);
-		dup2(fds, 0);
+            last_execute(head, env);
+		dup2(fds[0], 0);
+		dup2(fds[1], 1);
 		while (waitpid(-1, &status , 0) > 0)
 		{
 			if (WIFEXITED(status))

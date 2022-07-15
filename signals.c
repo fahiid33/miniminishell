@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 03:00:20 by fstitou           #+#    #+#             */
-/*   Updated: 2022/07/01 05:15:15 by fahd             ###   ########.fr       */
+/*   Updated: 2022/07/15 22:55:41 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,15 @@ void    ctl_c()
     {
         ft_putchar_fd('\n', 1);
         rl_on_new_line();
-        rl_replace_line("", 0);
+        // rl_replace_line("", 0);
         rl_redisplay();
-        g_vars.exit_status = 130;
+        g_vars.exit_status = 1;
     }
 }
 void    ctl_bslash()
 {
-    if (!kill(g_vars.pid, SIGQUIT))
-        ft_putstr_fd("QUIT\n", 1);
-    
-   
+    if (g_vars.pid != 0 && !kill(g_vars.pid, SIGQUIT))
+        ft_putstr_fd("QUIT: 3\n", 1);
 }
 void    c_signal()
 {

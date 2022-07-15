@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 05:17:20 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/24 11:28:46 by fahd             ###   ########.fr       */
+/*   Updated: 2022/07/15 23:52:49 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,8 @@ t_lexer	*ft_init_lexer(char *str, char c)
     lexer = (t_lexer *)malloc(sizeof(t_lexer));
 	if (!lexer)
         return (NULL);
-	// if (!str || !strcmp(str, "") || c == '\0')
-	// 	return NULL;
-	lexer->str = str; //aka line
-	lexer->c = c; // first char of line
+	lexer->str = str;
+	lexer->c = c;
 	lexer->i = 0;
     return (lexer);
 }
@@ -174,7 +172,7 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 	return (tmp);		
 }
 
-char* expand_dollar(char *dq_content, int exec)
+char	*expand_dollar(char *dq_content, int exec)
 {
    t_token			*token;
 	t_token			*tmp;

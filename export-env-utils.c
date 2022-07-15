@@ -6,13 +6,12 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:31:07 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/06/25 10:09:58 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/07/16 00:43:19 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-//split the string with char c
 t_env	*lst_new(char *key, char sep, char *val)
 {
 	t_env	*new;
@@ -24,12 +23,11 @@ t_env	*lst_new(char *key, char sep, char *val)
 	new->next = NULL;
 	return (new);
 }
-//add new to lst
 void	lst_add_backenv(t_env **lst, t_env *new)
 {
 	t_env	*tmp;
-	tmp = *lst;
 
+	tmp = *lst;
 	if (!new)
 		return ;
 	new->next = NULL;
@@ -43,24 +41,35 @@ void	lst_add_backenv(t_env **lst, t_env *new)
 	}
 }
 
-t_env	*init_env(char **env)
+void free_2(char **tmp)
+{
+	int	i;
+
+	i = 0;
+	while (tmp[i])
+	{
+		free(tmp[i]);
+		i++;
+	}
+	free(tmp);
+}
+
+void	init_env(char **env)
 {
 	char	*key;
 	char	*val;
 	int	i;
-	t_env	*new;
 	char **tmp;
-	new = g_vars.my_env;
 	i = 0;
 	while (env[i])
 	{
 		tmp = ft_split(env[i], '=');	
 		key = tmp[0];
 		val = tmp[1];
-		lst_add_backenv(&new, lst_new(key, '=', val));
+		lst_add_backenv(&g_vars.my_env, lst_new(key, '=', val));
+		// free_2(tmp);
 		i++;
 	}
-	return (new);
 }
 
 char	*my_getenv(t_env  **env, char *key)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:11:13 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/02 22:54:49 by fahd             ###   ########.fr       */
+/*   Updated: 2022/07/04 15:31:45 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ void create_commands(t_token *token, t_parse **command)
 char *jme3arg(t_token **b, int exec)
 {
     char *str;
-
     str = strdup("");
 	while ((*b) && (*b)->flag == 1)
 	{
@@ -155,10 +154,16 @@ char *jme3arg(t_token **b, int exec)
                 }
                 else
                 {
-                    if((*b)->val[1] == ' ')
+                    if((*b)->val[1] == ' ' || (*b)->val[1] == '\0')
                         str = ft_strjoin(str, strdup("$"),2);
-                    else if(!exec)
+                    else if((*b)->val[1] == '?')
+                    {
                         str = ft_strjoin(str, strdup("$?"), 2);
+                    }
+                    else if((*b)->val[1] == '$')
+                    {
+                        str = ft_strjoin(str, strdup("$$"), 2);
+                    }
                     else
                         str = ft_strjoin(str, "69", 2);
                     (*b) = (*b)->next;
@@ -195,11 +200,11 @@ char *jme3arg(t_token **b, int exec)
         else
         {
             if((*b)->val[1] == ' ')
+            {
                 str = ft_strjoin(str, strdup("$"),2);
+            }
             else if(!exec)
                 str = ft_strjoin(str, strdup("$?"), 2);
-            else
-                str = ft_strjoin(str, "69", 2);
             (*b) = (*b)->next;
             return str;
         }
