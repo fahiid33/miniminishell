@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/16 00:41:13 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/07/16 17:39:42 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,6 @@ void  free_l(char **env)
 }
 void  print_list_env(t_env *tmp)
 {
-//  printf every node in env list
  if (tmp)
  {
    while (tmp)
@@ -250,7 +249,9 @@ int main(int ac, char *av[], char **env)
       add_history(g_vars.line);
       create_commands(test1, &commands);
       if (!g_vars.g_err)
+      {
          exec_pipeline(commands, &g_vars.my_env);
+      }
    }
 
 }

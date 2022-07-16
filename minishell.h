@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/16 00:37:31 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/07/16 17:56:00 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,6 @@ int		unset(t_parse *cmd);
 int	    check_env_string(char *str);
 void	wrong_cmd(char *cmd);
 void    c_signal();
-void    open_redir(t_parse *head);
+void    open_redir(t_parse *head, int exec);
 int   is_piped(void);
 #endif

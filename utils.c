@@ -278,7 +278,7 @@ void	errors(int exitt)
 		ft_putstr_fd("Minishell : syntax error near unexpected token `newline'", 2);
 		ft_putchar_fd('\n', 2);
 		g_vars.g_err = 1;
-		g_vars.exit_status = 258;
+		g_vars.exit_status = 2;
 	}
 	else if(exitt == 3)
 	{
