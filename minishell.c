@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/16 17:39:42 by fahd             ###   ########.fr       */
+/*   Updated: 2022/07/24 19:48:24 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,40 +185,9 @@ int   ft_is_space(char *line)
    }
    return 1;
 }
-void  free_all(t_lexer *lex, t_token *tok, char *line, t_parse *cmd)
-{
-   // (void)tok;
-   // (void)line;
-   if (lex)
-   {
-      while (lex)
-      {
-         free(lex);
-         advance_lexer(lex);
-      }
-   }
-   if (tok)
-   {
-      while (tok)
-      {
-         free(tok);
-         tok = tok->next;
-      }
-   }
-   free(line);
-   if (cmd)
-   {
-      while (cmd)
-      {
-         free(cmd);
-         cmd = cmd->next;
-      }
-   }
-}
 
 int main(int ac, char *av[], char **env)
 {
-   // char	*line;
    t_parse *commands;
    t_lexer	*test;
    t_token *test1;
@@ -249,9 +218,6 @@ int main(int ac, char *av[], char **env)
       add_history(g_vars.line);
       create_commands(test1, &commands);
       if (!g_vars.g_err)
-      {
          exec_pipeline(commands, &g_vars.my_env);
-      }
    }
-
 }
