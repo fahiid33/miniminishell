@@ -23,9 +23,6 @@ void pipe_child(t_parse *head, t_env **env)
 	}
 	else
 	{
-		perror("WAAAA\n");
-		ft_putstr_fd(head->cmd, 2);
-		ft_putchar_fd('\n', 2);
 		execute(head, env);
 	}
 }
@@ -70,17 +67,7 @@ void	open_redir(t_parse *head, int exe)
 					tmp->fdin = open(tmp->file, O_RDONLY);
 					fin = tmp->fdin;
 				}
-			}
-			// else
-			// {
-			// 	tmp->fdin = open("/tmp/heh", O_CREAT | O_RDWR | O_APPEND, 0644);
-			// 	fin = tmp->fdin;
-			// 	while (strcmp((p = readline(">")) , tmp->file))
-			// 	{
-			// 		write(tmp->fdin, p, ft_strlen(p));
-			// 		write(tmp->fdin, "\n", 1);
-			// 	}
-			// }	
+			}	
 		}
 		tmp = tmp->next;
 	}
@@ -143,8 +130,8 @@ int	dup_pipes(t_parse *cmd, int in, int i, int *fd)
 void	redirect_in_out(t_parse *cmd, int in, int index, int *fd)
 {
 	int	err;
-
 	err = 0;
+
 	err = dup_pipes(cmd, in, index, fd);
 	if (err < 0)
 		exit (1);
@@ -155,11 +142,13 @@ void	exec_pipeline(t_parse *commands, t_env **env)
 	t_parse *head;
 	int	status;
 	int fds[2];
-	head = commands;
 	int fd[2];
 	int		i;
 	int		in;
 
+	head = commands;
+	i = 0;
+	in = 0;
 	if (simple_cmd(head))
 	{
 		fds[0] = dup(0);
@@ -168,12 +157,13 @@ void	exec_pipeline(t_parse *commands, t_env **env)
 		g_vars.exit_status = exec_builtins(head, env);
 		dup2(fds[0], 0);
 		dup2(fds[1], 1);
+		return;
 	}
 	if (!head->cmd && head->redir)
 		open_redir(head, 1);
 	i = 0;
 	in = 0;
-	while (head->next != NULL)
+	while (head != NULL)
 	{
 		pipe(fd);
 		g_vars.pid = fork();
@@ -188,6 +178,7 @@ void	exec_pipeline(t_parse *commands, t_env **env)
 		in = fd[0];
 		head = head->next;
 		i++;
+		// printf("WAAA\n\n");
 	}
 	while (waitpid(-1, &status , 0) > 0)
 	{
