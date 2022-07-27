@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export-env-utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:31:07 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/07/16 00:43:19 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/07/27 17:56:30 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,19 @@ char	*my_getenv(t_env  **env, char *key)
 	{
 		if (strcmp(tmp->key, key) == 0)
 			return (tmp->val);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+char	*my_getenv_key(t_env  **env, char *key)
+{
+	t_env	*tmp;
+
+	tmp = (*env);
+	while (tmp)
+	{
+		if (strcmp(tmp->key, key) == 0)
+			return (tmp->key);
 		tmp = tmp->next;
 	}
 	return (NULL);

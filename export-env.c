@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export-env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:29:30 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/07/16 00:11:56 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/07/27 17:57:19 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ int	str_is_alnum(char *str)
 
 int	check_exp_arg(char *to_check)
 {
-	if (to_check[strlen(to_check) - 1] == '+' && str_is_alnum(ft_substr(to_check, 0, strlen(to_check) - 1)))
+	if (to_check[strlen(to_check) - 1] == '+' && str_is_alnum(ft_substr(to_check, 0, strlen(to_check) - 1))
+		&& my_getenv_key(&g_vars.my_env, ft_substr(to_check, 0, strlen(to_check) - 1)))
 		to_check = ft_substr(to_check, 0, strlen(to_check) - 1);
 	if (str_is_alnum(to_check) == 0 || (to_check[0] >= '0' && to_check[0] <= '9'))
 	{

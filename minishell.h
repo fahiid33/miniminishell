@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/27 16:50:13 by fahd             ###   ########.fr       */
+/*   Updated: 2022/07/27 17:58:10 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ int		env(void);
 void	errors(int exitt);
 void	init_env(char **env);
 char	*my_getenv(t_env  **env, char *key);
+char	*my_getenv_key(t_env  **env, char *key);
 void	update_export(t_env **env, char *key, char sep, char *val);
 char	*get_path(char *cmd, char **env);
 void	execute(t_parse *command, t_env **env);
