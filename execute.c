@@ -149,6 +149,11 @@ void	exec_pipeline(t_parse *commands, t_env **env)
 	head = commands;
 	i = 0;
 	in = 0;
+	if (!head->cmd && head->redir)
+	{
+		open_redir(head, 1);
+		return ;
+	}
 	if (simple_cmd(head))
 	{
 		fds[0] = dup(0);
@@ -159,8 +164,6 @@ void	exec_pipeline(t_parse *commands, t_env **env)
 		dup2(fds[1], 1);
 		return ;
 	}
-	if (!head->cmd && head->redir)
-		open_redir(head, 1);
 	i = 0;
 	in = 0;
 	while (head->cmd != NULL)
