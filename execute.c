@@ -112,7 +112,7 @@ int	simple_cmd(t_parse *cmd)
 
 int	dup_pipes(t_parse *cmd, int in, int i, int *fd)
 {
-	if (cmd->next != NULL)
+	if (cmd->next->cmd != NULL)
 	{
 		dup2(fd[1], 1);
 		close(fd[0]);
@@ -157,13 +157,13 @@ void	exec_pipeline(t_parse *commands, t_env **env)
 		g_vars.exit_status = exec_builtins(head, env);
 		dup2(fds[0], 0);
 		dup2(fds[1], 1);
-		return;
+		return ;
 	}
 	if (!head->cmd && head->redir)
 		open_redir(head, 1);
 	i = 0;
 	in = 0;
-	while (head != NULL)
+	while (head->cmd != NULL)
 	{
 		pipe(fd);
 		g_vars.pid = fork();
@@ -178,7 +178,6 @@ void	exec_pipeline(t_parse *commands, t_env **env)
 		in = fd[0];
 		head = head->next;
 		i++;
-		// printf("WAAA\n\n");
 	}
 	while (waitpid(-1, &status , 0) > 0)
 	{
