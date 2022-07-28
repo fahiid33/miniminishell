@@ -3,6 +3,6 @@
 int main()
 {
 	char *str = "eocdw";
-	
+	strcpy(str, "l");
 	printf("%s\n", str);
 }
