@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 04:53:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/06/27 00:39:54 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/07/28 19:42:02 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,31 @@
 
 void	wrong_cmd(char *cmd)
 {
-	if (cmd)
+	write(2, "minishell: ", 11);
+	write(2, cmd, ft_int_strchr(cmd, 0));
+	if (access(cmd, F_OK) == 0 && ((ft_int_strchr(cmd, '.') == 0 && \
+		ft_int_strchr(cmd, '/') == 1) || (ft_int_strchr(cmd, '/') == 0)) && \
+		access(cmd, X_OK) != 0)
 	{
-		write(2, "minishell: ", 11);
-		write(2, cmd, ft_int_strchr(cmd, 0));
+		write(2, ": Permission denied\n", 21);
+		g_vars.exit_status = 126;
+	}
+	else if (access(cmd, F_OK) == 0 && (access(cmd, W_OK) || access(cmd, R_OK)))
+	{
+		write(2, ": Permission denied\n", 21);
+		g_vars.exit_status = 126;
+	}
+	else if (access(cmd, F_OK) != 0)
+	{
+		write(2, ": No such file or directory\n", 28);
+		g_vars.exit_status = 127;
+	}
+	else
+	{
 		write(2, ": command not found\n", 20);
         g_vars.exit_status = 127;
-		exit(g_vars.exit_status);
 	}
+	exit(g_vars.exit_status);
 }
 
 int	count_env(t_env **env)
