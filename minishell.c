@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/26 20:46:26 by fahd             ###   ########.fr       */
+/*   Updated: 2022/07/28 18:09:53 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,29 +117,6 @@ int array_size(char **str)
 		i++;
 	// printf("%d\n", i);
 	return (i);
-}
-
-char	**my_envir(char **env)
-{
-   char   **str;
-   int   i = 0;
-   int	j = 0;
-   int size = array_size(env);
-   if(getenv("OLDPWD") != NULL)
-      str = (char **)malloc(sizeof (char *) * (size));
-   else
-      str = (char **)malloc(sizeof (char *) * (size + 1));
-	while (env[i])
-	{
-      if(strncmp(env[i],"OLDPWD",6))
-		{
-         str[j] = strdup(env[i]);
-		   j++;
-      }
-		i++;
-	}
-	str[j] = NULL;
-	return (str); 
 }
 
 void  free_l(char **env)
