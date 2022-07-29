@@ -117,10 +117,8 @@ void	dup_pipes(t_parse *cmd, int in, int i, int *fd)
 
 void	redirect_in_out(t_parse *cmd, int in, int index, int *fd)
 {
-	if (cmd->redir)
-		open_redir(cmd, 0);
-	else
-		dup_pipes(cmd, in, index, fd);
+	dup_pipes(cmd, in, index, fd);
+	open_redir(cmd, 0);
 }
 
 void pipe_child(t_parse *head, t_env **env)
@@ -167,13 +165,10 @@ void	exec_pipeline(t_parse *commands, t_env **env)
 	{
 		pipe(fd);
 		g_vars.pid = fork();
-		if (g_vars.pid == 0)
+		if (!g_vars.pid)
 		{
-			// ft_putnbr_fd(fd[0], 2);
-			// ft_putchar_fd('\n', 2);
-			// ft_putnbr_fd(fd[1], 2);
-			// ft_putchar_fd('\n', 2);
-			redirect_in_out(head, i, in, fd);
+			signal(SIGINT, SIG_DFL);
+			redirect_in_out(head, in, i, fd);
 			pipe_child(head, env);
 		}
 		close(fd[1]);
@@ -183,12 +178,10 @@ void	exec_pipeline(t_parse *commands, t_env **env)
 		head = head->next;
 		i++;
 	}
-	while (waitpid(g_vars.pid, &status , 0) > 0)
+	while (waitpid(g_vars.pid, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))
-		{
 			g_vars.exit_status = WEXITSTATUS(status);
-		}
 		else if (WIFSIGNALED(status))
 			g_vars.exit_status = WTERMSIG(status) + 128;
 	}
