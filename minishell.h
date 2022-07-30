@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/29 20:47:39 by fahd             ###   ########.fr       */
+/*   Updated: 2022/07/30 19:19:26 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,8 +173,10 @@ int 	my_exit(t_parse *cmd);
 int		echo(t_parse *cmd);
 int		unset(t_parse *cmd);
 int	    check_env_string(char *str);
-void	wrong_cmd(char *cmd);
+void	wrong_cmd(void);
 void    c_signal();
-void    open_redir(t_parse *head, int exec);
-int   is_piped(void);
+void	open_redir(t_parse *head, int exec);
+void	pipe_redir(t_parse *cmd, int in, int index, int *fd);
+int		simple_cmd(t_parse *cmd);
+int		is_piped(void);
 #endif

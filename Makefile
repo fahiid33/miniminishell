@@ -7,6 +7,7 @@ NAME_BONUS =
 
 SRC = minishell.c lexer.c signals.c tokenizing.c utils.c utils2.c execute.c parse_utils.c builtins.c split.c\
 		export-env.c export-env-utils.c cd.c echo.c env.c execute_utils.c exit.c export.c pwd.c unset.c\
+		redirections.c\
 
 		
 SRC_BONUS = 
@@ -14,6 +15,7 @@ SRC_BONUS =
 
 OBJ = minishell.o lexer.o signals.o tokenizing.o utils.o utils2.o execute.o parse_utils.o builtins.o split.o\
 		export-env.o export-env-utils.o cd.o echo.o env.o execute_utils.o exit.o export.o pwd.o unset.o\
+		redirections.o\
 
 OBJ_BONUS = 
 
