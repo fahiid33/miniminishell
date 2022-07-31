@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 03:00:20 by fstitou           #+#    #+#             */
-/*   Updated: 2022/07/29 20:54:34 by fahd             ###   ########.fr       */
+/*   Updated: 2022/07/31 02:25:45 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,25 @@
 
 void    ctl_c()
 {
-    if (g_vars.pid != 0)
-    {
-        kill(g_vars.pid, SIGINT);
-        write(1, "\n", 1);
-        g_vars.pid = 0;
-    }
-    else
+    if (!g_vars.line)
     {
         ft_putchar_fd('\n', 1);
         rl_on_new_line();
         rl_replace_line("", 0);
         rl_redisplay();
         g_vars.exit_status = 1;
+    
+
+    }
+    else
+    {
+        kill(g_vars.pid, SIGINT);
+        write(1, "\n", 1);
     }
 }
 void    ctl_bslash()
 {
-    if (g_vars.pid != 0)
+    if (g_vars.line && g_vars.pid != 0)
         ft_putstr_fd("QUIT: 3\n", 1);
 }
 void    c_signal()

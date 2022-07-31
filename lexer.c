@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 05:17:20 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/15 23:52:49 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/07/30 20:08:26 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,31 +110,31 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 				val = ft_strsub(lexer, 2);
 				token = init_token(val, type);
 				tmp = lst_add_back(tmp, token);
-				}
+			}
 			else
 			{
 				type = LESS;
 				val = ft_strsub(lexer, 1);
 				token = init_token(val, type);
 				tmp = lst_add_back(tmp, token);
-				}
+			}
 		}
 		else if (lexer->c == '>')
 		{
-			if (lexer->str[lexer->i+1] == '>')
+			if (lexer->str[lexer->i + 1] == '>')
 			{
 				type = GREATANDGREAT;
 				val = ft_strsub(lexer, 2);
 				token = init_token(val, type);
 				tmp = lst_add_back(tmp, token);
-				}
+			}
 			else
 			{
 				type = GREAT;
 				val = ft_strsub(lexer, 1);
 				token = init_token(val, type);
 				tmp = lst_add_back(tmp, token);
-				}
+			}
 		}
 		else if (lexer->c == '$')
 		{

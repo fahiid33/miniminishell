@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/28 18:09:53 by fahd             ###   ########.fr       */
+/*   Updated: 2022/07/31 02:22:45 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ int main(int ac, char *av[], char **env)
       // exit(0);
    while (1)
    {
+      g_vars.line = NULL;
       c_signal();
       g_vars.g_err = 0;
       g_vars.line = readline("MESSI-1.0$ ");
