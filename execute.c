@@ -38,7 +38,6 @@ void	__child(t_parse *cmd, t_env **env)
 		g_vars.pid = fork();
 		if (!g_vars.pid)
 		{
-			signal(SIGINT, SIG_DFL);
 			pipe_redir(cmd, in, i, fd);
 			pipe_child(cmd, env);
 		}

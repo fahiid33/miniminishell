@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:31:07 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/07/27 17:56:30 by fahd             ###   ########.fr       */
+/*   Updated: 2022/07/31 03:06:17 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_env	*lst_new(char *key, char sep, char *val)
 	new->next = NULL;
 	return (new);
 }
+
 void	lst_add_backenv(t_env **lst, t_env *new)
 {
 	t_env	*tmp;
@@ -85,6 +86,7 @@ char	*my_getenv(t_env  **env, char *key)
 	}
 	return (NULL);
 }
+
 char	*my_getenv_key(t_env  **env, char *key)
 {
 	t_env	*tmp;
@@ -98,6 +100,7 @@ char	*my_getenv_key(t_env  **env, char *key)
 	}
 	return (NULL);
 }
+
 void	check_numb(char *str)
 {
 	int	i;
@@ -107,7 +110,8 @@ void	check_numb(char *str)
 	{
 		if (!ft_isdigit(str[i]))
 		{
-			ft_putstr_fd("exit\n", 2);
+			if (!is_piped())
+				ft_putstr_fd("exit\n", 2);
 			ft_putstr_fd("bash: exit: numeric argument required\n", 2);
 			g_vars.exit_status = 255;
 			exit (g_vars.exit_status);

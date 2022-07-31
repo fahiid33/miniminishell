@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/30 19:19:26 by fahd             ###   ########.fr       */
+/*   Updated: 2022/07/31 03:01:26 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ typedef struct s_minishell
 	int	exit_status;
 	int		g_err;
 	pid_t	pid;
-	int exited;
 	t_env	*my_env;
 }	t_minishell;
 
