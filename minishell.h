@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/31 03:01:26 by fahd             ###   ########.fr       */
+/*   Updated: 2022/07/31 21:15:43 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@
 
 typedef struct s_lexer
 {
-	char *str; //aka line
-	char    c; // every char in line
-	int     i; // index of line
+	char *str;
+	char    c;
+	int     i;
 }			t_lexer;
 
 typedef struct s_token
@@ -62,18 +62,16 @@ typedef struct s_token
 
 typedef struct s_redir
 {
-	int	fdout;
-	int     fdin;
 	char *file;
 	int     type;
+	int		fdout;
+	int     fdin;
 	struct s_redir *next;
 
 }               t_redir;
 
 typedef struct s_parse
 {
-	int	 fdin;
-	int	 fdout;
 	char *cmd;
 	char **argv;
 	t_redir *redir;
@@ -120,6 +118,7 @@ int	ft_strnstr(const char *str, const char *to_find, size_t len);
 char	*ft_strcharjoin(char *s1, char c);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 void	ft_putnbr_fd(int n, int fd);
+char	*ft_itoa(int n);
 int	    ft_isspace(int c);
 int	    ft_isalpha(int c);
 int str_digit(char *str);
@@ -165,17 +164,16 @@ int		check_exp_arg(char *to_check);
 int		builtins_cases(t_parse *cmd);
 int		cd(t_parse *head, t_env *my_env);
 void	lst_add_backenv(t_env **lst, t_env *new);
-void	perr_exp(char *str);
 int		export(t_parse *head);
 void	check_numb(char *str);
 int 	my_exit(t_parse *cmd);
 int		echo(t_parse *cmd);
 int		unset(t_parse *cmd);
-int	    check_env_string(char *str);
 void	wrong_cmd(void);
 void    c_signal();
 void	open_redir(t_parse *head, int exec);
 void	pipe_redir(t_parse *cmd, int in, int index, int *fd);
 int		simple_cmd(t_parse *cmd);
 int		is_piped(void);
+void	read_heredocs(t_parse *command);
 #endif

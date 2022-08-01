@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 18:45:13 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/30 19:34:48 by fahd             ###   ########.fr       */
+/*   Updated: 2022/08/01 01:19:01 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ int	open_read(t_redir *redir, int exec)
             fin = redir->fdin;
         }
     }
+	else
+		dup2(redir->fdin , 0);
 	return (fin);
 }
 
@@ -98,7 +100,7 @@ void	open_redir(t_parse *head, int exe)
 	{
 		if(tmp->type == GREAT || tmp->type == GREATANDGREAT)
 			fout = append_trunc(tmp);
-		else if (tmp->type == LESS)
+		else if (tmp->type == LESS || tmp->type == LESSANDLESS)
 		{
 			fin = open_read(tmp, exe);
 			if (fin == -1)
