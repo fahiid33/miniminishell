@@ -81,6 +81,7 @@ void	exec_pipeline(t_parse *commands, t_env **env)
 	t_parse *head;
 
 	head = commands;
+	printf("pushtest\n");
 	if (!head->cmd && head->redir && !g_vars.here_doc)
 	{
 		open_redir(head, 1);
