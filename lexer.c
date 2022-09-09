@@ -51,124 +51,187 @@ t_lexer *advance_lexer(t_lexer *lexer)
 	return (lexer);
 }
 
+void tokenize_squote(t_token **tmp, t_lexer *lexer)
+{
+	int type;
+	t_token *token;
+	int size;
+	char	*val;
+
+	size = 0;
+	token = NULL;
+	advance_lexer(lexer);
+	type = SQUOTE;
+	if	(ft_int_strchr(&(lexer->str[lexer->i]), '\'') >= 0)
+		size = ft_int_strchr(&(lexer->str[lexer->i]), '\'');
+	else
+		errors(2);
+	val = ft_strsub(lexer, size);
+	advance_lexer(lexer);
+	token = init_token(val, type);
+	if(lexer->c != '|' && lexer->c != '>' && lexer->c != '<' && lexer->c != ' ' && lexer->c != '\0')
+		token->flag = 1;
+	*tmp = lst_add_back(*tmp, token);
+}
+
+void tokenize_dquote(t_token **tmp, t_lexer *lexer)
+{
+	int type;
+	t_token *token;
+	int size;
+	char	*val;
+
+	size = 0;
+	token = NULL;
+	type = DQUOTE;
+	advance_lexer(lexer);
+	if	(ft_int_strchr(&(lexer->str[lexer->i]), 34) >= 0)
+		size = ft_int_strchr(&(lexer->str[lexer->i]), 34);
+	else
+		errors(2);
+	val = ft_strsub(lexer, size);
+	advance_lexer(lexer);
+	token = init_token(val, type);
+	if(lexer->c != '>' && lexer->c != '<' && lexer->c != '|' && lexer->c != ' ' && lexer->c != '\0')
+		token->flag = 1;
+	*tmp = lst_add_back(*tmp, token);
+}
+
+void tokenize_dollar(t_token **tmp, t_lexer *lexer)
+{
+	int type;
+	t_token *token;
+	char	*val;
+
+	token = NULL;
+	type = DOLLAR;
+	val = ft_strsub(lexer, 1);
+	if(lexer->c == '$')
+		val = ft_strjoin(val, ft_strsub(lexer, 1),2);
+	else if(lexer->c == ' ')
+		val = ft_strjoin(val, ft_strsub(lexer, 1),2);
+	else if(lexer->c == '?')
+		val = ft_strjoin(val, ft_strsub(lexer, 1),2);
+	token = init_token(val, type);
+	if(lexer->c != '>' && lexer->c != '<' && lexer->c != '|' && val[1] != ' ' && lexer->c != ' ' && lexer->c != '\0')
+		token->flag = 1;
+	*tmp = lst_add_back(*tmp, token);
+}
+
+void tokenize_word(t_token **tmp, t_lexer *lexer)
+{
+	int type;
+	t_token *token;
+	int size;
+	char	*val;
+
+	size = 0;
+	token = NULL;
+	type = WORD;
+	if(token_index(&(lexer->str[lexer->i])))
+		size = token_index(&(lexer->str[lexer->i]));
+	else
+		size = ft_int_strchr(&(lexer->str[lexer->i]), '\0');
+	val = ft_strsub(lexer, size);
+	token = init_token(val, type);
+	if(lexer->c != '>' && lexer->c != '<' && lexer->c != '|' && lexer->c != ' ' && lexer->c != '\0')
+		token->flag = 1;
+	*tmp = lst_add_back(*tmp, token);
+}
+
+void tokenize_out_redir(t_token **tmp, t_lexer *lexer)
+{
+	int type;
+	t_token *token;
+	char	*val;
+
+	token = NULL;
+	if (lexer->str[lexer->i + 1] == '>')
+	{
+		type = GREATANDGREAT;
+		val = ft_strsub(lexer, 2);
+		token = init_token(val, type);
+		*tmp = lst_add_back(*tmp, token);
+	}
+	else
+	{
+		type = GREAT;
+		val = ft_strsub(lexer, 1);
+		token = init_token(val, type);
+		*tmp = lst_add_back(*tmp, token);
+	}
+}
+
+void tokenize_in_redir(t_token **tmp, t_lexer *lexer)
+{
+	int type;
+	t_token *token;
+	char	*val;
+
+	token = NULL;
+	if (lexer->str[lexer->i + 1] == '<')
+	{
+		type = LESSANDLESS;
+		val = ft_strsub(lexer, 2);
+		token = init_token(val, type);
+		*tmp = lst_add_back(*tmp, token);
+	}
+	else
+	{
+		type = LESS;
+		val = ft_strsub(lexer, 1);
+		token = init_token(val, type);
+		*tmp = lst_add_back(*tmp, token);
+	}
+}
+
+void tokenize_pipe(t_token **tmp, t_lexer *lexer)
+{
+	int type;
+	t_token *token;
+	char	*val;
+
+	token = NULL;
+	type = PIPE;
+	val = ft_strsub(lexer, 1);
+	token = init_token(val, type);
+	*tmp = lst_add_back(*tmp, token);
+}
+
+void tokenize_end(t_token **tmp)
+{
+	t_token *token;
+
+	token = NULL;
+	token = init_token("", END);
+	*tmp = lst_add_back(*tmp, token);
+}
+
 t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 {
-	t_token			*token;
 	t_token			*tmp;
-	char			*val;
-	int				type;
-	int size = 0;
-	
+
 	tmp = NULL;
-	token = NULL;
 	while (lexer->c)
 	{
 		if (lexer->c == ' ' || lexer->c == '\t')
 			advance_lexer(lexer);
 		else if (lexer->c == '\'')
-		{
-			advance_lexer(lexer);
-			type = SQUOTE;
-			if	(ft_int_strchr(&(lexer->str[lexer->i]), '\'') >= 0)
-				size = ft_int_strchr(&(lexer->str[lexer->i]), '\'');
-			else
-				errors(2);
-			val = ft_strsub(lexer, size);
-			advance_lexer(lexer);
-			token = init_token(val, type);
-			if(lexer->c != ' ' && lexer->c != '\0')
-				token->flag = 1;
-			tmp = lst_add_back(tmp, token);
-		}
+			tokenize_squote(&tmp, lexer);
 		else if (lexer->c == 34)
-		{
-			type = DQUOTE;
-			advance_lexer(lexer);
-			if	(ft_int_strchr(&(lexer->str[lexer->i]), 34) >= 0)
-				size = ft_int_strchr(&(lexer->str[lexer->i]), 34);
-			else
-				errors(2);
-			val = ft_strsub(lexer, size);
-			advance_lexer(lexer);
-			token = init_token(val, type);
-			if(lexer->c != ' ' && lexer->c != '\0')
-				token->flag = 1;
-			tmp = lst_add_back(tmp, token);
-		}
+			tokenize_dquote(&tmp, lexer);
 		else if (lexer->c == '|')
-		{
-			type = PIPE;
-			val = ft_strsub(lexer, 1);
-			token = init_token(val, type);
-			tmp = lst_add_back(tmp, token);
-		}
+			tokenize_pipe(&tmp, lexer);
 		else if (lexer->c == '<')
-		{
-			if (lexer->str[lexer->i + 1] == '<')
-			{
-				type = LESSANDLESS;
-				val = ft_strsub(lexer, 2);
-				token = init_token(val, type);
-				tmp = lst_add_back(tmp, token);
-			}
-			else
-			{
-				type = LESS;
-				val = ft_strsub(lexer, 1);
-				token = init_token(val, type);
-				tmp = lst_add_back(tmp, token);
-			}
-		}
+			tokenize_in_redir(&tmp, lexer);
 		else if (lexer->c == '>')
-		{
-			if (lexer->str[lexer->i + 1] == '>')
-			{
-				type = GREATANDGREAT;
-				val = ft_strsub(lexer, 2);
-				token = init_token(val, type);
-				tmp = lst_add_back(tmp, token);
-			}
-			else
-			{
-				type = GREAT;
-				val = ft_strsub(lexer, 1);
-				token = init_token(val, type);
-				tmp = lst_add_back(tmp, token);
-			}
-		}
+			tokenize_out_redir(&tmp, lexer);
 		else if (lexer->c == '$')
-		{
-			type = DOLLAR;
-			val = ft_strsub(lexer, 1);
-			if(lexer->c == '$')
-				val = ft_strjoin(val, ft_strsub(lexer, 1),2);
-			else if(lexer->c == ' ')
-				val = ft_strjoin(val, ft_strsub(lexer, 1),2);
-			else if(lexer->c == '?')
-				val = ft_strjoin(val, ft_strsub(lexer, 1),2);
-			token = init_token(val, type);
-			if(val[1] != ' ' && lexer->c != ' ' && lexer->c != '\0')
-				token->flag = 1;
-			tmp = lst_add_back(tmp, token);
-		}
+			tokenize_dollar(&tmp, lexer);
 		else
-		{
-			type = WORD;
-			if(token_index(&(lexer->str[lexer->i])))
-				size = token_index(&(lexer->str[lexer->i]));
-			else if	(ft_int_strchr(&(lexer->str[lexer->i]), ' ') > 0)
-				size = ft_int_strchr(&(lexer->str[lexer->i]), ' ');
-			else
-				size = ft_int_strchr(&(lexer->str[lexer->i]), '\0');
-			val = ft_strsub(lexer, size);
-			token = init_token(val, type);
-			if(lexer->c != ' ' && lexer->c != '\0')
-				token->flag = 1;
-			tmp = lst_add_back(tmp, token);
-		}
+			tokenize_word(&tmp, lexer);
 	}
-	token = init_token("", END);
-	tmp = lst_add_back(tmp, token);
+	tokenize_end(&tmp);
 	return (tmp);		
 }
 
