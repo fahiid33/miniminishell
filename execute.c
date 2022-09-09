@@ -81,15 +81,18 @@ void	exec_pipeline(t_parse *commands, t_env **env)
 	t_parse *head;
 
 	head = commands;
-	if (!head->cmd && head->redir)
+	if (!head->cmd && head->redir && !g_vars.here_doc)
 	{
 		open_redir(head, 1);
 		return ;
 	}
-	if (simple_cmd(head))
+	if (head && head->cmd)
 	{
-		exec_simple_cmd(head, env);
-		return ;
+		if (simple_cmd(head))
+		{
+			exec_simple_cmd(head, env);
+			return ;
+		}
 	}
 	__child(head, env);
 	supervisor();

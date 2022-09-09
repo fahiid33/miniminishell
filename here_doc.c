@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 02:29:19 by fahd              #+#    #+#             */
-/*   Updated: 2022/08/01 01:33:38 by fahd             ###   ########.fr       */
+/*   Updated: 2022/09/10 00:28:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void	read_heredocs(t_parse *command)
 	t_parse *cmd;
 	char	*tmpfile;
 	
-	cmd = command; 
+	cmd = command;
+	g_vars.here_doc = 0;
 	while (cmd)
 	{
 		redir = cmd->redir;
@@ -74,6 +75,7 @@ void	read_heredocs(t_parse *command)
 		{
 			if (redir->type == LESSANDLESS && redir->file)
 			{
+				g_vars.here_doc = 1;
 				tmpfile = random_filename();
 				redir->fdin = open_heredoc(redir->file, tmpfile);
 			}
