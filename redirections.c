@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 18:45:13 by fahd              #+#    #+#             */
-/*   Updated: 2022/08/01 01:19:01 by fahd             ###   ########.fr       */
+/*   Updated: 2022/09/12 20:09:06 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	append_trunc(t_redir *redir)
 	return (fout);
 }
 
-int	open_read(t_redir *redir, int exec)
+int	open_read(t_redir *redir, t_parse *cmd, int exec)
 {
 	int	fin;
 
@@ -83,7 +83,10 @@ int	open_read(t_redir *redir, int exec)
         }
     }
 	else
-		dup2(redir->fdin , 0);
+	{
+		if (cmd->cmd)
+			dup2(redir->fdin , 0);
+	}
 	return (fin);
 }
 
@@ -102,7 +105,7 @@ void	open_redir(t_parse *head, int exe)
 			fout = append_trunc(tmp);
 		else if (tmp->type == LESS || tmp->type == LESSANDLESS)
 		{
-			fin = open_read(tmp, exe);
+			fin = open_read(tmp, head, exe);
 			if (fin == -1)
 				break ;
 		}

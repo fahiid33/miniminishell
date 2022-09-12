@@ -13,7 +13,7 @@
 
 #include "minishell.h"
 
-void pipe_child(t_parse *head, t_env **env)
+void exec_child(t_parse *head, t_env **env)
 {
 	if (builtins_cases(head))
 	{
@@ -32,19 +32,24 @@ void	__child(t_parse *cmd, t_env **env)
 
 	i = 0;
 	in = 0;
-	while (cmd->cmd != NULL)
+	while (cmd != NULL)
 	{
-		pipe(fd);
-		g_vars.pid = fork();
-		if (!g_vars.pid)
+		if (!cmd->cmd && cmd->redir)
+			open_redir(cmd, 1);
+		if (cmd->cmd)
 		{
-			pipe_redir(cmd, in, i, fd);
-			pipe_child(cmd, env);
+			pipe(fd);
+			g_vars.pid = fork();
+			if (!g_vars.pid)
+			{
+				pipe_redir(cmd, in, i, fd);
+				exec_child(cmd, env);
+			}
+			close(fd[1]);
+			if (i > 0)
+				close(in);
+			in = fd[0];
 		}
-		close(fd[1]);
-		if (i > 0)
-			close(in);
-		in = fd[0];
 		cmd = cmd->next;
 		i++;
 	}
@@ -81,12 +86,6 @@ void	exec_pipeline(t_parse *commands, t_env **env)
 	t_parse *head;
 
 	head = commands;
-	printf("pushtest\n");
-	if (!head->cmd && head->redir && !g_vars.here_doc)
-	{
-		open_redir(head, 1);
-		return ;
-	}
 	if (head && head->cmd)
 	{
 		if (simple_cmd(head))
@@ -95,6 +94,6 @@ void	exec_pipeline(t_parse *commands, t_env **env)
 			return ;
 		}
 	}
-	__child(head, env);
+	__child(head, env);	
 	supervisor();
 }
