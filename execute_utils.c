@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 04:53:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/30 19:38:31 by fahd             ###   ########.fr       */
+/*   Updated: 2022/09/14 00:13:16 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void	execute(t_parse *command, t_env **env)
         g_vars.exit_status = 0;
         exit(g_vars.exit_status);
     }
-    if (execve(path, command->argv, new_env) == -1)
-	    wrong_cmd();
+	
+    	if (execve(path, command->argv, new_env) == -1)
+	    	wrong_cmd();
 }

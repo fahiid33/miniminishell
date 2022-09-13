@@ -25,7 +25,7 @@ all : $(NAME)
 $(NAME):
 	
 	@gcc  -Wall -Wextra -Werror $(SRC) $(LDFLAGS) $(CPPFLAGS) -lreadline  -o $(NAME)
-	@echo "👍👍👍"
+	@echo "HUMAMA MQWD 👍👍👍"
 
 $(NAME_BONUS) : 
 	@gcc -Wall -Wextra -Werror -g $(SRC_BONUS) -o $(NAME_BONUS)

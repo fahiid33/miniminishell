@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:11:13 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/04 15:31:45 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/13 17:54:26 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ void create_commands(t_token *token, t_parse **command)
     t_parse *head;
 
     head = *command;
+    g_vars.num_pipes = 0;
     while (token)
     {
         parse_commands(&token, head);
@@ -128,6 +129,7 @@ void create_commands(t_token *token, t_parse **command)
             head = add_command(head);
             head = head->next;
             token = token->next;
+            g_vars.num_pipes++;
         }
     }
 }

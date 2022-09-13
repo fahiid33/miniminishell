@@ -15,13 +15,16 @@
 
 void exec_child(t_parse *head, t_env **env)
 {
-	if (builtins_cases(head))
+	if (builtins_cases(head) )
 	{
 		g_vars.exit_status = exec_builtins(head, env);
 		exit (g_vars.exit_status);
 	}
 	else
+	{
 		execute(head, env);
+		//exit(0);
+	}
 }
 
 void	__child(t_parse *cmd, t_env **env)
@@ -32,10 +35,12 @@ void	__child(t_parse *cmd, t_env **env)
 
 	i = 0;
 	in = 0;
-	while (cmd != NULL)
+	while (cmd)
 	{
 		if (!cmd->cmd && cmd->redir)
+		{
 			open_redir(cmd, 1);
+		}
 		if (cmd->cmd)
 		{
 			pipe(fd);

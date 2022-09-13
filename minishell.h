@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/10 00:23:49 by marvin           ###   ########.fr       */
+/*   Updated: 2022/09/13 17:53:51 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_parse
 	char *cmd;
 	char **argv;
 	t_redir *redir;
+	
 	struct s_parse *next;
 }            t_parse;
 
@@ -91,8 +92,8 @@ typedef struct s_minishell
 	char	*line;
 	int	exit_status;
 	int		g_err;
-	int here_doc;
 	pid_t	pid;
+	int	num_pipes;
 	t_env	*my_env;
 }	t_minishell;
 

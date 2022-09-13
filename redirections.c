@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 18:45:13 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/12 20:09:06 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/13 18:51:47 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	simple_cmd(t_parse *cmd)
 
 void	dup_pipes(t_parse *cmd, int in, int i, int *fd)
 {
-	if (cmd->next->cmd != NULL)
+	if (cmd->next->cmd != NULL || cmd->next->redir != NULL)
 	{
 		dup2(fd[1], 1);
 		close(fd[0]);
