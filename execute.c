@@ -21,10 +21,7 @@ void exec_child(t_parse *head, t_env **env)
 		exit (g_vars.exit_status);
 	}
 	else
-	{
 		execute(head, env);
-		//exit(0);
-	}
 }
 
 void	__child(t_parse *cmd, t_env **env)
@@ -35,26 +32,19 @@ void	__child(t_parse *cmd, t_env **env)
 
 	i = 0;
 	in = 0;
-	while (cmd)
+	while (cmd->next)
 	{
-		if (!cmd->cmd && cmd->redir)
+		pipe(fd);
+		g_vars.pid = fork();
+		if (!g_vars.pid)
 		{
-			open_redir(cmd, 1);
+			pipe_redir(cmd, in, i, fd);
+			exec_child(cmd, env);
 		}
-		if (cmd->cmd)
-		{
-			pipe(fd);
-			g_vars.pid = fork();
-			if (!g_vars.pid)
-			{
-				pipe_redir(cmd, in, i, fd);
-				exec_child(cmd, env);
-			}
-			close(fd[1]);
-			if (i > 0)
-				close(in);
-			in = fd[0];
-		}
+		close(fd[1]);
+		if (i > 0)
+			close(in);
+		in = fd[0];
 		cmd = cmd->next;
 		i++;
 	}
@@ -77,6 +67,7 @@ void	supervisor(void)
 	int	status;
 
 	status = 0;
+	g_vars.exit_sig = 12;
 	while (waitpid(g_vars.pid, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))
@@ -84,6 +75,7 @@ void	supervisor(void)
 		else if (WIFSIGNALED(status))
 			g_vars.exit_status = WTERMSIG(status) + 128;
 	}
+	g_vars.exit_sig = 0;
 }
 
 void	exec_pipeline(t_parse *commands, t_env **env)

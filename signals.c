@@ -21,8 +21,6 @@ void    ctl_c()
         rl_replace_line("", 0);
         rl_redisplay();
         g_vars.exit_status = 1;
-    
-
     }
     else
     {

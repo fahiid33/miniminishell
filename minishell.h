@@ -93,7 +93,7 @@ typedef struct s_minishell
 	int	exit_status;
 	int		g_err;
 	pid_t	pid;
-	int	num_pipes;
+	int	exit_sig;
 	t_env	*my_env;
 }	t_minishell;
 

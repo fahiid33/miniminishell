@@ -6,16 +6,24 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 02:29:19 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/13 17:57:12 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/15 20:31:38 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ctll_c(int sig)
+void	ctll_c()
 {
-	exit(sig);
+	if (g_vars.exit_sig == 0)
+    {
+        ft_putchar_fd('\n', 1);
+        rl_on_new_line();
+        rl_replace_line("", 0);
+        rl_redisplay();
+        g_vars.exit_status = 1;
+	}
 }
+
 
 void	signal_heredoc()
 {

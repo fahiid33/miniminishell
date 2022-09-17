@@ -115,7 +115,6 @@ void create_commands(t_token *token, t_parse **command)
     t_parse *head;
 
     head = *command;
-    g_vars.num_pipes = 0;
     while (token)
     {
         parse_commands(&token, head);
@@ -129,7 +128,6 @@ void create_commands(t_token *token, t_parse **command)
             head = add_command(head);
             head = head->next;
             token = token->next;
-            g_vars.num_pipes++;
         }
     }
 }
