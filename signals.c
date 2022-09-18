@@ -12,29 +12,47 @@
 
 #include "minishell.h"
 
-void    ctl_c()
+void	sig_child(int sig)
 {
-    if (!g_vars.line)
-    {
-        ft_putchar_fd('\n', 1);
-        rl_on_new_line();
-        rl_replace_line("", 0);
-        rl_redisplay();
-        g_vars.exit_status = 1;
-    }
-    else
-    {
-        kill(g_vars.pid, SIGINT);
-        write(1, "\n", 1);
-    }
+	if (sig == SIGINT)
+	{
+		ft_putchar_fd('\n', 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		g_vars.exit_status = 1;
+	}
+	else if (sig == SIGQUIT)
+	{
+		ft_putchar_fd('\r', STDERR_FILENO);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
-void    ctl_bslash()
+
+void	sig_handler(int sig)
 {
-    if (g_vars.line && g_vars.pid != 0)
-        ft_putstr_fd("QUIT: 3\n", 1);
+	if (!kill(g_vars.pid, sig))
+	{
+		if (sig == SIGQUIT)
+			ft_putstr_fd("Quit: 3\n", 1);
+		else if (sig == SIGINT)
+			ft_putchar_fd('\n', 1);
+	}
+	else
+		sig_child(sig);
 }
-void    c_signal()
+
+void	ctl_plus(int sig)
 {
-    signal(SIGQUIT, ctl_bslash);
-    signal(SIGINT, ctl_c);
+	if (g_vars.pid != 0)
+		sig_handler(sig);
+	else
+		sig_child(sig);
+}
+
+void	c_signal(void)
+{
+	signal(SIGINT, ctl_plus);
+	signal(SIGQUIT, ctl_plus);
 }

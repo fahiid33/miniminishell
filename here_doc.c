@@ -12,24 +12,6 @@
 
 #include "minishell.h"
 
-void	ctll_c()
-{
-	if (g_vars.exit_sig == 0)
-    {
-        ft_putchar_fd('\n', 1);
-        rl_on_new_line();
-        rl_replace_line("", 0);
-        rl_redisplay();
-        g_vars.exit_status = 1;
-	}
-}
-
-
-void	signal_heredoc()
-{
-	signal(SIGINT, ctll_c);
-}
-
 char	*random_filename()
 {
 	static	int nb_file = 0;
@@ -50,18 +32,22 @@ int	open_heredoc(char *limiter, char *filename)
 	fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0644);
 	while (1)
 	{
-		signal_heredoc();
+		c_signal();
 		doc = readline(">");
 		if (!doc)
+		{
 			break ;
+		}
 		if (!ft_strcmp(doc, limiter))
 		{
-			free(doc);
+			if (doc)
+				free(doc);
 			break;
 		}
 		ft_putstr_fd(doc, fd);
 		ft_putchar_fd('\n', fd);
-		free(doc);
+		if (doc)
+			free(doc);
 	}
 	close(fd);
 	fd = open(filename, O_RDONLY, 0644);

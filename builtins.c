@@ -57,8 +57,10 @@
 int	builtins_cases(t_parse *cmd)
 {
 	if (!ft_strcmp(cmd->cmd, "echo") || !ft_strcmp(cmd->cmd, "cd")
-		|| !ft_strcmp(cmd->cmd, "pwd") || !ft_strcmp(cmd->cmd, "export")
-		|| !ft_strcmp(cmd->cmd, "unset") || !ft_strcmp(cmd->cmd, "env")
+		|| !strcmp(cmd->cmd, "ENV") || !strcmp(cmd->cmd, "PWD")
+		|| !strcmp(cmd->cmd, "ECHO") || !ft_strcmp(cmd->cmd, "pwd") 
+		|| !ft_strcmp(cmd->cmd, "export") || !ft_strcmp(cmd->cmd, "unset") 
+		|| !ft_strcmp(cmd->cmd, "env")
 		|| !ft_strcmp(cmd->cmd, "exit"))
 		return (1);
 	return (0);
