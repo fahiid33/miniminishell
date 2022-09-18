@@ -32,7 +32,7 @@ int	open_heredoc(char *limiter, char *filename)
 	fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0644);
 	while (1)
 	{
-		c_signal();
+		g_vars.exit_sig = 1;
 		doc = readline(">");
 		if (!doc)
 		{
