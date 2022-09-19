@@ -29,28 +29,36 @@ int	open_heredoc(char *limiter, char *filename)
 {
 	int	fd;
 	char	*doc;
+	int	pid;
+
 	fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0644);
-	while (1)
+	pid = fork();
+	if(!pid)
 	{
 		g_vars.exit_sig = 1;
-		doc = readline(">");
-		if (!doc)
+		while (1)
 		{
-			break ;
-		}
-		if (!ft_strcmp(doc, limiter))
-		{
+			doc = readline(">");
+			if (!doc)
+			{
+				break ;
+			}
+			if (!ft_strcmp(doc, limiter))
+			{
+				if (doc)
+					free(doc);
+				break;
+			}
+			ft_putstr_fd(doc, fd);
+			ft_putchar_fd('\n', fd);
 			if (doc)
 				free(doc);
-			break;
 		}
-		ft_putstr_fd(doc, fd);
-		ft_putchar_fd('\n', fd);
-		if (doc)
-			free(doc);
+		close(fd);
+		fd = open(filename, O_RDONLY, 0644);
+		exit(0);
 	}
-	close(fd);
-	fd = open(filename, O_RDONLY, 0644);
+	waitpid(pid, 0, 0);
 	return (fd);
 }
 	
