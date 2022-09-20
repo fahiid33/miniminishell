@@ -67,13 +67,15 @@ void	supervisor(void)
 	int	status;
 
 	status = 0;
+	g_vars.exit_sig = 12;
 	while (waitpid(g_vars.pid, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))
 			g_vars.exit_status = WEXITSTATUS(status);
-		// else if (WIFSIGNALED(status))
-		// 	g_vars.exit_status = WTERMSIG(status) + 128;
+		else if (WIFSIGNALED(status))
+			g_vars.exit_status = WTERMSIG(status) + 128;
 	}
+	g_vars.exit_sig = 0;
 }
 
 void	exec_pipeline(t_parse *commands, t_env **env)

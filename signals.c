@@ -14,18 +14,22 @@
 
 void	sig_child(int sig)
 {
-	if (sig == SIGINT && !g_vars.exit_sig)
+	if (sig == SIGINT)
 	{
-		ft_putchar_fd('\n', 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		// g_vars.exit_sig = 0;
+		if(g_vars.exit_sig == 27)
+		{
+			g_vars.exit_sig = -27;
+			ft_putchar_fd('\n', 0);
+			close(rl_instream->_fileno);
+		}
+		else{
+			ft_putchar_fd('\n', 0);
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+		}
 		g_vars.exit_status = 1;
-	}
-	else if (sig == SIGINT && g_vars.exit_sig == 1)
-	{
-		g_vars.exit_status = 1;
-		exit(g_vars.exit_status);
 	}
 	else if (sig == SIGQUIT)
 	{
@@ -40,15 +44,9 @@ void	sig_handler(int sig)
 	if (!kill(g_vars.pid, sig))
 	{
 		if (sig == SIGQUIT)
-		{
 			ft_putstr_fd("Quit: 3\n", 1);
-			g_vars.exit_status = 131;
-		}
-		else if (sig == SIGINT )
-		{
-			ft_putstr_fd("hiya\n", 1);
-			g_vars.exit_status = 130;
-		}
+		else if (sig == SIGINT)
+			ft_putchar_fd('\n', 1);
 	}
 	else
 		sig_child(sig);

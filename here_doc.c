@@ -29,35 +29,28 @@ int	open_heredoc(char *limiter, char *filename)
 {
 	int	fd;
 	char	*doc;
-
 	fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0644);
-	g_vars.pid = fork();
-	if(!g_vars.pid)
+	while (1 && g_vars.exit_sig)
 	{
-		g_vars.exit_sig = 1;
-		while (1)
+		doc = readline(">");
+		if (!doc)
 		{
-			doc = readline(">");
-			if (!doc)
-			{
-				break ;
-			}
-			if (!ft_strcmp(doc, limiter))
-			{
-				if (doc)
-					free(doc);
-				break;
-			}
-			ft_putstr_fd(doc, fd);
-			ft_putchar_fd('\n', fd);
+			break ;
+		}
+		if (!ft_strcmp(doc, limiter))
+		{
 			if (doc)
 				free(doc);
+			break;
 		}
-		close(fd);
-		exit(0);
+		ft_putstr_fd(doc, fd);
+		ft_putchar_fd('\n', fd);
+		if (doc)
+			free(doc);
 	}
-	waitpid(g_vars.pid, 0, 0);
-	fd = open(filename, O_RDONLY, 0644);
+	close(fd);
+	if(g_vars.exit_sig != -27)
+		fd = open(filename, O_RDONLY, 0644);
 	return (fd);
 }
 	
@@ -66,9 +59,11 @@ void	read_heredocs(t_parse *command)
 	t_redir *redir;
 	t_parse *cmd;
 	char	*tmpfile;
+	int fd;
 	
 	cmd = command;
-	g_vars.exit_sig = 0;
+	g_vars.exit_sig = 27;
+	fd = dup(0);
 	while (cmd)
 	{
 		redir = cmd->redir;
@@ -78,10 +73,10 @@ void	read_heredocs(t_parse *command)
 			{
 				tmpfile = random_filename();
 				redir->fdin = open_heredoc(redir->file, tmpfile);
-				// printf ("here doc file == %d\n", redir->fdin);
 			}
 			redir = redir->next;
 		}
 		cmd = cmd->next;
 	}
+	dup2(fd,0);
 }

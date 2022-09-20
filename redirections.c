@@ -84,7 +84,6 @@ int	open_read(t_redir *redir, t_parse *cmd, int exec)
     }
 	else
 	{
-		// printf ("here doc file in pipeline == %d\n", redir->fdin);
 		if (cmd->cmd)
 			dup2(redir->fdin , 0);
 	}
