@@ -29,12 +29,24 @@ int	open_heredoc(char *limiter, char *filename)
 {
 	int	fd;
 	char	*doc;
+	char *error;
+	doc = "";
 	fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0644);
+	error = (char *)malloc(sizeof(limiter) + 70);
 	while (1 && g_vars.exit_sig)
 	{
-		doc = readline(">");
+		if(isatty(0))
+			doc = readline(">");
+		else
+			break;
 		if (!doc)
 		{
+			if(isatty(0))
+			{
+				error = ft_strjoin(" MESSI-1.0: warning: here-document at line x delimited by end-of-file (wanted `",limiter,67+sizeof(limiter));
+				error = ft_strjoin(error,"')\n",3);
+				ft_putstr_fd(error, 1);
+			}
 			break ;
 		}
 		if (!ft_strcmp(doc, limiter))
