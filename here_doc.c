@@ -54,10 +54,10 @@ int	open_heredoc(char *limiter, char *filename)
 				free(doc);
 		}
 		close(fd);
-		fd = open(filename, O_RDONLY, 0644);
 		exit(0);
 	}
 	waitpid(g_vars.pid, 0, 0);
+	fd = open(filename, O_RDONLY, 0644);
 	return (fd);
 }
 	
@@ -78,7 +78,7 @@ void	read_heredocs(t_parse *command)
 			{
 				tmpfile = random_filename();
 				redir->fdin = open_heredoc(redir->file, tmpfile);
-				printf ("here doc file == %d\n", redir->fdin);
+				// printf ("here doc file == %d\n", redir->fdin);
 			}
 			redir = redir->next;
 		}
