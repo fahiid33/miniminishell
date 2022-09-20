@@ -35,6 +35,7 @@ int	open_heredoc(char *limiter, char *filename)
 		doc = readline(">");
 		if (!doc)
 		{
+			close(rl_instream->_fileno);
 			break ;
 		}
 		if (!ft_strcmp(doc, limiter))
@@ -78,5 +79,5 @@ void	read_heredocs(t_parse *command)
 		}
 		cmd = cmd->next;
 	}
-	dup2(fd,0);
+	dup2(fd, 0);
 }

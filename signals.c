@@ -16,20 +16,21 @@ void	sig_child(int sig)
 {
 	if (sig == SIGINT)
 	{
-		// g_vars.exit_sig = 0;
 		if(g_vars.exit_sig == 27)
 		{
 			g_vars.exit_sig = -27;
 			ft_putchar_fd('\n', 0);
 			close(rl_instream->_fileno);
+			g_vars.exit_status = 130;
 		}
-		else{
+		else
+		{
 			ft_putchar_fd('\n', 0);
 			rl_on_new_line();
 			rl_replace_line("", 0);
 			rl_redisplay();
+			g_vars.exit_status = 1;
 		}
-		g_vars.exit_status = 1;
 	}
 	else if (sig == SIGQUIT)
 	{
