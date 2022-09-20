@@ -29,11 +29,10 @@ int	open_heredoc(char *limiter, char *filename)
 {
 	int	fd;
 	char	*doc;
-	int	pid;
 
 	fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0644);
-	pid = fork();
-	if(!pid)
+	g_vars.pid = fork();
+	if(!g_vars.pid)
 	{
 		g_vars.exit_sig = 1;
 		while (1)
@@ -58,7 +57,7 @@ int	open_heredoc(char *limiter, char *filename)
 		fd = open(filename, O_RDONLY, 0644);
 		exit(0);
 	}
-	waitpid(pid, 0, 0);
+	waitpid(g_vars.pid, 0, 0);
 	return (fd);
 }
 	
@@ -69,6 +68,7 @@ void	read_heredocs(t_parse *command)
 	char	*tmpfile;
 	
 	cmd = command;
+	g_vars.exit_sig = 0;
 	while (cmd)
 	{
 		redir = cmd->redir;
@@ -78,6 +78,7 @@ void	read_heredocs(t_parse *command)
 			{
 				tmpfile = random_filename();
 				redir->fdin = open_heredoc(redir->file, tmpfile);
+				printf ("here doc file == %d\n", redir->fdin);
 			}
 			redir = redir->next;
 		}

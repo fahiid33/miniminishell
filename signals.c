@@ -14,7 +14,7 @@
 
 void	sig_child(int sig)
 {
-	if (sig == SIGINT && g_vars.exit_sig != 1)
+	if (sig == SIGINT && !g_vars.exit_sig)
 	{
 		ft_putchar_fd('\n', 1);
 		rl_on_new_line();
@@ -24,7 +24,8 @@ void	sig_child(int sig)
 	}
 	else if (sig == SIGINT && g_vars.exit_sig == 1)
 	{
-		exit(0);
+		g_vars.exit_status = 1;
+		exit(g_vars.exit_status);
 	}
 	else if (sig == SIGQUIT)
 	{
@@ -39,9 +40,15 @@ void	sig_handler(int sig)
 	if (!kill(g_vars.pid, sig))
 	{
 		if (sig == SIGQUIT)
+		{
 			ft_putstr_fd("Quit: 3\n", 1);
-		else if (sig == SIGINT)
-			ft_putchar_fd('\n', 1);
+			g_vars.exit_status = 131;
+		}
+		else if (sig == SIGINT )
+		{
+			ft_putstr_fd("hiya\n", 1);
+			g_vars.exit_status = 130;
+		}
 	}
 	else
 		sig_child(sig);

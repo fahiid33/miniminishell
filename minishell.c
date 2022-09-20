@@ -176,9 +176,9 @@ int main(int ac, char *av[], char **env)
 	while (1)
 	{
 		g_vars.exit_sig = 0;
+		g_vars.g_err = 0;
 		g_vars.line = NULL;
 		c_signal();
-		g_vars.g_err = 0;
 		g_vars.line = readline("MESSI-1.0$ ");
 		if (!g_vars.line)
 		{
