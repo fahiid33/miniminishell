@@ -79,6 +79,7 @@ void	read_heredocs(t_parse *command)
 			{
 				tmpfile = random_filename();
 				redir->fdin = open_heredoc(redir->file, tmpfile);
+				unlink(tmpfile);
 			}
 			redir = redir->next;
 		}

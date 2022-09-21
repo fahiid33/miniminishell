@@ -62,10 +62,11 @@ typedef struct s_token
 
 typedef struct s_redir
 {
-	char *file;
+	char 	*file;
 	int     type;
 	int		fdout;
 	int     fdin;
+	int		index;
 	struct s_redir *next;
 
 }               t_redir;
@@ -75,7 +76,6 @@ typedef struct s_parse
 	char *cmd;
 	char **argv;
 	t_redir *redir;
-	
 	struct s_parse *next;
 }            t_parse;
 
@@ -178,4 +178,5 @@ void	pipe_redir(t_parse *cmd, int in, int index, int *fd);
 int		simple_cmd(t_parse *cmd);
 int		is_piped(void);
 void	read_heredocs(t_parse *command);
+void	unlink_docs(t_parse *command);
 #endif

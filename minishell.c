@@ -200,7 +200,9 @@ int main(int ac, char *av[], char **env)
 		{
 			read_heredocs(commands);
 			if (g_vars.exit_sig != -27)
+			{
 				exec_pipeline(commands, &g_vars.my_env);
+			}
 		}
 	}
 }
