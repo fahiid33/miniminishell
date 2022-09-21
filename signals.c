@@ -45,9 +45,15 @@ void	sig_handler(int sig)
 	if (!kill(g_vars.pid, sig))
 	{
 		if (sig == SIGQUIT)
+		{
 			ft_putstr_fd("Quit: 3\n", 1);
+			g_vars.exit_status = 131;
+		}
 		else if (sig == SIGINT)
-			ft_putchar_fd('\n', 1);
+		{
+			ft_putstr_fd("\n", 1);
+			g_vars.exit_status = 130;
+		}
 	}
 	else
 		sig_child(sig);

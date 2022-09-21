@@ -72,8 +72,6 @@ void	supervisor(void)
 	{
 		if (WIFEXITED(status))
 			g_vars.exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			g_vars.exit_status = WTERMSIG(status) + 128;
 	}
 	g_vars.exit_sig = 0;
 }
