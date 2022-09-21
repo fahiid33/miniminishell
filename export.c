@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:26:33 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/30 20:02:47 by fahd             ###   ########.fr       */
+/*   Updated: 2022/09/21 23:02:50 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char    ft_strchar(char *s, char c)
+char	ft_strchar(char *s, char c)
 {
-    char	*str;
+	char	*str;
 
 	str = (char *)s;
 	while (*str != c)
@@ -31,7 +31,7 @@ int	check_key(t_env **my_env, char *to_check)
 	t_env	*tmp;
 
 	tmp = (*my_env);
-	if (to_check[ft_strlen(to_check ) - 1] == '+')
+	if (to_check[ft_strlen(to_check) - 1] == '+')
 		to_check = ft_substr(to_check, 0, ft_strlen(to_check) - 1);
 	while (tmp)
 	{
@@ -51,7 +51,8 @@ void	print_export(t_env *my_env)
 		else if (!my_env->val)
 			printf("declare -x %s%c\"\"\n", my_env->key, my_env->sep);
 		else
-			printf("declare -x %s%c\"%s\"\n", my_env->key, my_env->sep, my_env->val);
+			printf("declare -x %s%c\"%s\"\n",
+				my_env->key, my_env->sep, my_env->val);
 		my_env = my_env->next;
 	}
 	g_vars.exit_status = 0;
@@ -59,7 +60,7 @@ void	print_export(t_env *my_env)
 
 void	run_export(t_env *my_env, char **argc)
 {
-	int	i;
+	int		i;
 	char	**tmp;
 
 	i = 0;
@@ -71,11 +72,12 @@ void	run_export(t_env *my_env, char **argc)
 		if (check_exp_arg(tmp[0]))
 		{
 			if (check_key(&g_vars.my_env, tmp[0]))
-				update_export(&g_vars.my_env, tmp[0], ft_strchar(argc[i] , '='), tmp[1]);
+				update_export(&g_vars.my_env, tmp[0],
+					ft_strchar(argc[i], '='), tmp[1]);
 			else
 			{
 				lst_add_backenv(&g_vars.my_env, lst_new(tmp[0],
-					 ft_strchar(argc[i] , '='), tmp[1]));
+						ft_strchar(argc[i], '='), tmp[1]));
 			}
 		}
 		i++;

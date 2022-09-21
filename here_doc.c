@@ -6,17 +6,17 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 02:29:19 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/15 20:31:38 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/21 23:19:21 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*random_filename()
+char	*random_filename(void)
 {
-	static	int nb_file = 0;
-	char	*filename;
-	char	*filename_nb;
+	static int	nb_file = 0;
+	char		*filename;
+	char		*filename_nb;
 
 	nb_file++;
 	filename_nb = ft_itoa(nb_file);
@@ -25,48 +25,49 @@ char	*random_filename()
 	return (filename);
 }
 
+int	heredoc_fd(int fd, char *filename)
+{
+	close(fd);
+	if (g_vars.exit_sig != -27)
+		fd = open(filename, O_RDONLY, 0644);
+	return (fd);
+}
+
 int	open_heredoc(char *limiter, char *filename)
 {
-	int	fd;
+	int		fd;
 	char	*doc;
 
 	fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0644);
 	while (1 && g_vars.exit_sig)
 	{
-		if(isatty(0))
+		if (isatty(0))
 			doc = readline(">");
 		else
-			break;
-		if (!doc)
-		{
-			if(isatty(0))
-				printf (" MISSI-1.0: warning: here-document at line x delimited by end-of-file (wanted `%s')\n", limiter);
 			break ;
-		}
+		if (!doc)
+			break ;
 		if (!ft_strcmp(doc, limiter))
 		{
 			if (doc)
 				free(doc);
-			break;
+			break ;
 		}
 		ft_putstr_fd(doc, fd);
 		ft_putchar_fd('\n', fd);
 		if (doc)
 			free(doc);
 	}
-	close(fd);
-	if(g_vars.exit_sig != -27)
-		fd = open(filename, O_RDONLY, 0644);
-	return (fd);
+	return (heredoc_fd(fd, filename));
 }
-	
+
 void	read_heredocs(t_parse *command)
 {
-	t_redir *redir;
-	t_parse *cmd;
+	t_redir	*redir;
+	t_parse	*cmd;
 	char	*tmpfile;
-	int fd;
-	
+	int		fd;
+
 	cmd = command;
 	g_vars.exit_sig = 27;
 	fd = dup(0);
@@ -80,6 +81,7 @@ void	read_heredocs(t_parse *command)
 				tmpfile = random_filename();
 				redir->fdin = open_heredoc(redir->file, tmpfile);
 				unlink(tmpfile);
+				free(tmpfile);
 			}
 			redir = redir->next;
 		}

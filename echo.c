@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:30:26 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/25 15:36:07 by fahd             ###   ########.fr       */
+/*   Updated: 2022/09/21 22:51:19 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	printf_exit(char *exit)
 	int	i;
 
 	i = 0;
-	
 	while (exit[i])
 	{
 		if (exit[i] == '$')
@@ -35,6 +34,7 @@ void	printf_exit(char *exit)
 		i++;
 	}
 }
+
 void	echo_n(t_parse *cmd)
 {
 	int	i;

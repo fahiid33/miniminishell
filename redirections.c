@@ -6,18 +6,11 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 18:45:13 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/13 18:51:47 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/21 22:31:29 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	simple_cmd(t_parse *cmd)
-{
-	if (builtins_cases(cmd) && !cmd->next->cmd)
-		return (1);
-	return (0);
-}
 
 void	dup_pipes(t_parse *cmd, int in, int i, int *fd)
 {

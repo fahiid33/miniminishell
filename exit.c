@@ -6,7 +6,7 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:33:50 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/31 03:12:04 by fahd             ###   ########.fr       */
+/*   Updated: 2022/09/21 22:53:44 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ int	my_exit(t_parse *cmd)
 		return (g_vars.exit_status);
 	}
 	run_exit(cmd);
-    return (0);
+	return (0);
 }

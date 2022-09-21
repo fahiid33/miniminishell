@@ -6,13 +6,13 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 04:53:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/14 00:13:16 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/21 22:52:10 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	wrong_cmd()
+void	wrong_cmd(void)
 {
 	char	*error;
 
@@ -39,8 +39,8 @@ void	wrong_cmd()
 
 int	count_env(t_env **env)
 {
-	int i;
-	t_env *tmp;
+	t_env	*tmp;
+	int		i;
 
 	i = 0;
 	tmp = *env;
@@ -54,15 +54,17 @@ int	count_env(t_env **env)
 
 char	*join_3_str(char *s1, char *s2, char *s3)
 {
-	char *str;
-	int i;
-	int j;
-	int k;
+	char	*str;
+	int		i;
+	int		j;
+	int		k;
+	int		len;
 
 	i = 0;
 	j = 0;
 	k = 0;
-	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3) + 1));
+	len = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3);
+	str = (char *)malloc(sizeof(char) * (len + 1));
 	if (!str)
 		return (NULL);
 	while (s1[i])
@@ -113,16 +115,15 @@ char	**env_to_tab(t_env **env)
 void	execute(t_parse *command, t_env **env)
 {
 	char	*path;
-	char 	**new_env;
+	char	**new_env;
 
 	new_env = env_to_tab(env);
 	path = get_path(command->cmd, new_env);
-    if (!command->cmd)
-    {
-        g_vars.exit_status = 0;
-        exit(g_vars.exit_status);
-    }
-	
-    	if (execve(path, command->argv, new_env) == -1)
-	    	wrong_cmd();
+	if (!command->cmd)
+	{
+		g_vars.exit_status = 0;
+		exit(g_vars.exit_status);
+	}
+	if (execve(path, command->argv, new_env) == -1)
+		wrong_cmd();
 }

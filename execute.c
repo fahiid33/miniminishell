@@ -6,16 +6,15 @@
 /*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 05:11:48 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/19 05:11:48 by fahd             ###   ########.fr       */
+/*   Updated: 2022/09/21 22:52:46 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-void exec_child(t_parse *head, t_env **env)
+void	exec_child(t_parse *head, t_env **env)
 {
-	if (builtins_cases(head) )
+	if (builtins_cases(head))
 	{
 		g_vars.exit_status = exec_builtins(head, env);
 		exit (g_vars.exit_status);
@@ -78,7 +77,7 @@ void	supervisor(void)
 
 void	exec_pipeline(t_parse *commands, t_env **env)
 {
-	t_parse *head;
+	t_parse	*head;
 
 	head = commands;
 	if (head && head->cmd)
@@ -89,6 +88,6 @@ void	exec_pipeline(t_parse *commands, t_env **env)
 			return ;
 		}
 	}
-	__child(head, env);	
+	__child(head, env);
 	supervisor();
 }

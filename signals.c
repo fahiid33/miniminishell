@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 03:00:20 by fstitou           #+#    #+#             */
-/*   Updated: 2022/07/31 02:25:45 by fahd             ###   ########.fr       */
+/*   Updated: 2022/09/21 20:57:48 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,16 @@ void	sig_child(int sig)
 		{
 			g_vars.exit_sig = -27;
 			ft_putchar_fd('\n', 0);
-			close(rl_instream->_fileno);
-			g_vars.exit_status = 130;
+			close(rl_instream->_file);
 		}
 		else
 		{
 			ft_putchar_fd('\n', 0);
 			rl_on_new_line();
-			rl_replace_line("", 0);
+			// rl_replace_line("", 0);
 			rl_redisplay();
-			g_vars.exit_status = 1;
 		}
+		g_vars.exit_status = 1;
 	}
 	else if (sig == SIGQUIT)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export-env-utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:31:07 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/07/31 03:06:17 by fahd             ###   ########.fr       */
+/*   Updated: 2022/09/21 22:56:17 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	lst_add_backenv(t_env **lst, t_env *new)
 	}
 }
 
-void free_2(char **tmp)
+void	free_2(char **tmp)
 {
 	int	i;
 
@@ -59,12 +59,13 @@ void	init_env(char **env)
 {
 	char	*key;
 	char	*val;
-	int	i;
-	char **tmp;
+	int		i;
+	char	**tmp;
+
 	i = 0;
 	while (env[i])
 	{
-		tmp = ft_split(env[i], '=');	
+		tmp = ft_split(env[i], '=');
 		key = tmp[0];
 		val = tmp[1];
 		lst_add_backenv(&g_vars.my_env, lst_new(key, '=', val));
@@ -73,7 +74,7 @@ void	init_env(char **env)
 	}
 }
 
-char	*my_getenv(t_env  **env, char *key)
+char	*my_getenv(t_env **env, char *key)
 {
 	t_env	*tmp;
 
@@ -87,7 +88,7 @@ char	*my_getenv(t_env  **env, char *key)
 	return (NULL);
 }
 
-char	*my_getenv_key(t_env  **env, char *key)
+char	*my_getenv_key(t_env **env, char *key)
 {
 	t_env	*tmp;
 
@@ -99,23 +100,4 @@ char	*my_getenv_key(t_env  **env, char *key)
 		tmp = tmp->next;
 	}
 	return (NULL);
-}
-
-void	check_numb(char *str)
-{
-	int	i;
-
-	i = 0;	
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-		{
-			if (!is_piped())
-				ft_putstr_fd("exit\n", 2);
-			ft_putstr_fd("bash: exit: numeric argument required\n", 2);
-			g_vars.exit_status = 255;
-			exit (g_vars.exit_status);
-		}
-		i++;
-	}
 }

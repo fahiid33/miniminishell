@@ -3,24 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 05:17:20 by fahd              #+#    #+#             */
-/*   Updated: 2022/07/30 20:08:26 by fahd             ###   ########.fr       */
+/*   Updated: 2022/09/21 23:43:12 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *ft_strsub(t_lexer *lexer, size_t len)
+char	*ft_strsub(t_lexer *lexer, size_t len)
 {
-	char *sub;
-	unsigned int i;
+	unsigned int	i;
+	char			*sub;
 
 	i = 0;
 	if (!lexer->str)
 		return (NULL);
-	if (!(sub = (char *)malloc(sizeof(char) * (len + 1))))
+	sub = (char *)malloc(sizeof(char) * (len + 1));
+	if (!sub)
 		return (NULL);
 	while (i < len)
 	{
@@ -30,181 +31,6 @@ char *ft_strsub(t_lexer *lexer, size_t len)
 	}
 	sub[i] = '\0';
 	return (sub);
-}
-
-t_lexer	*ft_init_lexer(char *str, char c)
-{
-    t_lexer			*lexer;
-
-    lexer = (t_lexer *)malloc(sizeof(t_lexer));
-	if (!lexer)
-        return (NULL);
-	lexer->str = str;
-	lexer->c = c;
-	lexer->i = 0;
-    return (lexer);
-}
-t_lexer *advance_lexer(t_lexer *lexer)
-{
-	lexer->i++;
-	lexer->c = lexer->str[lexer->i];
-	return (lexer);
-}
-
-void tokenize_squote(t_token **tmp, t_lexer *lexer)
-{
-	int type;
-	t_token *token;
-	int size;
-	char	*val;
-
-	size = 0;
-	token = NULL;
-	advance_lexer(lexer);
-	type = SQUOTE;
-	if	(ft_int_strchr(&(lexer->str[lexer->i]), '\'') >= 0)
-		size = ft_int_strchr(&(lexer->str[lexer->i]), '\'');
-	else
-		errors(2);
-	val = ft_strsub(lexer, size);
-	advance_lexer(lexer);
-	token = init_token(val, type);
-	if(lexer->c != '|' && lexer->c != '>' && lexer->c != '<' && lexer->c != ' ' && lexer->c != '\0')
-		token->flag = 1;
-	*tmp = lst_add_back(*tmp, token);
-}
-
-void tokenize_dquote(t_token **tmp, t_lexer *lexer)
-{
-	int type;
-	t_token *token;
-	int size;
-	char	*val;
-
-	size = 0;
-	token = NULL;
-	type = DQUOTE;
-	advance_lexer(lexer);
-	if	(ft_int_strchr(&(lexer->str[lexer->i]), 34) >= 0)
-		size = ft_int_strchr(&(lexer->str[lexer->i]), 34);
-	else
-		errors(2);
-	val = ft_strsub(lexer, size);
-	advance_lexer(lexer);
-	token = init_token(val, type);
-	if(lexer->c != '>' && lexer->c != '<' && lexer->c != '|' && lexer->c != ' ' && lexer->c != '\0')
-		token->flag = 1;
-	*tmp = lst_add_back(*tmp, token);
-}
-
-void tokenize_dollar(t_token **tmp, t_lexer *lexer)
-{
-	int type;
-	t_token *token;
-	char	*val;
-
-	token = NULL;
-	type = DOLLAR;
-	val = ft_strsub(lexer, 1);
-	if(lexer->c == '$')
-		val = ft_strjoin(val, ft_strsub(lexer, 1),2);
-	else if(lexer->c == ' ')
-		val = ft_strjoin(val, ft_strsub(lexer, 1),2);
-	else if(lexer->c == '?')
-		val = ft_strjoin(val, ft_strsub(lexer, 1),2);
-	token = init_token(val, type);
-	if(lexer->c != '>' && lexer->c != '<' && lexer->c != '|' && val[1] != ' ' && lexer->c != ' ' && lexer->c != '\0')
-		token->flag = 1;
-	*tmp = lst_add_back(*tmp, token);
-}
-
-void tokenize_word(t_token **tmp, t_lexer *lexer)
-{
-	int type;
-	t_token *token;
-	int size;
-	char	*val;
-
-	size = 0;
-	token = NULL;
-	type = WORD;
-	if(token_index(&(lexer->str[lexer->i])))
-		size = token_index(&(lexer->str[lexer->i]));
-	else
-		size = ft_int_strchr(&(lexer->str[lexer->i]), '\0');
-	val = ft_strsub(lexer, size);
-	token = init_token(val, type);
-	if(lexer->c != '>' && lexer->c != '<' && lexer->c != '|' && lexer->c != ' ' && lexer->c != '\0')
-		token->flag = 1;
-	*tmp = lst_add_back(*tmp, token);
-}
-
-void tokenize_out_redir(t_token **tmp, t_lexer *lexer)
-{
-	int type;
-	t_token *token;
-	char	*val;
-
-	token = NULL;
-	if (lexer->str[lexer->i + 1] == '>')
-	{
-		type = GREATANDGREAT;
-		val = ft_strsub(lexer, 2);
-		token = init_token(val, type);
-		*tmp = lst_add_back(*tmp, token);
-	}
-	else
-	{
-		type = GREAT;
-		val = ft_strsub(lexer, 1);
-		token = init_token(val, type);
-		*tmp = lst_add_back(*tmp, token);
-	}
-}
-
-void tokenize_in_redir(t_token **tmp, t_lexer *lexer)
-{
-	int type;
-	t_token *token;
-	char	*val;
-
-	token = NULL;
-	if (lexer->str[lexer->i + 1] == '<')
-	{
-		type = LESSANDLESS;
-		val = ft_strsub(lexer, 2);
-		token = init_token(val, type);
-		*tmp = lst_add_back(*tmp, token);
-	}
-	else
-	{
-		type = LESS;
-		val = ft_strsub(lexer, 1);
-		token = init_token(val, type);
-		*tmp = lst_add_back(*tmp, token);
-	}
-}
-
-void tokenize_pipe(t_token **tmp, t_lexer *lexer)
-{
-	int type;
-	t_token *token;
-	char	*val;
-
-	token = NULL;
-	type = PIPE;
-	val = ft_strsub(lexer, 1);
-	token = init_token(val, type);
-	*tmp = lst_add_back(*tmp, token);
-}
-
-void tokenize_end(t_token **tmp)
-{
-	t_token *token;
-
-	token = NULL;
-	token = init_token("", END);
-	*tmp = lst_add_back(*tmp, token);
 }
 
 t_token	*send_lexer_to_tokenize(t_lexer *lexer)
@@ -232,22 +58,22 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 			tokenize_word(&tmp, lexer);
 	}
 	tokenize_end(&tmp);
-	return (tmp);		
+	return (tmp);
 }
 
 char	*expand_dollar(char *dq_content, int exec)
 {
    t_token			*token;
-	t_token			*tmp;
-	char			*val;
-	int				type;
-   t_lexer *lexer;
-	int size = 0;
-   char *result;
-	
-	tmp = NULL;
-	token = NULL;
+   t_token			*tmp;
+   t_lexer			*lexer;
+   char				*val;
+   int				type;
+   int			size;
+   char 	*result;
 
+   size = 0;
+   tmp = NULL;
+   token = NULL;
    result = strdup("");
    lexer = ft_init_lexer(dq_content, dq_content[0]);
    while (lexer->c)
