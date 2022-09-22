@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 18:45:13 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/21 22:31:29 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/22 03:13:20 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,16 @@ int	append_trunc(t_redir *redir)
 	int	fout;
 
 	fout = 1;
-    if(redir->type == GREAT)
+	if (redir->e_type == GREAT)
 	{
-        redir->fdout = open(redir->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-        fout = redir->fdout;
+		redir->fdout = open(redir->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		fout = redir->fdout;
 	}
-    else
-    {
-        redir->fdout = open(redir->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-        fout = redir->fdout;
-    }
+	else
+	{
+		redir->fdout = open(redir->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		fout = redir->fdout;
+	}
 	return (fout);
 }
 
@@ -57,46 +57,44 @@ int	open_read(t_redir *redir, t_parse *cmd, int exec)
 	int	fin;
 
 	fin = 0;
-    if (redir->type == LESS)
-    {	
-        if (access(redir->file, F_OK) == -1)
-        {
-            ft_putstr_fd("minishell: no such file or directory: ", 2);
-            ft_putstr_fd(redir->file, 2);
-            ft_putchar_fd('\n', 2);
-            g_vars.exit_status = 1;
+	if (redir->e_type == LESS)
+	{	
+		if (access(redir->file, F_OK) == -1)
+		{
+			file_error(redir->file);
+			g_vars.exit_status = 1;
 			if (exec)
 				return (-1);
 			exit(g_vars.exit_status);
-        }
-        else
-        {
-            redir->fdin = open(redir->file, O_RDONLY);
-            fin = redir->fdin;
-        }
-    }
+		}
+		else
+		{
+			redir->fdin = open(redir->file, O_RDONLY);
+			fin = redir->fdin;
+		}
+	}
 	else
 	{
 		if (cmd->cmd)
-			dup2(redir->fdin , 0);
+			dup2(redir->fdin, 0);
 	}
 	return (fin);
 }
 
 void	open_redir(t_parse *head, int exe)
 {
-	t_redir *tmp;
-	int fout;
-	int	fin;
+	t_redir	*tmp;
+	int		fout;
+	int		fin;
 
 	fin = 0;
 	fout = 1;
 	tmp = head->redir;
-	while(tmp != NULL)
+	while (tmp != NULL)
 	{
-		if(tmp->type == GREAT || tmp->type == GREATANDGREAT)
+		if (tmp->e_type == GREAT || tmp->e_type == GREATANDGREAT)
 			fout = append_trunc(tmp);
-		else if (tmp->type == LESS || tmp->type == LESSANDLESS)
+		else if (tmp->e_type == LESS || tmp->e_type == LESSANDLESS)
 		{
 			fin = open_read(tmp, head, exe);
 			if (fin == -1)
@@ -104,11 +102,5 @@ void	open_redir(t_parse *head, int exe)
 		}
 		tmp = tmp->next;
 	}
-	if (!exe)
-	{
-		if (fin != 0)
-			dup2(fin, 0);
-		if (fout != 1)
-			dup2(fout, 1);
-	}
+	dup_files(exe, fin, fout);
 }

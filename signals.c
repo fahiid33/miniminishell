@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 03:00:20 by fstitou           #+#    #+#             */
-/*   Updated: 2022/09/21 20:57:48 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/22 01:59:55 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	sig_child(int sig)
 {
 	if (sig == SIGINT)
 	{
-		if(g_vars.exit_sig == 27)
+		if (g_vars.exit_sig == 27)
 		{
 			g_vars.exit_sig = -27;
 			ft_putchar_fd('\n', 0);

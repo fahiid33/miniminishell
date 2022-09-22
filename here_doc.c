@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 02:29:19 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/21 23:19:21 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/22 03:13:20 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	read_heredocs(t_parse *command)
 		redir = cmd->redir;
 		while (redir)
 		{
-			if (redir->type == LESSANDLESS && redir->file)
+			if (redir->e_type == LESSANDLESS && redir->file)
 			{
 				tmpfile = random_filename();
 				redir->fdin = open_heredoc(redir->file, tmpfile);

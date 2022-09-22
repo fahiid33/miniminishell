@@ -1,40 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizing.c                                       :+:      :+:    :+:   */
+/*   redir_helper.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/17 17:26:06 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/22 03:13:20 by fstitou          ###   ########.fr       */
+/*   Created: 2022/09/22 01:52:02 by fstitou           #+#    #+#             */
+/*   Updated: 2022/09/22 01:59:26 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*init_token(char *val, int type)
+void	dup_files(int exe, int fin, int fout)
 {
-	t_token	*token;
-
-	token = (t_token *)malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
-	token->val = val;
-	token->next = NULL;
-	token->e_type = type;
-	token->flag = 0;
-	return (token);
+	if (!exe)
+	{
+		if (fin != 0)
+			dup2(fin, 0);
+		if (fout != 1)
+			dup2(fout, 1);
+	}
 }
 
-t_token	*lst_add_back(t_token *lst, t_token *new)
+void	file_error(char *filename)
 {
-	t_token	*tmp;
-
-	if (!lst)
-		return (new);
-	tmp = lst;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-	return (lst);
+	ft_putstr_fd("minishell: no such file or directory: ", 2);
+	ft_putstr_fd(filename, 2);
+	ft_putchar_fd('\n', 2);
 }

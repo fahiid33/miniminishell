@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 04:53:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/21 22:52:10 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/22 03:23:28 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,45 +50,6 @@ int	count_env(t_env **env)
 		tmp = tmp->next;
 	}
 	return (i);
-}
-
-char	*join_3_str(char *s1, char *s2, char *s3)
-{
-	char	*str;
-	int		i;
-	int		j;
-	int		k;
-	int		len;
-
-	i = 0;
-	j = 0;
-	k = 0;
-	len = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3);
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
-	while (s1[i])
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	while (s2[j])
-	{
-		str[i + j] = s2[j];
-		j++;
-	}
-	if (s3)
-	{
-		while (s3[k])
-		{
-			str[i + j + k] = s3[k];
-			k++;
-		}
-		str[i + j + k] = '\0';
-	}
-	else if (s3 == NULL)
-		str[i + j] = '\0';
-	return (str);
 }
 
 char	**env_to_tab(t_env **env)

@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 22:24:32 by fstitou           #+#    #+#             */
-/*   Updated: 2022/09/21 22:29:35 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/22 01:47:23 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,45 +28,47 @@ int	ft_int_strchr(const char *s, int c)
 		i++;
 	}
 	if ((char)c == '\0')
-		return i;
+		return (i);
 	return (-1);
 }
 
 int	token_index(char *str)
 {
-	int i = 0;
-	int j = 0;
-	char *tokens;
+	char	*tokens;
+	int		i;
+	int		j;
 
 	tokens = "$><|'\"";
-	while(str[i])
+	i = 0;
+	j = 0;
+	while (str[i])
 	{
 		j = 0;
-		while(tokens[j])
+		while (tokens[j])
 		{
-			if(str[i] == tokens[j] || str[i] == ' ')
-				return(i);
+			if (str[i] == tokens[j] || str[i] == ' ')
+				return (i);
 			j++;
 		}
 		i++;
 	}
-	return(0);
+	return (0);
 }
 
-int is_token(char c)
+int	is_token(char c)
 {
-	int j;
-	char *tokens;
+	char	*tokens;
+	int		j;
 
-	j = 0;
 	tokens = "$><|'\"";
-	while(tokens[j])
+	j = 0;
+	while (tokens[j])
 	{
-		if(c == tokens[j] || c == ' ')
-			return(1);
+		if (c == tokens[j] || c == ' ')
+			return (1);
 		j++;
 	}
-	return(0);
+	return (0);
 }
 
 char	*ft_substr(char *s, unsigned int start, size_t len)
@@ -99,21 +101,21 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 
 void	errors(int exitt)
 {
-	if(exitt == 2)
+	if (exitt == 2)
 	{
 		ft_putstr_fd("Minishell : quote m7lola!", 2);
 		ft_putchar_fd('\n', 2);
 		g_vars.g_err = 1;
 		g_vars.exit_status = 2;
 	}
-	else if(exitt == 258)
+	else if (exitt == 258)
 	{
-		ft_putstr_fd("Minishell : syntax error near unexpected token `newline'", 2);
+		ft_putstr_fd("Minishell : syntax error near unexpected token", 2);
 		ft_putchar_fd('\n', 2);
 		g_vars.g_err = 1;
 		g_vars.exit_status = 2;
 	}
-	else if(exitt == 3)
+	else if (exitt == 3)
 	{
 		ft_putstr_fd("Minishell : pipe m7lola!", 2);
 		ft_putchar_fd('\n', 2);

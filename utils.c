@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/22 02:04:55 by fstitou           #+#    #+#             */
+/*   Updated: 2022/09/22 02:05:57 by fstitou          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -37,6 +48,7 @@ int	ft_strlen(char *s)
 char	*ft_strcharjoin(char *s1, char c)
 {
 	int			i;
+
 	i = 0;
 	if (!s1)
 		return (0);
@@ -50,7 +62,7 @@ char	*ft_strcharjoin(char *s1, char c)
 	s1[i] = '\0';
 	return (s1);
 }
-	
+
 void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);
@@ -66,4 +78,3 @@ void	ft_putstr_fd(char *s, int fd)
 		s++;
 	}
 }
-

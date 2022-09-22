@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:31:07 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/09/21 22:56:17 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/22 04:11:41 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,6 @@ void	lst_add_backenv(t_env **lst, t_env *new)
 	}
 }
 
-void	free_2(char **tmp)
-{
-	int	i;
-
-	i = 0;
-	while (tmp[i])
-	{
-		free(tmp[i]);
-		i++;
-	}
-	free(tmp);
-}
-
 void	init_env(char **env)
 {
 	char	*key;
@@ -69,7 +56,6 @@ void	init_env(char **env)
 		key = tmp[0];
 		val = tmp[1];
 		lst_add_backenv(&g_vars.my_env, lst_new(key, '=', val));
-		// free_2(tmp);
 		i++;
 	}
 }

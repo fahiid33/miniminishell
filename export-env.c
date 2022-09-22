@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:29:30 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/09/21 22:58:44 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/22 03:31:01 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,16 @@ void	check_numb(char *str)
 	}
 }
 
+char	*check_plus(char *key, int *k)
+{
+	if (key[ft_strlen(key) - 1] == '+')
+	{
+		*k = 1;
+		key[ft_strlen(key) - 1] = 0;
+	}
+	return (key);
+}
+
 void	update_export(t_env **env, char *key, char sep, char *val)
 {
 	t_env	*tmp;
@@ -38,11 +48,7 @@ void	update_export(t_env **env, char *key, char sep, char *val)
 
 	tmp = (*env);
 	k = 0;
-	if (key[ft_strlen(key) - 1] == '+')
-	{
-		k = 1;
-		key[ft_strlen(key) - 1] = 0;
-	}
+	key = check_plus(key, &k);
 	while (tmp)
 	{
 		if (!strcmp(key, tmp->key))

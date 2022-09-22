@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/21 23:56:04 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/22 04:07:29 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,13 @@ t_token	*parse_cmd(t_token *tokens)
 	return (tokens);
 }
 
+void	init_gs_and_c_signal(void)
+{
+	g_vars.exit_sig = 0;
+	g_vars.g_err = 0;
+	c_signal();
+}
+
 int	main(int ac, char *av[], char **env)
 {
 	t_parse	*commands;
@@ -52,17 +59,12 @@ int	main(int ac, char *av[], char **env)
 	init_env(env);
 	while (1)
 	{
-		c_signal();
-		g_vars.exit_sig = 0;
-		g_vars.g_err = 0;
+		init_gs_and_c_signal();
 		g_vars.line = readline("MISSI-1.0$ ");
 		if (!g_vars.line)
 			exit_shell();
-		if (g_vars.line[0] == '\0' || ft_is_space())
-		{
-			free(g_vars.line);
+		if (only_enter())
 			continue ;
-		}
 		commands = init_command();
 		tokens = parse_cmd(tokens);
 		create_commands(tokens, &commands);

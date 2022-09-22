@@ -1,15 +1,22 @@
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <signal.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/22 02:06:10 by fstitou           #+#    #+#             */
+/*   Updated: 2022/09/22 02:07:45 by fstitou          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-int    is_piped(void)
+int	is_piped(void)
 {
-    int i;
+	int	i;
 
-    i = 0;
+	i = 0;
 	while (g_vars.line[i])
 	{
 		if (g_vars.line[i] == '|')
@@ -17,8 +24,8 @@ int    is_piped(void)
 		i++;
 	}
 	return (0);
-	
 }
+
 static long	ft_count(int n)
 {
 	long	i;
