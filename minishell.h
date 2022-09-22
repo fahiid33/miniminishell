@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/22 03:15:13 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/22 04:26:38 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,4 +180,6 @@ void	pipe_redir(t_parse *cmd, int in, int index, int *fd);
 int		simple_cmd(t_parse *cmd);
 int		is_piped(void);
 void	read_heredocs(t_parse *command);
+int		only_enter(void);
+int		ft_is_space(void);
 #endif
