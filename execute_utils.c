@@ -6,11 +6,25 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 04:53:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/22 03:23:28 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/22 21:32:52 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	check_cmd(t_parse *cmd)
+{
+	if (!ft_strcmp(cmd->cmd, "CD"))
+		return ;
+	if (!ft_strcmp(cmd->cmd, "EXIT"))
+		return ;
+	if (!ft_strcmp(cmd->cmd, "EXPORT"))
+		return ;
+	if (!ft_strcmp(cmd->cmd, "UNSET"))
+		return ;
+	else
+		cmd->cmd = ft_lowercase(cmd->cmd);
+}
 
 void	wrong_cmd(void)
 {

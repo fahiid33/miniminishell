@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/22 04:26:38 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/22 22:07:41 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,9 @@ void	ft_putnbr_fd(int n, int fd);
 char	*ft_itoa(int n);
 int		ft_isspace(int c);
 int		ft_isalpha(int c);
+void	check_cmd(t_parse *cmd);
+char	*ft_lowercase(char *str);
+int		check_minus(char *arg, char c);
 int		str_digit(char *str);
 int		str_is_alnum(char *str);
 int		ft_isdigit(int c);

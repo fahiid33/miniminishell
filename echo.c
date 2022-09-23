@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:30:26 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/21 22:51:19 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/22 22:08:27 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,8 @@ void	printf_exit(char *exit)
 	}
 }
 
-void	echo_n(t_parse *cmd)
+void	echo_n_print(t_parse *cmd, int i)
 {
-	int	i;
-
-	i = 1;
 	while (cmd->argv[i])
 	{
 		printf_exit(cmd->argv[i]);
@@ -47,6 +44,31 @@ void	echo_n(t_parse *cmd)
 		if (cmd->argv[i])
 			write(1, " ", 1);
 	}
+}
+
+void	echo_n(t_parse *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd->argv && cmd->argv[i])
+	{
+		if (!strncmp(cmd->argv[i], "-n", 2))
+		{
+			if (check_minus(cmd->argv[i], 'n'))
+				i++;
+			else
+				break ;
+		}
+		else
+			break ;
+	}
+	if (cmd->argv && cmd->argv[i])
+	{
+		echo_n_print(cmd, i);
+		return ;
+	}
+	return ;
 }
 
 void	echo_e(t_parse *cmd)
@@ -74,7 +96,7 @@ int	echo(t_parse *cmd)
 	}
 	else
 	{		
-		if (strcmp(cmd->argv[0], "-n") == 0)
+		if (strncmp(cmd->argv[0], "-n", 2) == 0)
 			echo_n(cmd);
 		else
 			echo_e(cmd);

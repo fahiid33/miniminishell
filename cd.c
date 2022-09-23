@@ -6,11 +6,24 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:32:47 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/21 22:50:46 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/22 22:04:10 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	check_minus(char *arg, char c)
+{
+	int	i;
+
+	i = 1;
+	while (arg[i] && arg[i] == c)
+		i++;
+	if (!arg[i])
+		return (1);
+	else
+		return (0);
+}
 
 void	change_pwd(char *pwd)
 {

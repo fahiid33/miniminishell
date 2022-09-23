@@ -33,6 +33,7 @@ void	__child(t_parse *cmd, t_env **env)
 	in = 0;
 	while (cmd->next)
 	{
+		check_cmd(cmd);
 		pipe(fd);
 		g_vars.pid = fork();
 		if (!g_vars.pid)
