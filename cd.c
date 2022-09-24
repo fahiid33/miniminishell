@@ -39,7 +39,7 @@ int	home_cd(t_env *env)
 	char	*home;
 	char	*cwd;
 
-	home = my_getenv(&env, "HOME");
+	home = my_getenv(env, "HOME");
 	cwd = getcwd(NULL, 0);
 	if (!home)
 	{
@@ -50,7 +50,7 @@ int	home_cd(t_env *env)
 	if (!chdir(home))
 	{
 		update_export(&g_vars.my_env, "PWD", '=',
-			my_getenv(&g_vars.my_env, "HOME"));
+			my_getenv(g_vars.my_env, "HOME"));
 		update_export(&g_vars.my_env, "OLDPWD", '=', cwd);
 		g_vars.exit_status = 0;
 	}
@@ -66,7 +66,7 @@ void	cd_minus(char *pwd)
 {
 	char	*o_pwd;
 
-	o_pwd = my_getenv(&g_vars.my_env, "OLDPWD");
+	o_pwd = my_getenv(g_vars.my_env, "OLDPWD");
 	if (o_pwd)
 	{
 		ft_putstr_fd(o_pwd, 1);

@@ -33,14 +33,14 @@ char	*ft_strsub(t_lexer *lexer, size_t len)
 	return (sub);
 }
 
-void print_list(t_token lst)
-{
-	while(lst.next)
-	{
-		printf("--%s flag=%d  type%d \n",lst.val, lst.flag, lst.e_type);
-		lst = *(lst.next);
-	}
-}
+// void print_list(t_token lst)
+// {
+// 	while(lst.next)
+// 	{
+// 		printf("--%s flag=%d  type%d \n",lst.val, lst.flag, lst.e_type);
+// 		lst = *(lst.next);
+// 	}
+// }
 
 t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 {

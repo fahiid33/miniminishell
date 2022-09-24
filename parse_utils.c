@@ -69,7 +69,6 @@ int	str_sp_chr(char *str)
 char	*jme3arg(t_token **b, int exec)
 {
 	char	*str;
-	char sep;
 	char **tmp;
 
 	tmp = (char**) malloc(2*sizeof(char*));
@@ -85,23 +84,28 @@ char	*jme3arg(t_token **b, int exec)
 				if (!(*b)->val[1])
 				{
 					(*b) = (*b)->next;
-					sep = (*b)->val[str_sp_chr((*b)->val)];
-					if(sep != '\0')
+					if((*b)->val[str_sp_chr((*b)->val)] != '\0')
 					{
 						tmp[0] = ft_substr((*b)->val,0,str_sp_chr((*b)->val));
 						tmp[1] = ft_substr((*b)->val,str_sp_chr((*b)->val),ft_int_strchr((*b)->val,'\0'));
-						if (my_getenv(&g_vars.my_env, tmp[0]))
-							(*b)->val = strdup(my_getenv(&g_vars.my_env, tmp[0]));
+						if (my_getenv(g_vars.my_env, tmp[0]))
+							(*b)->val = strdup(my_getenv(g_vars.my_env, tmp[0]));
 						else
 							(*b)->val = strdup("");
 						if(tmp[1][0] == '\\')
 							tmp[1]++;
 						(*b)->val = ft_strjoin((*b)->val, tmp[1], 0);
 					}
+					else if(((*b)->val)[0] == '0' && ((*b)->val)[1] != '\0')
+					{
+						tmp[1] = ((*b)->val) + 1;
+						(*b)->val = strdup(my_getenv(g_vars.my_env, "0"));
+						(*b)->val = ft_strjoin((*b)->val, tmp[1], 0);
+					}
 					else
 					{
-						if (my_getenv(&g_vars.my_env, (*b)->val))
-							(*b)->val = my_getenv(&g_vars.my_env, (*b)->val);
+						if (my_getenv(g_vars.my_env, (*b)->val))
+							(*b)->val = my_getenv(g_vars.my_env, (*b)->val);
 						else
 							(*b)->val = strdup("");
 					}
@@ -145,8 +149,8 @@ char	*jme3arg(t_token **b, int exec)
 		if (!(*b)->val[1])
 		{
 			(*b) = (*b)->next;
-			if (my_getenv(&g_vars.my_env, (*b)->val))
-				(*b)->val = my_getenv(&g_vars.my_env, (*b)->val);
+			if (my_getenv(g_vars.my_env, (*b)->val))
+				(*b)->val = my_getenv(g_vars.my_env, (*b)->val);
 			else
 				(*b)->val = strdup("");
 		}
