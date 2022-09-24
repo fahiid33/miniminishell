@@ -60,6 +60,14 @@ void	tokenize_dquote(t_token **tmp, t_lexer *lexer)
 	*tmp = lst_add_back(*tmp, token);
 }
 
+int ft_is_ex_token(char c)
+{
+	if (c == '>' || c == '<' || c == '|')
+		return (1);
+	else
+		return (0);
+}
+
 void	tokenize_dollar(t_token **tmp, t_lexer *lexer)
 {
 	t_token	*token;
@@ -69,17 +77,24 @@ void	tokenize_dollar(t_token **tmp, t_lexer *lexer)
 	token = NULL;
 	type = DOLLAR;
 	val = ft_strsub(lexer, 1);
-	if (lexer->c == '$')
-		val = ft_strjoin(val, ft_strsub(lexer, 1), 2);
-	else if (lexer->c == ' ')
-		val = ft_strjoin(val, ft_strsub(lexer, 1), 2);
-	else if (lexer->c == '?')
-		val = ft_strjoin(val, ft_strsub(lexer, 1), 2);
-	token = init_token(val, type);
-	if (lexer->c != '>' && lexer->c != '<' && lexer->c != '|'
-		&& val[1] != ' ' && lexer->c != ' ' && lexer->c != '\0')
-		token->flag = 1;
-	*tmp = lst_add_back(*tmp, token);
+	if(!ft_isdigit(lexer->c))
+	{
+		if (lexer->c == '$')
+			val = ft_strjoin(val, ft_strsub(lexer, 1), 2);
+		else if (lexer->c == ' ')
+			val = ft_strjoin(val, ft_strsub(lexer, 1), 2);
+		else if (lexer->c == '?')
+			val = ft_strjoin(val, ft_strsub(lexer, 1), 2);
+		else if (ft_is_ex_token(lexer->c))
+			val = ft_strjoin(val, " ", 0);
+		token = init_token(val, type);
+		if (lexer->c != '>' && lexer->c != '<' && lexer->c != '|'
+			&& val[1] != ' ' && lexer->c != ' ' && lexer->c != '\0')
+			token->flag = 1;
+		*tmp = lst_add_back(*tmp, token);
+	}
+	else
+		advance_lexer(lexer);
 }
 
 void	tokenize_word(t_token **tmp, t_lexer *lexer)
