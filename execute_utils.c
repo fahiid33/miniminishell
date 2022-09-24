@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 04:53:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/22 21:32:52 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/24 03:41:49 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	check_cmd(t_parse *cmd)
 {
+	if (!cmd->cmd)
+		return ;
 	if (!ft_strcmp(cmd->cmd, "CD"))
 		return ;
 	if (!ft_strcmp(cmd->cmd, "EXIT"))

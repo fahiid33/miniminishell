@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 03:00:20 by fstitou           #+#    #+#             */
-/*   Updated: 2022/09/22 01:59:55 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/24 06:30:05 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	sig_child(int sig)
 		{
 			ft_putchar_fd('\n', 0);
 			rl_on_new_line();
-			// rl_replace_line("", 0);
+			rl_replace_line("", 0);
 			rl_redisplay();
 		}
 		g_vars.exit_status = 1;

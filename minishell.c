@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/23 01:18:40 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/24 05:21:31 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	main(int ac, char *av[], char **env)
 {
 	t_parse	*commands;
 	t_token	*tokens;
-
+	
 	(void)ac;
 	(void)av;
 	init_env(env);
@@ -73,7 +73,9 @@ int	main(int ac, char *av[], char **env)
 		{
 			read_heredocs(commands);
 			if (g_vars.exit_sig != -27)
+			{
 				exec_pipeline(commands, &g_vars.my_env);
+			}
 		}
 	}
 }

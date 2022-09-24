@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/22 22:07:41 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/24 04:05:40 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int		array_size(char **str);
 char	**ft_split(char const *s, char c);
 char	*ft_strjoin1(char *s1, char *s2, int c);
 int		pwd(void);
-void	free_l(char **env);
+void	free_2(char **tmp);
 int		env(void);
 void	errors(int exitt);
 void	init_env(char **env);
