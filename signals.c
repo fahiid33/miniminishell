@@ -20,6 +20,7 @@ void	sig_child(int sig)
 		{
 			g_vars.exit_sig = -27;
 			ft_putchar_fd('\n', 0);
+			// close(rl_instream->_fileno);
 			close(rl_instream->_file);
 		}
 		else

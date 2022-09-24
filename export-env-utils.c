@@ -55,10 +55,12 @@ void	init_env(char **env)
 		tmp = ft_split(env[i], '=');
 		key = tmp[0];
 		val = tmp[1];
+		// lst_add_backenv(&g_vars.my_env, lst_new(key, '=', val));
 		lst_add_backenv(&g_vars.my_env, lst_new(ft_strdup(key), '=', ft_strdup(val)));
 		free_2(tmp);
 		i++;
 	}
+	lst_add_backenv(&g_vars.my_env, lst_new("0", '=', ft_strjoin(my_getenv(&g_vars.my_env, "PWD"),"/minishell",0)));
 }
 
 char	*my_getenv(t_env **env, char *key)

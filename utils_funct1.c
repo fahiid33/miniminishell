@@ -77,14 +77,8 @@ char	*ft_strcat(char *dest, char *src)
 char	*join_3_str(char *s1, char *s2, char *s3)
 {
 	char	*str;
-	int		i;
-	int		j;
-	int		k;
 	int		len;
 
-	i = 0;
-	j = 0;
-	k = 0;
 	len = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3);
 	str = (char *)malloc(sizeof(char) * (len + 1));
 	if (!str)

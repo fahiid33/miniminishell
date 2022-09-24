@@ -56,10 +56,23 @@ t_redir	*add_redir(t_redir *redir, char *val, int type)
 	return (redir);
 }
 
+int	str_sp_chr(char *str)
+{
+	int i;
+
+	i = 0;
+	while(str[i] && ft_isalnum(str[i]))
+		i++;
+	return (i);
+}
+
 char	*jme3arg(t_token **b, int exec)
 {
 	char	*str;
+	char sep;
+	char **tmp;
 
+	tmp = (char**) malloc(2*sizeof(char*));
 	str = strdup("");
 	while ((*b) && (*b)->flag == 1)
 	{
@@ -72,10 +85,26 @@ char	*jme3arg(t_token **b, int exec)
 				if (!(*b)->val[1])
 				{
 					(*b) = (*b)->next;
-					if (my_getenv(&g_vars.my_env, (*b)->val))
-						(*b)->val = my_getenv(&g_vars.my_env, (*b)->val);
+					sep = (*b)->val[str_sp_chr((*b)->val)];
+					if(sep != '\0')
+					{
+						tmp[0] = ft_substr((*b)->val,0,str_sp_chr((*b)->val));
+						tmp[1] = ft_substr((*b)->val,str_sp_chr((*b)->val),ft_int_strchr((*b)->val,'\0'));
+						if (my_getenv(&g_vars.my_env, tmp[0]))
+							(*b)->val = strdup(my_getenv(&g_vars.my_env, tmp[0]));
+						else
+							(*b)->val = strdup("");
+						if(tmp[1][0] == '\\')
+							tmp[1]++;
+						(*b)->val = ft_strjoin((*b)->val, tmp[1], 0);
+					}
 					else
-						(*b)->val = strdup("");
+					{
+						if (my_getenv(&g_vars.my_env, (*b)->val))
+							(*b)->val = my_getenv(&g_vars.my_env, (*b)->val);
+						else
+							(*b)->val = strdup("");
+					}
 				}
 				else
 				{

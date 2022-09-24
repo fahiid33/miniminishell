@@ -151,7 +151,6 @@ void	print_list_env(t_env *tmp);
 void	print_l(t_parse *lst);
 void	create_commands(t_token *token, t_parse **command);
 char	*expand_dollar(char *dq_content, int exec);
-void	print_list(t_token *lst);
 int		exec_builtins(t_parse *commands, t_env **my_env);
 void	exec_pipeline(t_parse *commands, t_env **env);
 int		array_size(char **str);
