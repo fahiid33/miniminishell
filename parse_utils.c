@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:11:13 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/23 00:04:03 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/25 02:50:00 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,12 @@ t_redir	*add_redir(t_redir *redir, char *val, int type)
 	return (redir);
 }
 
-int	str_sp_chr(char *str)
-{
-	int i;
-
-	i = 0;
-	while(str[i] && ft_isalnum(str[i]))
-		i++;
-	return (i);
-}
-
 char	*jme3arg(t_token **b, int exec)
 {
 	char	*str;
-	char **tmp;
+	char	**tmp;
 
-	tmp = (char**) malloc(2*sizeof(char*));
+	tmp = (char **) malloc(2 * sizeof(char *));
 	str = strdup("");
 	while ((*b) && (*b)->flag == 1)
 	{
@@ -84,19 +74,22 @@ char	*jme3arg(t_token **b, int exec)
 				if (!(*b)->val[1])
 				{
 					(*b) = (*b)->next;
-					if((*b)->val[str_sp_chr((*b)->val)] != '\0')
+					if ((*b)->val[str_sp_chr((*b)->val)] != '\0'
+						&& ((*b)->val)[0] != '0')
 					{
-						tmp[0] = ft_substr((*b)->val,0,str_sp_chr((*b)->val));
-						tmp[1] = ft_substr((*b)->val,str_sp_chr((*b)->val),ft_int_strchr((*b)->val,'\0'));
+						tmp[0] = ft_substr((*b)->val, 0, str_sp_chr((*b)->val));
+						tmp[1] = ft_substr((*b)->val, str_sp_chr((*b)->val),
+								ft_int_strchr((*b)->val, '\0'));
 						if (my_getenv(g_vars.my_env, tmp[0]))
-							(*b)->val = strdup(my_getenv(g_vars.my_env, tmp[0]));
+							(*b)->val = strdup(my_getenv(g_vars.my_env,
+										tmp[0]));
 						else
 							(*b)->val = strdup("");
-						if(tmp[1][0] == '\\')
+						if (tmp[1][0] == '\\')
 							tmp[1]++;
 						(*b)->val = ft_strjoin((*b)->val, tmp[1], 0);
 					}
-					else if(((*b)->val)[0] == '0' && ((*b)->val)[1] != '\0')
+					else if (((*b)->val)[0] == '0' && ((*b)->val)[1] != '\0')
 					{
 						tmp[1] = ((*b)->val) + 1;
 						(*b)->val = strdup(my_getenv(g_vars.my_env, "0"));

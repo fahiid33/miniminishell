@@ -6,11 +6,21 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 22:25:41 by fstitou           #+#    #+#             */
-/*   Updated: 2022/09/24 05:02:51 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/25 02:47:59 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	str_sp_chr(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && ft_isalnum(str[i]))
+		i++;
+	return (i);
+}
 
 void	free_unused(int frr, char *s1, char *s2)
 {

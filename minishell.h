@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/24 04:05:40 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/25 02:48:17 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,9 @@ int		pwd(void);
 void	free_2(char **tmp);
 int		env(void);
 void	errors(int exitt);
+int		str_sp_chr(char *str);
 void	init_env(char **env);
+int		ft_is_ex_token(char c);
 char	*my_getenv(t_env *env, char *key);
 char	*my_getenv_key(t_env **env, char *key);
 void	update_export(t_env **env, char *key, char sep, char *val);

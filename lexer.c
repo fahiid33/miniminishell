@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 05:17:20 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/22 04:19:31 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/25 00:40:02 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,6 @@ char	*ft_strsub(t_lexer *lexer, size_t len)
 	return (sub);
 }
 
-// void print_list(t_token lst)
-// {
-// 	while(lst.next)
-// 	{
-// 		printf("--%s flag=%d  type%d \n",lst.val, lst.flag, lst.e_type);
-// 		lst = *(lst.next);
-// 	}
-// }
-
 t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 {
 	t_token			*tmp;
@@ -67,8 +58,6 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 			tokenize_word(&tmp, lexer);
 	}
 	tokenize_end(&tmp);
-	// print_list(*tmp);
-	// exit(0);
 	return (tmp);
 }
 

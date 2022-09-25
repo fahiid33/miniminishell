@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:31:07 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/09/24 04:53:56 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/25 02:44:49 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ void	init_env(char **env)
 		tmp = ft_split(env[i], '=');
 		key = tmp[0];
 		val = tmp[1];
-		// lst_add_backenv(&g_vars.my_env, lst_new(key, '=', val));
-		lst_add_backenv(&g_vars.my_env, lst_new(ft_strdup(key), '=', ft_strdup(val)));
+		lst_add_backenv(&g_vars.my_env, lst_new(ft_strdup(key), '=',
+				ft_strdup(val)));
 		free_2(tmp);
 		i++;
 	}
-	lst_add_backenv(&g_vars.my_env, lst_new("0", '=', ft_strjoin(strdup(my_getenv(g_vars.my_env, "PWD")),"/minishell",0)));
+	lst_add_backenv(&g_vars.my_env, lst_new("0", '=', "minishell"));
 }
 
 char	*my_getenv(t_env *env, char *key)

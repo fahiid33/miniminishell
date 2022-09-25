@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 22:34:27 by fstitou           #+#    #+#             */
-/*   Updated: 2022/09/21 23:24:30 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/25 02:45:12 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,6 @@ void	tokenize_dquote(t_token **tmp, t_lexer *lexer)
 	*tmp = lst_add_back(*tmp, token);
 }
 
-int ft_is_ex_token(char c)
-{
-	if (c == '>' || c == '<' || c == '|')
-		return (1);
-	else
-		return (0);
-}
-
 void	tokenize_dollar(t_token **tmp, t_lexer *lexer)
 {
 	t_token	*token;
@@ -77,7 +69,7 @@ void	tokenize_dollar(t_token **tmp, t_lexer *lexer)
 	token = NULL;
 	type = DOLLAR;
 	val = ft_strsub(lexer, 1);
-	if(lexer->c == '0' || !ft_isdigit(lexer->c))
+	if (lexer->c == '0' || !ft_isdigit(lexer->c))
 	{
 		if (lexer->c == '$')
 			val = ft_strjoin(val, ft_strsub(lexer, 1), 2);
