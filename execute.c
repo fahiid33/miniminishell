@@ -67,7 +67,8 @@ void	supervisor(void)
 	int	status;
 
 	status = 0;
-	while (waitpid(g_vars.pid, &status, 0) > 0)
+	g_vars.exit_sig = 0;
+	while (waitpid(-1, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))
 			g_vars.exit_status = WEXITSTATUS(status);
