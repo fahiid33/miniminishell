@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 05:17:20 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/01 07:40:41 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/01 08:40:47 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 			tokenize_word(&tmp, lexer);
 	}
 	tokenize_end(&tmp);
-	return (tmp); // 4 16 28 40;
-	//
+	return (tmp);
 }
 
 void	dollar(t_lexer *lexer, t_token **tmp, t_token **token)
@@ -79,19 +78,6 @@ void	dollar(t_lexer *lexer, t_token **tmp, t_token **token)
 	if (lexer->c != '\0')
 		(*token)->flag = 1;
 	(*tmp) = lst_add_back((*tmp), (*token));
-}
-
-void	*f_malloc(size_t size)
-{
-	void	*tmp;
-
-	tmp = malloc(size);
-	if (!tmp)
-		return(NULL);
-	g_vars.alloc[g_vars.i] = tmp;
-	g_vars.i++;
-	printf("aa == %d\n", g_vars.i);
-	return (tmp);
 }
 
 void	word(t_lexer *lexer, t_token **token, t_token **tmp)

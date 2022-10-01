@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/01 07:30:12 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/01 08:41:48 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ void	exit_shell(void)
 t_token	*parse_cmd(t_token *tokens)
 {
 	t_lexer	*lexer;
-	
+
 	lexer = NULL;
-	// lexer = f_malloc(sizeof(t_lexer));
 	lexer = ft_init_lexer(g_vars.line, g_vars.line[0]);
 	tokens = send_lexer_to_tokenize(lexer);
 	return (tokens);
@@ -48,41 +47,8 @@ void	mino(t_parse *cmds)
 	}
 }
 
-void	freeha()
+void	freeha(void)
 {
-	// int	i;
-
-	// i = 0;
-	// if (cmds)
-	// {
-	// 	while(cmds)
-	// 	{
-	// 		if (cmds->cmd)
-	// 			free(cmds->cmd);
-	// 		if (cmds->argv)
-	// 		{
-	// 			while (cmds->argv[i])
-	// 			{
-	// 				if (cmds->argv[i])
-	// 				{
-	// 					free(cmds->argv[i]);
-	// 				}
-	// 				i++;
-	// 			}
-	// 		}
-	// 		if (cmds->redir && cmds->redir->file)
-	// 			// printf("%s\n", cmds->redir->file);
-	// 			free(cmds->redir->file);
-	// 		if (cmds->redir)
-	// 			free(cmds->redir);
-	// 		// while(1);
-	// 		// free(cmds);
-	// 		// while(1);
-	// 		cmds = cmds->next;
-			
-	// 	}
-	// 	// while(1);
-	// }
 	int	i;
 
 	i = 0;
@@ -119,7 +85,5 @@ int	main(int ac, char *av[], char **env)
 		add_history(g_vars.line);
 		mino(commands);
 		free(g_vars.line);
-		// freeha();
-		// i++;
 	}
 }

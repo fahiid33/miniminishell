@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 22:25:41 by fstitou           #+#    #+#             */
-/*   Updated: 2022/10/01 07:02:28 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/01 09:11:35 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,8 @@ char	*ft_strjoin(char *s1, char *s2, int frr)
 		str[j++] = s1[i];
 		i++;
 	}
-	frr = 0;
 	join_string2(str, s2, j);
-	// free_unused(frr, s1, s2);
+	free_unused(frr, s1, s2);
 	return (str);
 }
 
