@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/01 06:57:21 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/01 07:30:12 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,8 @@ int	main(int ac, char *av[], char **env)
 	tokens = NULL;
 	(void)ac;
 	(void)av;
-	init_env(env);
-	// int i = 0;
 	g_vars.i = 0;
+	init_env(env);
 	while (1)
 	{
 		init_gs_and_c_signal();

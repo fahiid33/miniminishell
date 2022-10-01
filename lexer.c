@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 05:17:20 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/01 06:49:33 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/01 07:40:41 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,13 @@ void	dollar(t_lexer *lexer, t_token **tmp, t_token **token)
 void	*f_malloc(size_t size)
 {
 	void	*tmp;
+
 	tmp = malloc(size);
 	if (!tmp)
 		return(NULL);
 	g_vars.alloc[g_vars.i] = tmp;
 	g_vars.i++;
+	printf("aa == %d\n", g_vars.i);
 	return (tmp);
 }
 

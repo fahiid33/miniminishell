@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/01 06:52:54 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/01 07:36:24 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ typedef struct s_minishell
 {
 	int		i;
 	char	*line;
-	void	*alloc[10000000];
+	void	*alloc[1000000];
 	int		exit_status;
 	int		g_err;
 	pid_t	pid;
