@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:32:47 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/22 22:04:10 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/26 00:09:03 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ int	home_cd(t_env *env)
 	}
 	if (!chdir(home))
 	{
-		update_export(&g_vars.my_env, "PWD", '=',
-			my_getenv(g_vars.my_env, "HOME"));
+		update_export(&g_vars.my_env, "PWD", '=', home);
 		update_export(&g_vars.my_env, "OLDPWD", '=', cwd);
 		g_vars.exit_status = 0;
 	}

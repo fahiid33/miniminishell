@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 02:57:47 by fstitou           #+#    #+#             */
-/*   Updated: 2022/09/22 04:08:02 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/01 06:38:54 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	*realloc_array(char **arg, char *str)
 	j = 0;
 	while (arg && arg[i])
 		i++;
-	new_arg = (char **)malloc(sizeof(char *) * (i + 2));
+	new_arg = (char **)f_malloc(sizeof(char *) * (i + 2));
 	while (arg && j < i)
 	{
 		new_arg[j] = ft_strdup(arg[j]);
@@ -80,7 +80,7 @@ char	*join_3_str(char *s1, char *s2, char *s3)
 	int		len;
 
 	len = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3);
-	str = (char *)malloc(sizeof(char) * (len + 1));
+	str = (char *)f_malloc(sizeof(char) * (len + 1));
 	if (!str)
 		return (NULL);
 	str = ft_strcat(str, s1);

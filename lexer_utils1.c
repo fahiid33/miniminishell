@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 22:35:52 by fstitou           #+#    #+#             */
-/*   Updated: 2022/09/21 23:25:56 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/01 06:38:54 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_lexer	*ft_init_lexer(char *str, char c)
 {
 	t_lexer	*lexer;
 
-	lexer = (t_lexer *)malloc(sizeof(t_lexer));
+	lexer = (t_lexer *)f_malloc(sizeof(t_lexer));
 	if (!lexer)
 		return (NULL);
 	lexer->str = str;

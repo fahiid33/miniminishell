@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 02:04:55 by fstitou           #+#    #+#             */
-/*   Updated: 2022/09/22 02:05:57 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/01 06:38:54 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strdup(char *s1)
 	i = 0;
 	while (s1[i])
 		i++;
-	dup = (char *)malloc(i + 1);
+	dup = (char *)f_malloc(i + 1);
 	if (dup == NULL)
 		return (NULL);
 	i = 0;

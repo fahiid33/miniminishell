@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 02:00:11 by fstitou           #+#    #+#             */
-/*   Updated: 2022/09/22 02:00:20 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/01 06:38:54 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static char	**ft_splitcpy(const char *s, char c, char **str, int wd)
 		j = 0;
 		while (s[i] == c)
 			i++;
-		str[cnt] = malloc(sizeof(char ) * ft_charcount(s, c, i) + 1);
+		str[cnt] = f_malloc(sizeof(char ) * ft_charcount(s, c, i) + 1);
 		if (!str[cnt])
 			return (ft_freedom(str));
 		while (s[i] != c && s[i])
@@ -99,7 +99,7 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (0);
 	wd = ft_words(s, c);
-	str = malloc(sizeof(char *) * (wd + 1));
+	str = f_malloc(sizeof(char *) * (wd + 1));
 	if (str == NULL)
 		return (0);
 	return (ft_splitcpy(s, c, str, wd));

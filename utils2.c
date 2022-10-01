@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 02:06:10 by fstitou           #+#    #+#             */
-/*   Updated: 2022/09/25 02:43:53 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/01 06:38:54 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	*ft_itoa(int n)
 	i = ft_count(j);
 	if (j == 0)
 		return (ft_strdup("0"));
-	str = (char *)malloc(sizeof(char) * (i + 1));
+	str = (char *)f_malloc(sizeof(char) * (i + 1));
 	if (!str)
 		return (0);
 	if (n < 0)

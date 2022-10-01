@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:29:30 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/09/24 05:23:28 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/09/26 00:12:50 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	check_numb(char *str)
 		{
 			if (!is_piped())
 				ft_putstr_fd("exit\n", 2);
-			ft_putstr_fd("bash: exit: numeric argument required\n", 2);
+			ft_putstr_fd("minishell: exit: numeric argument required\n", 2);
 			g_vars.exit_status = 255;
 			exit (g_vars.exit_status);
 		}
@@ -56,7 +56,7 @@ void	update_export(t_env **env, char *key, char sep, char *val)
 			if (k)
 			{
 				tmp->sep = sep;
-				tmp->val = ft_strjoin(tmp->val, val, 0);
+				tmp->val = ft_strjoin(tmp->val, val, 2);
 				return ;
 			}
 			else

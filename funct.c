@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 22:25:41 by fstitou           #+#    #+#             */
-/*   Updated: 2022/09/25 02:47:59 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/01 07:02:28 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*ft_strjoin(char *s1, char *s2, int frr)
 		return (ft_strdup(s1));
 	if ((!s1 && s2[0] == 0) || (s1[0] == 0 && !s2))
 		return (ft_strdup(""));
-	str = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 2);
+	str = (char *)f_malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 2);
 	if (str == 0)
 		return (0);
 	while (s1[i])
@@ -75,8 +75,9 @@ char	*ft_strjoin(char *s1, char *s2, int frr)
 		str[j++] = s1[i];
 		i++;
 	}
+	frr = 0;
 	join_string2(str, s2, j);
-	free_unused(frr, s1, s2);
+	// free_unused(frr, s1, s2);
 	return (str);
 }
 

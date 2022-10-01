@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/25 02:48:17 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/01 06:52:54 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,9 @@ typedef struct s_env
 
 typedef struct s_minishell
 {
+	int		i;
 	char	*line;
+	void	*alloc[10000000];
 	int		exit_status;
 	int		g_err;
 	pid_t	pid;
@@ -123,6 +125,7 @@ int		ft_strnstr(const char *str, const char *to_find, size_t len);
 char	*ft_strcharjoin(char *s1, char c);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 void	ft_putnbr_fd(int n, int fd);
+int		ft_is_space(void);
 char	*ft_itoa(int n);
 int		ft_isspace(int c);
 int		ft_isalpha(int c);
@@ -136,6 +139,7 @@ int		ft_isalnum(int c);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_strdup(char *s1);
 int		ft_strlen(char *s);
+void	*f_malloc(size_t size);
 char	*ft_strjoin(char *s1, char *s2, int fr);
 char	*jme3arg(t_token **b, int exec);
 size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);

@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 01:14:18 by fstitou           #+#    #+#             */
-/*   Updated: 2022/09/22 04:10:05 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/01 06:38:54 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_parse	*init_command(void)
 {
 	t_parse	*command;
 
-	command = (t_parse *)malloc(sizeof(t_parse));
+	command = (t_parse *)f_malloc(sizeof(t_parse));
 	if (!command)
 		return (NULL);
 	command->cmd = NULL;

@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 04:53:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/24 03:41:49 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/01 06:38:54 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	**env_to_tab(t_env **env)
 	i = 0;
 	len = count_env(env);
 	tmp = (*env);
-	tab = (char **)malloc(sizeof(char *) * (len + 1));
+	tab = (char **)f_malloc(sizeof(char *) * (len + 1));
 	while (tmp)
 	{
 		tab[i] = join_3_str(tmp->key, "=", tmp->val);

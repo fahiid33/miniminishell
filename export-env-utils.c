@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:31:07 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/09/25 02:44:49 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/01 07:05:02 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_env	*lst_new(char *key, char sep, char *val)
 {
 	t_env	*new;
 
-	new = malloc(sizeof(t_env));
+	new = f_malloc(sizeof(t_env));
 	new->key = key;
 	new->val = val;
 	new->sep = sep;

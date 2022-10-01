@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:11:13 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/25 09:44:39 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/01 07:04:06 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_redir	*init_redir(char *val, int type)
 {
 	t_redir	*redir;
 
-	redir = (t_redir *)malloc(sizeof(t_redir));
+	redir = (t_redir *)f_malloc(sizeof(t_redir));
 	if (!redir)
 		return (NULL);
 	redir->file = strdup(val);
@@ -61,13 +61,14 @@ char	*jme3arg(t_token **b, int exec)
 	char	*str;
 	char	**tmp;
 
-	tmp = (char **) malloc(2 * sizeof(char *));
+	tmp = (char **) f_malloc(2 * sizeof(char *));
 	str = strdup("");
 	while ((*b) && (*b)->flag == 1)
 	{
 		if ((*b)->e_type == DOLLAR)
 		{
-			if ((*b)->next->e_type == DQUOTE || (*b)->next->e_type == SQUOTE)
+			if (((*b)->next->e_type == DQUOTE || (*b)->next->e_type == SQUOTE)
+				&& (*b)->val[1] != '?')
 				(*b) = (*b)->next;
 			else
 			{
@@ -108,13 +109,9 @@ char	*jme3arg(t_token **b, int exec)
 					if ((*b)->val[1] == ' ' || (*b)->val[1] == '\0')
 						str = ft_strjoin(str, strdup("$"), 2);
 					else if ((*b)->val[1] == '?')
-					{
 						str = ft_strjoin(str, strdup("$?"), 2);
-					}
 					else if ((*b)->val[1] == '$')
-					{
 						str = ft_strjoin(str, strdup("$$"), 2);
-					}
 					else
 						str = ft_strjoin(str, "69", 2);
 					(*b) = (*b)->next;
@@ -122,13 +119,9 @@ char	*jme3arg(t_token **b, int exec)
 			}
 		}
 		if ((*b)->e_type == DQUOTE)
-		{
 			str = ft_strjoin(str, expand_dollar((*b)->val, 0), 2);
-		}
 		else if ((*b)->e_type != END)
-		{
 			str = ft_strjoin(str, (*b)->val, 0);
-		}
 		if ((*b)->flag == 1)
 			(*b) = (*b)->next;
 		else

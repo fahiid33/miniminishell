@@ -28,7 +28,7 @@ all : $(NAME)
 
 $(NAME):
 	
-	@gcc  -Wall -Wextra -Werror $(SRC) $(LDFLAGS) $(CPPFLAGS) -lreadline  -o $(NAME)
+	@gcc  -Wall -Wextra -Werror -g $(SRC) $(LDFLAGS) $(CPPFLAGS) -lreadline  -o $(NAME)
 	@echo "Mino 👍👍👍"
 
 $(NAME_BONUS) : 

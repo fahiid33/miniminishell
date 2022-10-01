@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 23:36:59 by fstitou           #+#    #+#             */
-/*   Updated: 2022/09/21 23:57:17 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/01 06:38:54 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strndup(char *str, unsigned int n)
 	unsigned int		i;
 
 	i = 0;
-	new = malloc(sizeof(char) * (n + 1));
+	new = f_malloc(sizeof(char) * (n + 1));
 	while (i < n)
 		new[i++] = *str++;
 	new[n] = 0;
@@ -31,7 +31,7 @@ char	*str_join(char *s1, char *s2)
 	int		i;
 	int		j;
 
-	copy = malloc(sizeof(char) * (ft_int_strchr(s1, 0)
+	copy = f_malloc(sizeof(char) * (ft_int_strchr(s1, 0)
 				+ft_int_strchr(s2, 0) + 2));
 	i = 0;
 	j = 0;
