@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:32:07 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/01 08:54:40 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/02 08:02:58 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	del_env_key(char *key, t_env **env)
 			free(tmp->key);
 			free(tmp->val);
 			free(tmp);
+			tmp = NULL;
 			return ;
 		}
 		tmp2 = tmp;

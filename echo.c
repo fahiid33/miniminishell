@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:30:26 by fahd              #+#    #+#             */
-/*   Updated: 2022/09/22 22:08:27 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/02 12:41:14 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	printf_exit(char *exit)
 	{
 		if (exit[i] == '$')
 		{
-			if (exit[i + 1] == '?')
+			if (exit[i + 1] == '?' && !g_vars.is_sq)
 			{
 				ft_putnbr_fd(g_vars.exit_status, STDOUT_FILENO);
 				i++;

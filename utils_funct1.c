@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 02:57:47 by fstitou           #+#    #+#             */
-/*   Updated: 2022/10/01 09:37:25 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/02 08:03:39 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ char	*ft_strcat(char *dest, char *src)
 	int	j;
 
 	i = 0;
-	while (dest[i] != '\0')
+	while (dest && dest[i] != '\0')
 		i++;
 	j = 0;
-	while (src[j] != '\0' )
+	while (src && src[j] != '\0' )
 	{
 		dest[i + j] = src[j];
 		j++;
@@ -79,17 +79,16 @@ char	*join_3_str(char *s1, char *s2, char *s3)
 	char	*str;
 	int		len;
 	int		len1;
-	
+
 	if (s3)
 		len1 = ft_strlen(s3);
 	else
 		len1 = 0;
 	len = ft_strlen(s1) + ft_strlen(s2) + len1;
 	str = (char *)f_malloc(sizeof(char) * (len + 1));
-	str = ft_strdup("");
 	if (!str)
 		return (NULL);
-	str = ft_strcat(str, s1);
+	str = ft_strcpy(str, s1);
 	str = ft_strcat(str, s2);
 	if (s3)
 	{

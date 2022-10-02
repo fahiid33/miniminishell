@@ -6,11 +6,25 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 23:36:59 by fstitou           #+#    #+#             */
-/*   Updated: 2022/10/01 06:38:54 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/02 08:04:16 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_strcpy(char *dest, char *src)
+{
+	int	i;
+
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
 
 char	*ft_strndup(char *str, unsigned int n)
 {
@@ -41,7 +55,7 @@ char	*str_join(char *s1, char *s2)
 	j = 0;
 	while (s2[j])
 		copy[i++] = s2[j++];
-	copy[i] = 0;
+	copy[i] = '\0';
 	return (copy);
 }
 
@@ -58,7 +72,7 @@ char	*get_path(char *cmd, char **env)
 	if (!env[i])
 		return (cmd);
 	path = env[i] + 5;
-	while (path && ft_int_strchr(path, ':') > -1)
+	while (cmd && cmd[0] != '\0' && path && ft_int_strchr(path, ':') > -1)
 	{
 		dir = ft_strndup(path, ft_int_strchr(path, ':'));
 		bin = str_join(dir, cmd);

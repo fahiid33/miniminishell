@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 17:26:06 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/01 08:49:31 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/02 08:02:40 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	*f_malloc(size_t size)
 
 	tmp = malloc(size);
 	if (!tmp)
-		return(NULL);
+		return (NULL);
 	g_vars.alloc[g_vars.i] = tmp;
 	g_vars.i++;
 	return (tmp);

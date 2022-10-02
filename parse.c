@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 01:14:18 by fstitou           #+#    #+#             */
-/*   Updated: 2022/10/01 06:38:54 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/02 08:06:44 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_parse	*init_command(void)
 	if (!command)
 		return (NULL);
 	command->cmd = NULL;
-	command->argv = (char **)realloc_array(NULL, strdup(""));
+	command->argv = (char **)realloc_array(NULL, ft_strdup(""));
 	command->redir = NULL;
 	command->next = NULL;
 	return (command);
@@ -69,9 +69,13 @@ void	parse_commands(t_token **token, t_parse *command)
 	{
 		value = jme3arg(token, 0);
 		if (!command->cmd)
+		{
 			command->cmd = value;
+		}
 		else
+		{
 			command->argv = (char **)realloc_array(command->argv, value);
+		}
 	}
 	else if ((*token)->e_type == GREAT || (*token)->e_type == LESS
 		|| (*token)->e_type == LESSANDLESS || (*token)->e_type == GREATANDGREAT)

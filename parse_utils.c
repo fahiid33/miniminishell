@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:11:13 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/01 07:04:06 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/02 12:45:48 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_redir	*init_redir(char *val, int type)
 	redir = (t_redir *)f_malloc(sizeof(t_redir));
 	if (!redir)
 		return (NULL);
-	redir->file = strdup(val);
+	redir->file = ft_strdup(val);
 	redir->next = NULL;
 	redir->e_type = type;
 	return (redir);
@@ -62,14 +62,20 @@ char	*jme3arg(t_token **b, int exec)
 	char	**tmp;
 
 	tmp = (char **) f_malloc(2 * sizeof(char *));
-	str = strdup("");
+	str = ft_strdup("");
+	// if ((*b)->e_type == SQUOTE (*b)->val[1] == '?')
 	while ((*b) && (*b)->flag == 1)
 	{
 		if ((*b)->e_type == DOLLAR)
 		{
+			if ((*b)->next->e_type == SQUOTE && (*b)->val[1] == '?')
+			{
+			}
 			if (((*b)->next->e_type == DQUOTE || (*b)->next->e_type == SQUOTE)
 				&& (*b)->val[1] != '?')
+			{
 				(*b) = (*b)->next;
+			}
 			else
 			{
 				if (!(*b)->val[1])
@@ -82,10 +88,10 @@ char	*jme3arg(t_token **b, int exec)
 						tmp[1] = ft_substr((*b)->val, str_sp_chr((*b)->val),
 								ft_int_strchr((*b)->val, '\0'));
 						if (my_getenv(g_vars.my_env, tmp[0]))
-							(*b)->val = strdup(my_getenv(g_vars.my_env,
+							(*b)->val = ft_strdup(my_getenv(g_vars.my_env,
 										tmp[0]));
 						else
-							(*b)->val = strdup("");
+							(*b)->val = ft_strdup("");
 						if (tmp[1][0] == '\\')
 							tmp[1]++;
 						(*b)->val = ft_strjoin((*b)->val, tmp[1], 0);
@@ -93,7 +99,7 @@ char	*jme3arg(t_token **b, int exec)
 					else if (((*b)->val)[0] == '0' && ((*b)->val)[1] != '\0')
 					{
 						tmp[1] = ((*b)->val) + 1;
-						(*b)->val = strdup(my_getenv(g_vars.my_env, "0"));
+						(*b)->val = ft_strdup(my_getenv(g_vars.my_env, "0"));
 						(*b)->val = ft_strjoin((*b)->val, tmp[1], 0);
 					}
 					else
@@ -101,17 +107,19 @@ char	*jme3arg(t_token **b, int exec)
 						if (my_getenv(g_vars.my_env, (*b)->val))
 							(*b)->val = my_getenv(g_vars.my_env, (*b)->val);
 						else
-							(*b)->val = strdup("");
+							(*b)->val = ft_strdup("");
 					}
 				}
 				else
 				{
 					if ((*b)->val[1] == ' ' || (*b)->val[1] == '\0')
-						str = ft_strjoin(str, strdup("$"), 2);
+						str = ft_strjoin(str, ft_strdup("$"), 2);
 					else if ((*b)->val[1] == '?')
-						str = ft_strjoin(str, strdup("$?"), 2);
+					{
+						str = ft_strjoin(str, ft_strdup("$?"), 2);
+					}
 					else if ((*b)->val[1] == '$')
-						str = ft_strjoin(str, strdup("$$"), 2);
+						str = ft_strjoin(str, ft_strdup("$$"), 2);
 					else
 						str = ft_strjoin(str, "69", 2);
 					(*b) = (*b)->next;
@@ -130,6 +138,10 @@ char	*jme3arg(t_token **b, int exec)
 			return (str);
 		}
 	}
+	// if ((*b)->e_type == SQUOTE && (*b)->val[1] == '?' && (*b)->next->e_type != DQUOTE)
+	// {
+	// 	g_vars.is_sq = 1;
+	// }
 	if ((*b) && (*b)->e_type == DOLLAR)
 	{
 		if (!(*b)->val[1])
@@ -138,16 +150,18 @@ char	*jme3arg(t_token **b, int exec)
 			if (my_getenv(g_vars.my_env, (*b)->val))
 				(*b)->val = my_getenv(g_vars.my_env, (*b)->val);
 			else
-				(*b)->val = strdup("");
+				(*b)->val = ft_strdup("");
 		}
 		else
 		{
 			if ((*b)->val[1] == ' ')
 			{
-				str = ft_strjoin(str, strdup("$"), 2);
+				str = ft_strjoin(str, ft_strdup("$"), 2);
 			}
 			else if (!exec)
-				str = ft_strjoin(str, strdup("$?"), 2);
+			{
+				str = ft_strjoin(str, ft_strdup("$?"), 2);
+			}
 			(*b) = (*b)->next;
 			return (str);
 		}

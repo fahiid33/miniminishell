@@ -14,7 +14,7 @@
 
 void	exec_child(t_parse *head, t_env **env)
 {
-	if (builtins_cases(head))
+	if (head->cmd && builtins_cases(head))
 	{
 		g_vars.exit_status = exec_builtins(head, env);
 		exit (g_vars.exit_status);
@@ -68,11 +68,11 @@ void	supervisor(void)
 
 	status = 0;
 	g_vars.exit_sig = 0;
-	while (waitpid(-1, &status, 0) > 0)
-	{
-		if (WIFEXITED(status))
-			g_vars.exit_status = WEXITSTATUS(status);
-	}
+	waitpid(g_vars.pid, &status, 0);
+	while (wait(NULL) > 0)
+		;
+	if (WIFEXITED(status))
+		g_vars.exit_status = WEXITSTATUS(status);
 }
 
 void	exec_pipeline(t_parse *commands, t_env **env)

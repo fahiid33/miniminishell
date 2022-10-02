@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/01 07:36:24 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/02 08:08:30 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_minishell
 {
 	int		i;
 	char	*line;
+	int		is_sq;
 	void	*alloc[1000000];
 	int		exit_status;
 	int		g_err;
@@ -166,6 +167,7 @@ void	errors(int exitt);
 int		str_sp_chr(char *str);
 void	init_env(char **env);
 int		ft_is_ex_token(char c);
+char	*ft_strcpy(char *dest, char *src);
 char	*my_getenv(t_env *env, char *key);
 char	*my_getenv_key(t_env **env, char *key);
 void	update_export(t_env **env, char *key, char sep, char *val);

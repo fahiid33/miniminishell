@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 05:17:20 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/01 08:40:47 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/02 05:45:29 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,9 @@ void	dollar(t_lexer *lexer, t_token **tmp, t_token **token)
 	else if (lexer->c == ' ')
 		val = ft_strjoin(val, " ", 0);
 	else if (lexer->c == '?')
+	{
 		val = ft_strjoin(val, ft_strsub(lexer, 1), 2);
+	}
 	(*token) = init_token(val, type);
 	if (lexer->c != '\0')
 		(*token)->flag = 1;
@@ -109,7 +111,7 @@ char	*expand_dollar(char *dq_content, int exec)
 
 	tmp = NULL;
 	token = NULL;
-	result = strdup("");
+	result = ft_strdup("");
 	lexer = ft_init_lexer(dq_content, dq_content[0]);
 	while (lexer->c)
 	{
