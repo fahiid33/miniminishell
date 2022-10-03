@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/02 08:08:30 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/03 03:17:36 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,13 @@ int		pwd(void);
 void	free_2(char **tmp);
 int		env(void);
 void	errors(int exitt);
+char	*jme3arg(t_token **b, int exec);
 int		str_sp_chr(char *str);
+char	*check_sp_chr(t_token *b);
+char	*dollar_q_d(t_token *b);
+char	*dollar_qu(t_token **b, int exec);
+char	*normal_expansion(t_token **b, int f);
+void	checkin_dollar(t_token **b, char *str);
 void	init_env(char **env);
 int		ft_is_ex_token(char c);
 char	*ft_strcpy(char *dest, char *src);
