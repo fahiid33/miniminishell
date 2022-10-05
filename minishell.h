@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/03 03:17:36 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/05 13:18:46 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ char	*jme3arg(t_token **b, int exec);
 int		str_sp_chr(char *str);
 char	*check_sp_chr(t_token *b);
 char	*dollar_q_d(t_token *b);
-char	*dollar_qu(t_token **b, int exec);
+char	*dollar_qu(t_token **b, int exec, char *str);
 char	*normal_expansion(t_token **b, int f);
 void	checkin_dollar(t_token **b, char *str);
 void	init_env(char **env);

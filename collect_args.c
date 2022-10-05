@@ -6,25 +6,22 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 00:11:14 by fstitou           #+#    #+#             */
-/*   Updated: 2022/10/03 05:14:07 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/05 13:20:52 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*normal_or_qu(t_token **b, int exec)
+char	*normal_or_qu(t_token **b, int exec, char *str)
 {
 	if (!(*b)->val[1])
 		return (normal_expansion(b, 1));
 	else
-		return (dollar_qu(b, exec));
+		return (dollar_qu(b, exec, str));
 }
 
-char	*dollar_qu(t_token **b, int exec)
+char	*dollar_qu(t_token **b, int exec, char *str)
 {
-	char	*str;
-
-	str = ft_strdup("");
 	(*b) = (*b)->next;
 	if (!exec)
 		str = ft_strjoin(str, ft_strdup("$?"), 2);
@@ -70,7 +67,7 @@ char	*jme3arg(t_token **b, int exec)
 		}
 	}
 	if ((*b) && (*b)->e_type == DOLLAR)
-		return (normal_or_qu(b, exec));
+		return (normal_or_qu(b, exec, str));
 	str = check_end(b, str);
 	return (str);
 }
