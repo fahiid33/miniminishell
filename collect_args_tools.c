@@ -12,37 +12,38 @@
 
 #include "minishell.h"
 
-void	checkin_dollar(t_token **b, char *str)
+void	checkin_dollar(t_token **b, char **str, int ch_d)
 {
 	if (((*b)->next->e_type == DQUOTE || (*b)->next->e_type == SQUOTE)
 		&& (*b)->val[1] != '?')
-	{
 		(*b) = (*b)->next;
-	}
 	else
 	{
-		if (!(*b)->val[1])
+		if ((*b)->val[1] || (ch_d == 2 && !ft_isalnum((*b)->next->val[0])))
+		{
+			*str = ft_strjoin(*str, dollar_q_d(b), 2);
+		}
+		else
 		{
 			(*b) = (*b)->next;
 			(*b)->val = check_sp_chr(*b);
 		}
-		else
-			str = dollar_q_d(*b);
 	}
 }
 
-char	*dollar_q_d(t_token *b)
+char	*dollar_q_d(t_token **b)
 {
 	char	*str;
 
 	str = ft_strdup("");
-	if ((b)->val[1] == ' ' || (b)->val[1] == '\0')
+	if ((*b)->val[1] == ' ' || (*b)->val[1] == '\0')
 		str = ft_strjoin(str, ft_strdup("$"), 2);
-	else if ((b)->val[1] == '?')
-		str = ft_strjoin(str, ft_strdup("$?"), 2);
-	else if ((b)->val[1] == '$')
+	else if ((*b)->val[1] == '?')
+	{
+		str = ft_strjoin(str, ft_itoa(g_vars.exit_status), 2);
+	}
+	else if ((*b)->val[1] == '$')
 		str = ft_strjoin(str, ft_strdup("$$"), 2);
-	(b) = (b)->next;
 	return (str);
 }
 

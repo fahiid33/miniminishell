@@ -69,6 +69,8 @@ void	tokenize_dollar(t_token **tmp, t_lexer *lexer)
 	token = NULL;
 	type = DOLLAR;
 	val = ft_strsub(lexer, 1);
+	if (lexer->c == '\0')
+		val = ft_strjoin(val, " ", 0);
 	if (lexer->c == '0' || !ft_isdigit(lexer->c))
 	{
 		if (lexer->c == '$')

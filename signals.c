@@ -34,7 +34,7 @@ void	sig_child(int sig)
 		{
 			g_vars.exit_sig = -27;
 			ft_putchar_fd('\n', 0);
-			close(rl_instream->_file);
+			close(rl_instream->_fileno);
 			g_vars.exit_status = 1;
 		}
 		else

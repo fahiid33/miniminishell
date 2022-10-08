@@ -68,18 +68,25 @@ void	dollar(t_lexer *lexer, t_token **tmp, t_token **token)
 
 	type = DOLLAR;
 	val = ft_strsub(lexer, 1);
-	if (lexer->c == '$')
-		val = ft_strjoin(val, ft_strsub(lexer, 1), 2);
-	else if (lexer->c == ' ')
+	if (lexer->c == '\0')
 		val = ft_strjoin(val, " ", 0);
-	else if (lexer->c == '?')
+	if (lexer->c == '0' || !ft_isdigit(lexer->c))
 	{
-		val = ft_strjoin(val, ft_strsub(lexer, 1), 2);
+		if (lexer->c == '$')
+			val = ft_strjoin(val, ft_strsub(lexer, 1), 2);
+		else if (lexer->c == ' ')
+			val = ft_strjoin(val, " ", 0);
+		else if (lexer->c == '?')
+		{
+			val = ft_strjoin(val, ft_strsub(lexer, 1), 2);
+		}
+		(*token) = init_token(val, type);
+		if (lexer->c != '\0')
+			(*token)->flag = 1;
+		(*tmp) = lst_add_back((*tmp), (*token));
 	}
-	(*token) = init_token(val, type);
-	if (lexer->c != '\0')
-		(*token)->flag = 1;
-	(*tmp) = lst_add_back((*tmp), (*token));
+	else
+		advance_lexer(lexer);
 }
 
 void	word(t_lexer *lexer, t_token **token, t_token **tmp)
@@ -123,9 +130,6 @@ char	*expand_dollar(char *dq_content, int exec)
 	token = init_token("", END);
 	token->flag = 0;
 	tmp = lst_add_back(tmp, token);
-	if (exec)
-		result = jme3arg(&tmp, 1);
-	else
-		result = jme3arg(&tmp, 0);
+	result = jme3arg(&tmp, exec, 2);
 	return (result);
 }

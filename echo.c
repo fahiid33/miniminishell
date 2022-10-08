@@ -19,18 +19,7 @@ void	printf_exit(char *exit)
 	i = 0;
 	while (exit[i])
 	{
-		if (exit[i] == '$')
-		{
-			if (exit[i + 1] == '?' && !g_vars.is_sq)
-			{
-				ft_putnbr_fd(g_vars.exit_status, STDOUT_FILENO);
-				i++;
-			}
-			else
-				write(1, &exit[i], 1);
-		}
-		else
-			write(1, &exit[i], 1);
+		write(1, &exit[i], 1);
 		i++;
 	}
 }

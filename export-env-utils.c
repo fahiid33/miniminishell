@@ -55,9 +55,8 @@ void	init_env(char **env)
 		tmp = ft_split(env[i], '=');
 		key = tmp[0];
 		val = tmp[1];
-		lst_add_backenv(&g_vars.my_env, lst_new(ft_strdup(key), '=',
-				ft_strdup(val)));
-		free_2(tmp);
+		lst_add_backenv(&g_vars.my_env, lst_new(key, '=',
+				val));
 		i++;
 	}
 	lst_add_backenv(&g_vars.my_env, lst_new("0", '=', "minishell"));

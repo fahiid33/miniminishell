@@ -41,6 +41,9 @@ t_parse	*lst_add_back_command(t_parse *lst, t_parse *new)
 
 void	parse_helper(t_token **token, t_parse *command, char *value, int type)
 {
+	int exec;
+
+	exec = type;
 	if ((*token)->next->e_type == END || (*token)->next->e_type == PIPE
 		|| (*token)->next->e_type == GREAT || (*token)->next->e_type == LESS
 		|| (*token)->next->e_type == LESSANDLESS
@@ -50,7 +53,7 @@ void	parse_helper(t_token **token, t_parse *command, char *value, int type)
 	}
 	type = (*token)->e_type;
 	(*token) = (*token)->next;
-	value = jme3arg(token, 0);
+	value = jme3arg(token, exec, 1);
 	if (!command->redir)
 		command->redir = init_redir(value, type);
 	else
@@ -60,14 +63,12 @@ void	parse_helper(t_token **token, t_parse *command, char *value, int type)
 void	parse_commands(t_token **token, t_parse *command)
 {
 	char	*value;
-	int		type;
 
 	value = NULL;
-	type = 0;
 	if ((*token)->e_type == WORD || (*token)->e_type == DQUOTE
 		|| (*token)->e_type == SQUOTE || (*token)->e_type == DOLLAR)
 	{
-		value = jme3arg(token, 0);
+		value = jme3arg(token, 1, 1);
 		if (!command->cmd)
 		{
 			command->cmd = value;
@@ -80,7 +81,10 @@ void	parse_commands(t_token **token, t_parse *command)
 	else if ((*token)->e_type == GREAT || (*token)->e_type == LESS
 		|| (*token)->e_type == LESSANDLESS || (*token)->e_type == GREATANDGREAT)
 	{
-		parse_helper(token, command, value, type);
+		if ((*token)->e_type == LESSANDLESS)
+			parse_helper(token, command, value, 0);
+		else
+			parse_helper(token, command, value, 1);
 	}
 }
 
