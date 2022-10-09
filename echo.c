@@ -6,29 +6,17 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 02:30:26 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/02 12:41:14 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/08 22:32:43 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	printf_exit(char *exit)
-{
-	int	i;
-
-	i = 0;
-	while (exit[i])
-	{
-		write(1, &exit[i], 1);
-		i++;
-	}
-}
-
 void	echo_n_print(t_parse *cmd, int i)
 {
 	while (cmd->argv[i])
 	{
-		printf_exit(cmd->argv[i]);
+		ft_putstr_fd(cmd->argv[i], 1);
 		i++;
 		if (cmd->argv[i])
 			write(1, " ", 1);
@@ -67,7 +55,7 @@ void	echo_e(t_parse *cmd)
 	i = 0;
 	while (cmd->argv[i])
 	{
-		printf_exit(cmd->argv[i]);
+		ft_putstr_fd(cmd->argv[i], 1);
 		i++;
 		if (cmd->argv[i])
 			write(STDOUT_FILENO, " ", 1);

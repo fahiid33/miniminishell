@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 22:34:27 by fstitou           #+#    #+#             */
-/*   Updated: 2022/09/26 03:55:05 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/08 23:27:35 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,7 @@ void	tokenize_dollar(t_token **tmp, t_lexer *lexer)
 
 	token = NULL;
 	type = DOLLAR;
-	val = ft_strsub(lexer, 1);
-	if (lexer->c == '\0')
-		val = ft_strjoin(val, " ", 0);
+	val = if_only_dollar(lexer);
 	if (lexer->c == '0' || !ft_isdigit(lexer->c))
 	{
 		if (lexer->c == '$')

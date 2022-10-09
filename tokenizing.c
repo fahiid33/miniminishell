@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 17:26:06 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/02 08:02:40 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/08 23:33:22 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,20 @@ void	*f_malloc(size_t size)
 	tmp = malloc(size);
 	if (!tmp)
 		return (NULL);
-	g_vars.alloc[g_vars.i] = tmp;
-	g_vars.i++;
+	g_vars.alloc[g_vars.index] = tmp;
+	g_vars.index++;
 	return (tmp);
+}
+
+char	*if_only_dollar(t_lexer *lexer)
+{
+	char	*val;
+
+	val = ft_strsub(lexer, 1);
+	if (lexer->c == '\0')
+	{
+		val = ft_strjoin(val, " ", 0);
+		return (val);
+	}
+	return (val);
 }

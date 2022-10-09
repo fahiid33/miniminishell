@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 03:00:20 by fstitou           #+#    #+#             */
-/*   Updated: 2022/09/25 09:58:35 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/08 22:26:03 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	sig_child(int sig)
 		{
 			g_vars.exit_sig = -27;
 			ft_putchar_fd('\n', 0);
-			close(rl_instream->_fileno);
+			close(rl_instream->_file);
 			g_vars.exit_status = 1;
 		}
 		else

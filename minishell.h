@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/05 13:18:46 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/08 23:34:07 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ typedef struct s_redir
 	int				e_type;
 	int				fdout;
 	int				fdin;
-	int				index;
 	struct s_redir	*next;
 
 }		t_redir;
@@ -87,14 +86,13 @@ typedef struct s_env
 
 typedef struct s_minishell
 {
-	int		i;
 	char	*line;
-	int		is_sq;
-	void	*alloc[1000000];
 	int		exit_status;
+	int		exit_sig;
 	int		g_err;
 	pid_t	pid;
-	int		exit_sig;
+	void	*alloc[1000000];
+	int		index;
 	t_env	*my_env;
 }		t_minishell;
 
@@ -186,8 +184,10 @@ int		export(t_parse *head);
 void	check_numb(char *str);
 int		my_exit(t_parse *cmd);
 int		echo(t_parse *cmd);
+char	*if_only_dollar(t_lexer *lexer);
 int		unset(t_parse *cmd);
-void	wrong_cmd(void);
+void	wrong_cmd(char *cmd);
+void	wrong_cmd_helper(char *error, int w);
 void	c_signal(void);
 void	open_redir(t_parse *head, int exec);
 void	pipe_redir(t_parse *cmd, int in, int index, int *fd);

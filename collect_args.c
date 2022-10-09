@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 00:11:14 by fstitou           #+#    #+#             */
-/*   Updated: 2022/10/05 13:20:52 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/08 23:02:40 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,15 @@ char	*jme3arg(t_token **b, int exec, int ch_d)
 	char	*str;
 
 	str = ft_strdup("");
-	
 	while ((*b) && (*b)->flag == 1)
 	{
 		if ((*b)->e_type == DOLLAR && exec)
-		{
 			checkin_dollar(b, &str, ch_d);
-		}
 		if ((*b)->e_type == DQUOTE)
-		{
 			str = ft_strjoin(str, expand_dollar((*b)->val, exec), 2);
-		}
-		else if ((*b)->e_type != END && ( (*b)->e_type != DOLLAR || !exec))
+		else if ((*b)->e_type != END && ((*b)->e_type != DOLLAR || !exec))
 			str = ft_strjoin(str, (*b)->val, 0);
-		if ((*b)->flag == 1 )
+		if ((*b)->flag == 1)
 			(*b) = (*b)->next;
 		else
 		{
@@ -75,9 +70,7 @@ char	*jme3arg(t_token **b, int exec, int ch_d)
 		}
 	}
 	if ((*b) && (*b)->e_type == DOLLAR && exec)
-	{
 		return (normal_or_qu(b, exec, str));
-	}
 	str = check_end(b, str, exec);
 	return (str);
 }

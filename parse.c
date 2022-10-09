@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 01:14:18 by fstitou           #+#    #+#             */
-/*   Updated: 2022/10/02 08:06:44 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/08 23:07:22 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_parse	*lst_add_back_command(t_parse *lst, t_parse *new)
 
 void	parse_helper(t_token **token, t_parse *command, char *value, int type)
 {
-	int exec;
+	int	exec;
 
 	exec = type;
 	if ((*token)->next->e_type == END || (*token)->next->e_type == PIPE

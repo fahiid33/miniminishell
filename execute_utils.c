@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 04:53:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/02 03:04:52 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/08 23:17:18 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,31 @@ void	check_cmd(t_parse *cmd)
 		cmd->cmd = ft_lowercase(cmd->cmd);
 }
 
-void	wrong_cmd(void)
+void	wrong_cmd(char *cmd)
 {
 	char	*error;
 
 	error = strerror(errno);
 	write(2, "minishell: ", ft_strlen("minishell: "));
-	write(2, error, ft_strlen(error));
-	write(2, "\n", 1);
 	if (errno == 2)
 	{
+		if (ft_int_strchr(cmd, '/') != -1)
+		{
+			write(2, error, ft_strlen(error));
+			write(2, "\n", 1);
+		}
+		else
+		{
+			write(2, cmd, ft_strlen(cmd));
+			write(2, ": command not found\n", 21);
+		}
 		g_vars.exit_status = 127;
 		exit(g_vars.exit_status);
 	}
 	else if (errno == 13 || errno == 21)
-	{
-		g_vars.exit_status = 126;
-		exit(g_vars.exit_status);
-	}
+		wrong_cmd_helper(error, 0);
 	else
-	{
-		g_vars.exit_status = 1;
-		exit(g_vars.exit_status);
-	}
+		wrong_cmd_helper(error, 1);
 }
 
 int	count_env(t_env **env)
@@ -102,5 +104,5 @@ void	execute(t_parse *command, t_env **env)
 		exit(g_vars.exit_status);
 	}
 	if (execve(path, command->argv, new_env) == -1)
-		wrong_cmd();
+		wrong_cmd(command->cmd);
 }

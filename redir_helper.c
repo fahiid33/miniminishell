@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 01:52:02 by fstitou           #+#    #+#             */
-/*   Updated: 2022/09/22 01:59:26 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/08 23:20:34 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,21 @@ void	file_error(char *filename)
 	ft_putstr_fd("minishell: no such file or directory: ", 2);
 	ft_putstr_fd(filename, 2);
 	ft_putchar_fd('\n', 2);
+}
+
+void	wrong_cmd_helper(char *error, int w)
+{
+	if (w)
+	{
+		(void)error;
+		g_vars.exit_status = 1;
+		exit(g_vars.exit_sig);
+	}
+	else
+	{
+		write(2, error, ft_strlen(error));
+		write(2, "\n", 1);
+		g_vars.exit_status = 126;
+		exit(g_vars.exit_status);
+	}
 }

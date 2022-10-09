@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/02 08:07:33 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/08 23:37:13 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	exit_shell(void)
 	exit(g_vars.exit_status);
 }
 
-t_token	*parse_cmd(t_token *tokens)
+t_token	*create_tokens(t_token *tokens)
 {
 	t_lexer	*lexer;
 
@@ -55,7 +55,7 @@ int	main(int ac, char *av[], char **env)
 	tokens = NULL;
 	(void)ac;
 	(void)av;
-	g_vars.i = 0;
+	g_vars.index = 0;
 	init_env(env);
 	while (1)
 	{
@@ -66,7 +66,7 @@ int	main(int ac, char *av[], char **env)
 		if (only_enter())
 			continue ;
 		commands = init_command();
-		tokens = parse_cmd(tokens);
+		tokens = create_tokens(tokens);
 		create_commands(tokens, &commands);
 		add_history(g_vars.line);
 		mino(commands);

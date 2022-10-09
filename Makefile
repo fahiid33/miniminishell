@@ -28,7 +28,7 @@ all : $(NAME)
 
 $(NAME):
 	
-	@gcc  -Wall -Wextra -Werror -g $(SRC) $(LDFLAGS) $(CPPFLAGS) -lreadline  -o $(NAME)
+	@gcc  -Wall -Wextra -Werror -g $(SRC) $(LDFLAGS) $(CPPFLAGS) -lreadline  -o $(NAME) -fsanitize=address
 	@echo "Mino 👍👍👍"
 
 $(NAME_BONUS) : 
